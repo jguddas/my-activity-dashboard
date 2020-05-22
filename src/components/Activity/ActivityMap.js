@@ -68,7 +68,7 @@ class Activity extends React.Component {
       fillOpacity: 1,
       weight: 1,
     }).addTo(this.map)
-    this.map.fitBounds(line.getBounds())
+    this.map.fitBounds(line.getBounds(), { padding: [2, 2] })
   }
 
   render() {

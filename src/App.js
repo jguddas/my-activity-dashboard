@@ -1,16 +1,13 @@
 import React from 'react'
-import './App.css'
 
-import ActivityMap from './components/Activity/ActivityMap.js'
+import ActivityCard from './components/Activity/ActivityCard.js'
 
-import { gpx } from './gpx.json'
+import activities from './activities.js'
 
 function App() {
   return (
-    <div className="App">
-      <ActivityMap
-        cords={gpx.trk.trkseg.trkpt.map((pt) => [pt.lat, pt.lon])}
-      />
+    <div style={{ margin: 5 }}>
+      <ActivityCard activity={activities[0]} />
     </div>
   )
 }
