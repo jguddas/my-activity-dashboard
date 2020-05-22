@@ -3,6 +3,7 @@ import C3Chart from 'react-c3js'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { sumBy, groupBy, range } from 'lodash'
+import { Link } from 'react-router-dom'
 import {
   Card, Button, Badge, colors,
 } from 'tabler-react'
@@ -29,15 +30,13 @@ function ActivitiesDetailsCard({ activities, month, color }) {
   )
 }
 
-function ActivitiesCard({ activities }) {
+function ActivitiesCard({ activities, month }) {
   const activitiesGroupedByMonth = groupBy(
     activities,
     ({ date }) => dayjs(date).format('YYYY-MM'),
   )
   const activitiesGroupedByDate = groupBy(activities, 'date')
-  const [state, setState] = useState(0)
-  const activityMonths = Object.values(activitiesGroupedByMonth)
-  const currentActivities = activityMonths[state]
+  const currentActivities = activitiesGroupedByMonth[month]
   const currentMonth = dayjs(currentActivities[0].date)
 
   const getTimeSeriesData = (date) => range(0, date.daysInMonth())
@@ -52,8 +51,9 @@ function ActivitiesCard({ activities }) {
           <MyButton
             icon="chevron-left"
             prefix="fe"
-            onClick={() => setState(state + 1)}
-            disabled={!activityMonths[state + 1]}
+            RootComponent={Link}
+            to={`/activities/${currentMonth.add(-1, 'month').format('YYYY-MM')}`}
+            disabled={!activitiesGroupedByMonth[currentMonth.add(-1, 'month').format('YYYY-MM')]}
           />
           <MyHeaderText>
             {currentMonth.format('MMM YYYY')}
@@ -61,8 +61,9 @@ function ActivitiesCard({ activities }) {
           <MyButton
             icon="chevron-right"
             prefix="fe"
-            onClick={() => setState(state - 1)}
-            disabled={!activityMonths[state - 1]}
+            RootComponent={Link}
+            to={`/activities/${currentMonth.add(1, 'month').format('YYYY-MM')}`}
+            disabled={!activitiesGroupedByMonth[currentMonth.add(1, 'month').format('YYYY-MM')]}
           />
         </MyCardHeader>
         <MyChart
@@ -70,8 +71,16 @@ function ActivitiesCard({ activities }) {
           key={currentMonth.format('YYYY-MM')}
           data={{
             columns: [
-              ['currentMonthFill', ...getTimeSeriesData(currentMonth).slice(0, currentMonth.daysInMonth())],
-              ['currentMonthStroke', ...getTimeSeriesData(currentMonth).slice(0, currentMonth.daysInMonth())],
+              [
+                'currentMonthFill',
+                ...getTimeSeriesData(currentMonth)
+                  .slice(0, dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()),
+              ],
+              [
+                'currentMonthStroke',
+                ...getTimeSeriesData(currentMonth)
+                  .slice(0, dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()),
+              ],
               ['oneMonthAgo', ...getTimeSeriesData(currentMonth.add(-1, 'month'))],
               ['twoMonthsAgo', ...getTimeSeriesData(currentMonth.add(-2, 'month'))],
             ].reverse(),
@@ -121,7 +130,7 @@ const MyCardHeader = styled(Card.Header)`
 `
 
 const MyButton = styled(Button)`
-  &:disabled {
+  &.disabled {
     cursor: default;
     opacity: 0;
   }

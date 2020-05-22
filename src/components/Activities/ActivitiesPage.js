@@ -4,15 +4,15 @@ import { Page, Grid } from 'tabler-react'
 import ActivitiesOverview from './ActivitiesOverview.js'
 import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
 
-function ActivitysPage({ activities }) {
+function ActivitysPage({ activities, month }) {
   return (
     <Page.Content title="My Activities">
       <Grid.Row>
         <Grid.Col width={9}>
-          <ActivitiesOverview activities={activities} />
+          <ActivitiesOverview activities={activities} month={month} />
         </Grid.Col>
         <Grid.Col width={3} cards>
-          <ActivitiesMonthlyCard activities={activities} />
+          <ActivitiesMonthlyCard activities={activities} month={month} />
         </Grid.Col>
       </Grid.Row>
     </Page.Content>

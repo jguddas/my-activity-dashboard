@@ -13,6 +13,7 @@
     "react": "^16.13.1",
     "react-c3js": "^0.1.20",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.0",
     "tabler-react": "^1.30.1"

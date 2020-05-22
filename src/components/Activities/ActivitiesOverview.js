@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { groupBy, round, sumBy } from 'lodash'
 import { Card, Badge, Button } from 'tabler-react'
+import { Link } from 'react-router-dom'
 
 import formatDuration from '../../formatDuration.js'
 
 import ActivityCard from '../Activity/ActivityCard.js'
 
-function ActivitiesOverview({ activities }) {
-  const [state, setState] = useState(0)
-  const activitiesGroupedByMonth = Object.values(groupBy(
+function ActivitiesOverview({ activities, month }) {
+  const activitiesGroupedByMonth = groupBy(
     activities,
     ({ date }) => dayjs(date).format('YYYY-MM'),
-  ))
-  const activitiesGroupedByDate = groupBy(activitiesGroupedByMonth[state], 'date')
+  )
+  const activitiesGroupedByDate = groupBy(activitiesGroupedByMonth[month], 'date')
 
   return (
     <>
@@ -48,12 +48,13 @@ function ActivitiesOverview({ activities }) {
       )) }
       {(
         <Pagnition>
-          {activitiesGroupedByMonth.map(([a], idx) => (
+          {Object.entries(activitiesGroupedByMonth).map(([key, val]) => (
             <MyButton
-              color={idx === state ? 'purple' : 'secondary'}
-              onClick={() => idx !== state && setState(idx)}
+              RootComponent={Link}
+              color={key === month ? 'purple' : 'secondary'}
+              to={`/activities/${key}`}
             >
-              {dayjs(a.date).format('MMM YYYY')}
+              {dayjs(val[0].date).format('MMM YYYY')}
             </MyButton>
           )).reverse()}
         </Pagnition>
