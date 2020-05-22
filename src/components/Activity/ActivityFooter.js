@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import dayjs from 'dayjs'
-import { round } from 'lodash'
+import { round, isFinite } from 'lodash'
 import { Card, Badge } from 'tabler-react'
 import formatDuration from '../../formatDuration.js'
 
@@ -11,7 +11,7 @@ function ActivityFooter({
 }) {
   return (
     <MyCardBody>
-      {distance && (
+      {isFinite(distance) && (
         <MyRow>
           <MyRowText>Distance</MyRowText>
           <div>
@@ -22,7 +22,7 @@ function ActivityFooter({
           </div>
         </MyRow>
       )}
-      {speed && (
+      {isFinite(speed) && (
         <MyRow>
           <MyRowText>Average Speed</MyRowText>
           <div>
@@ -33,7 +33,7 @@ function ActivityFooter({
           </div>
         </MyRow>
       )}
-      {duration && (
+      {isFinite(duration) && (
         <MyRow>
           <MyRowText>Elapsed Time</MyRowText>
           <div>
@@ -43,7 +43,7 @@ function ActivityFooter({
           </div>
         </MyRow>
       )}
-      {startTime && (
+      {isFinite(startTime) && (
         <MyRow>
           <MyRowText>Start Time</MyRowText>
           <div>
