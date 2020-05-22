@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { groupBy, round, sumBy } from 'lodash'
-import { Card, Badge } from 'tabler-react'
+import { Card, Badge, Button } from 'tabler-react'
 
 import formatDuration from '../../formatDuration.js'
 
 import ActivityCard from '../Activity/ActivityCard.js'
 
 function ActivitiesOverview({ activities }) {
-  const activitiesGroupedByDate = groupBy(activities, 'date')
+  const [state, setState] = useState(0)
+  const activitiesGroupedByMonth = Object.values(groupBy(
+    activities,
+    ({ date }) => dayjs(date).format('YYYY-MM'),
+  ))
+  const activitiesGroupedByDate = groupBy(activitiesGroupedByMonth[state], 'date')
 
   return (
     <>
@@ -41,6 +46,18 @@ function ActivitiesOverview({ activities }) {
           </MyCardBody>
         </Card>
       )) }
+      {(
+        <Pagnition>
+          {activitiesGroupedByMonth.map(([a], idx) => (
+            <MyButton
+              color={idx === state ? 'purple' : 'secondary'}
+              onClick={() => idx !== state && setState(idx)}
+            >
+              {dayjs(a.date).format('MMM YYYY')}
+            </MyButton>
+          )).reverse()}
+        </Pagnition>
+      )}
     </>
   )
 }
@@ -64,3 +81,12 @@ const MyBadge = styled(Badge)`
   h6 { margin-bottom: 0 };
   margin-left: .25rem;
 `
+
+const MyButton = styled(Button)`
+  margin-top: .5rem;
+  &:not(:last-child) {
+    margin-right: .5rem;
+  }
+`
+
+const Pagnition = styled.div``
