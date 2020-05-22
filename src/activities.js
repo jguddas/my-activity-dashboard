@@ -24,7 +24,7 @@ const getDistance = ({ lat: lat1, lon: lon1 }, { lat: lat2, lon: lon2 }) => {
   return R * c
 } // Distance in km
 
-export default activities.map(({ gpx }) => {
+export default activities.map(({ gpx }, idx) => {
   const endTime = gpx.trk.trkseg.trkpt[gpx.trk.trkseg.trkpt.length - 1].time
   const startTime = gpx.trk.trkseg.trkpt[0].time
   const distance = gpx.trk.trkseg.trkpt.reduce((acc, val) => ({
@@ -33,13 +33,14 @@ export default activities.map(({ gpx }) => {
   })).sum
 
   return ({
+    id: idx,
     endTime,
     startTime,
     distance,
     name: gpx.trk.name,
-    date: dayjs(gpx.trk.trkseg.trkpt[0].time).format('YYYY-MM-DD'),
+    duration: dayjs(endTime).diff(startTime),
+    date: dayjs(startTime).format('YYYY-MM-DD'),
     cords: gpx.trk.trkseg.trkpt.map((pt) => [pt.lat, pt.lon]),
     speed: distance / (dayjs(endTime).diff(startTime) / 3600000),
   })
-})
-
+}).sort((a, b) => dayjs(b.startTime).diff(a.startTime))
