@@ -15,7 +15,7 @@ function ActivityCard({ activity }) {
         <MyCardHeader>
           <h4>{activity.name}</h4>
         </MyCardHeader>
-        <ActivityMap cords={activity.cords} />
+        <ActivityMap cords={activity.trkpts.map(([lat, lng]) => [lat, lng])} />
         <ActivityFooter
           distance={activity.distance}
           speed={activity.speed}

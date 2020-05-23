@@ -64,7 +64,7 @@ const MyRowText = styled.div`
 `
 
 const MyBadge = styled(Badge)`
-  min-width: 55px;
+  min-width: 60px;
 `
 
 const MyRow = styled.div`

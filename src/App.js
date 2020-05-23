@@ -8,7 +8,6 @@ import ArctivitiesPage from './components/Activities/ActivitiesPage.js'
 
 import activities from './activities.js'
 
-
 function App() {
   return (
     <HashRouter>
@@ -23,7 +22,9 @@ function App() {
             />
           )}
         />
-        <Redirect to={`/activities/${dayjs(activities[0].date).format('YYYY-MM')}`} />
+        <Redirect
+          to={`/activities/${dayjs(activities[0].date).format('YYYY-MM')}`}
+        />
       </Switch>
     </HashRouter>
   )

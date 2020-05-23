@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 function importAll(r) {
   const cache = []
-  r.keys().forEach((key) => cache.push(r(key)))
+  r.keys().forEach((key) => cache.push({ key, ...r(key) }))
   return cache
 }
 
@@ -24,7 +24,7 @@ const getDistance = ({ lat: lat1, lon: lon1 }, { lat: lat2, lon: lon2 }) => {
   return R * c
 } // Distance in km
 
-export default activities.map(({ gpx }, idx) => {
+export default activities.map(({ gpx, key }) => {
   const endTime = gpx.trk.trkseg.trkpt[gpx.trk.trkseg.trkpt.length - 1].time
   const startTime = gpx.trk.trkseg.trkpt[0].time
   const distance = gpx.trk.trkseg.trkpt.reduce((acc, val) => ({
@@ -33,14 +33,19 @@ export default activities.map(({ gpx }, idx) => {
   })).sum
 
   return ({
-    id: idx,
+    id: key.replace(/^.\//, '').replace(/\.\w*$/, ''),
     endTime,
     startTime,
     distance,
     name: gpx.trk.name,
     duration: dayjs(endTime).diff(startTime),
     date: dayjs(startTime).format('YYYY-MM-DD'),
-    cords: gpx.trk.trkseg.trkpt.map((pt) => [pt.lat, pt.lon]),
+    trkpts: gpx.trk.trkseg.trkpt.map((pt) => [
+      pt.lat,
+      pt.lon,
+      pt.ele,
+      dayjs(pt.time).diff(startTime),
+    ]),
     speed: distance / (dayjs(endTime).diff(startTime) / 3600000),
   })
 }).sort((a, b) => dayjs(b.startTime).diff(a.startTime))

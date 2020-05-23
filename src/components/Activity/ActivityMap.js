@@ -9,6 +9,7 @@ class Activity extends React.Component {
     smoothFactor: 4,
     fillColor: '#a55eea',
     strokeColor: '#000000',
+    controls: false,
   }
 
   constructor(props) {
@@ -22,37 +23,38 @@ class Activity extends React.Component {
       smoothFactor,
       fillColor,
       strokeColor,
+      controls,
     } = this.props
 
     this.map = L.map(this.mapId, {
       attributionControl: false,
       zoomControl: false,
-      dragging: false,
-      touchZoom: false,
-      doubleClickZoom: false,
-      scrollWheelZoom: false,
-      boxZoom: false,
-      keyboard: false,
-      tap: false,
+      dragging: controls,
+      touchZoom: controls,
+      doubleClickZoom: controls,
+      scrollWheelZoom: controls,
+      boxZoom: controls,
+      keyboard: controls,
+      tap: controls,
     })
 
     L.tileLayer('http://a.tile.stamen.com/toner/{z}/{x}/{y}.png', {
       detectRetina: true,
     }).addTo(this.map)
 
-    L.polyline(cords, {
+    this.stroke = L.polyline(cords, {
       color: strokeColor,
       weight: 5,
       lineJoin: 'round',
       smoothFactor,
     }).addTo(this.map)
-    const line = L.polyline(cords, {
+    this.line = L.polyline(cords, {
       color: fillColor,
       weight: 3,
       lineJoin: 'round',
       smoothFactor,
     }).addTo(this.map)
-    L.circleMarker(cords[cords.length - 1], {
+    this.startMarker = L.circleMarker(cords[cords.length - 1], {
       radius: 3,
       color: strokeColor,
       fillColor,
@@ -60,7 +62,7 @@ class Activity extends React.Component {
       fillOpacity: 1,
       weight: 1,
     }).addTo(this.map)
-    L.circleMarker(cords[0], {
+    this.endMarker = L.circleMarker(cords[0], {
       radius: 3,
       color: strokeColor,
       fillColor,
@@ -68,7 +70,19 @@ class Activity extends React.Component {
       fillOpacity: 1,
       weight: 1,
     }).addTo(this.map)
-    this.map.fitBounds(line.getBounds(), { padding: [2, 2] })
+    this.map.fitBounds(this.line.getBounds(), { padding: [2, 2] })
+  }
+
+  componentDidUpdate(previousProps) {
+    const { cords } = this.props
+    if (cords.length !== previousProps.cords.length) {
+      this.stroke.setLatLngs(cords)
+      this.line.setLatLngs(cords)
+      if (cords.length) {
+        this.startMarker.setLatLng(cords[0])
+        this.endMarker.setLatLng(cords[cords.length - 1])
+      }
+    }
   }
 
   render() {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import C3Chart from 'react-c3js'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
@@ -74,12 +74,12 @@ function ActivitiesCard({ activities, month }) {
               [
                 'currentMonthFill',
                 ...getTimeSeriesData(currentMonth)
-                  .slice(0, dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()),
+                  .slice(0, (dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()) + 1),
               ],
               [
                 'currentMonthStroke',
                 ...getTimeSeriesData(currentMonth)
-                  .slice(0, dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()),
+                  .slice(0, (dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()) + 1),
               ],
               ['oneMonthAgo', ...getTimeSeriesData(currentMonth.add(-1, 'month'))],
               ['twoMonthsAgo', ...getTimeSeriesData(currentMonth.add(-2, 'month'))],
