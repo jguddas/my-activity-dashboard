@@ -39,7 +39,7 @@ class Activity extends React.Component {
       scrollWheelZoom: controls && scrollWheelZoom !== false,
       boxZoom: controls,
       keyboard: controls,
-      tap: controls,
+      tap: false,
     })
 
     L.tileLayer('http://a.tile.stamen.com/toner/{z}/{x}/{y}.png', {
