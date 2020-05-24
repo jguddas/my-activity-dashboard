@@ -77,7 +77,6 @@ function MatchedActivitiesTable({ activities, activity }) {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        <Table.Row className="d-md-none" />
         {(
           sortOrder
             ? sortBy(matchedActivities, sortMethod)
