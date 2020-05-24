@@ -144,7 +144,7 @@ const MyTableCol = styled(Table.Col)`
   width: 33.3333%;
   display: inline-block;
   @media (min-width: 768px) {
-    display: tabel-cell;
+    display: table-cell;
     width: unset;
   }
 `
