@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import styled from 'styled-components'
-import { round } from 'lodash'
+import screenfull from 'screenfull'
+import { round, maxBy } from 'lodash'
 import {
   Card, Button, Form, colors,
 } from 'tabler-react'
@@ -9,30 +10,32 @@ import formatDuration from '../../formatDuration.js'
 
 import ActivityMap from './ActivityMap.js'
 
-function ActivityMapWithSlider({ activity }) {
+function ActivityMapWithSlider({ activity, matchedActivities }) {
+  const maxActivityDurationInMinutes = useMemo(() => Math.ceil(
+    maxBy([activity].concat(matchedActivities), 'duration').duration / 60000,
+  ), [activity, matchedActivities])
+  const requestRef = useRef()
+  const matchedTimeRef = useRef()
   const [{ playing, time }, setState] = useState({
-    time: activity.duration / 60000,
+    time: maxActivityDurationInMinutes,
   })
-
-  const requestRef = React.useRef()
-  const previousTimeRef = React.useRef()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const animate = (newTime) => {
-    if (previousTimeRef.current !== undefined) {
-      setState((previousState) => {
-        const deltaTime = newTime - previousTimeRef.current
-        const nexttime = previousState.time + deltaTime * 0.01
-        const inRange = nexttime < activity.duration / 60000
+    if (matchedTimeRef.current !== undefined) {
+      setState((matchedState) => {
+        const deltaTime = newTime - matchedTimeRef.current
+        const nexttime = matchedState.time + deltaTime * 0.01
+        const inRange = nexttime < maxActivityDurationInMinutes
         return (
-          previousState.playing ? ({
+          matchedState.playing ? ({
             playing: inRange,
-            time: inRange ? nexttime : Math.ceil(activity.duration / 60000),
-          }) : previousState
+            time: inRange ? nexttime : maxActivityDurationInMinutes,
+          }) : matchedState
         )
       })
     }
-    previousTimeRef.current = newTime
+    matchedTimeRef.current = newTime
     requestRef.current = requestAnimationFrame(animate)
   }
 
@@ -41,63 +44,66 @@ function ActivityMapWithSlider({ activity }) {
     return () => cancelAnimationFrame(requestRef.current)
   }, [animate])
 
+  const [isFullscreen, setFullscreen] = useState(screenfull.isFullscreen)
+
   return (
-    <Card>
+    <div className="card">
       <ActivityMap
-        cords={
-          activity.trkpts
-            .filter((trkpt) => trkpt[3] < time * 60000)
-            .map(([lat, lon]) => [lat, lon])
-        }
+        activity={activity}
+        matchedActivities={matchedActivities}
+        trimEnd={time * 60000}
         controls
+        scrollWheelZoom={isFullscreen}
+        setFullscreen={setFullscreen}
         smoothFactor={3}
-        height={350}
+        height={isFullscreen ? 'calc(100vh - 87px)' : 350}
         width={null}
-      />
-      <MyCardBody>
-        <div className="d-flex">
-          <Button
-            icon={playing ? 'pause' : 'play'}
-            prefix="fe"
-            color="purple"
-            className="mr-4"
-            onClick={() => setState((previousState) => ({
-              playing: !previousState.playing,
-              time: previousState.time % (activity.duration / 60000),
-            }))}
-          />
-          <MyRangeSlider
-            type="range"
-            className="form-control custom-range"
-            onChange={(e) => setState(({ time: Number(e.target.value) }))}
-            step={0.1}
-            min={0}
-            max={Math.ceil(activity.duration / 60000)}
-            value={round(time, 2)}
-          />
-          <Form.MaskedInput
-            className="w-9 ml-4 form-control text-center"
-            onChange={(e) => {
-              const [hours, minutes, seconds] = e.target.value.split(':')
-              const nexttime = (
-                parseInt(hours, 10) * 60
-                + parseInt(minutes, 10)
-                + parseInt(seconds, 10) / 60
-              )
-              if (nexttime <= Math.ceil(activity.duration / 60000)) {
-                setState({ time: nexttime })
-              }
-            }}
-            onClick={() => setState((previousState) => ({
-              time: previousState.time,
-              playing: false,
-            }))}
-            mask={[/\d/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/]}
-            value={formatDuration(time * 60000)}
-          />
-        </div>
-      </MyCardBody>
-    </Card>
+      >
+        <MyCardBody className="bg-white">
+          <div className="d-flex">
+            <Button
+              icon={playing ? 'pause' : 'play'}
+              prefix="fe"
+              color="purple"
+              className="mr-4"
+              onClick={() => setState((matchedState) => ({
+                playing: !matchedState.playing,
+                time: matchedState.time % (maxActivityDurationInMinutes),
+              }))}
+            />
+            <MyRangeSlider
+              type="range"
+              className="form-control custom-range"
+              onChange={(e) => setState(({ time: Number(e.target.value) }))}
+              step={0.1}
+              min={0}
+              max={maxActivityDurationInMinutes}
+              value={round(time, 2)}
+            />
+            <Form.MaskedInput
+              className="w-9 ml-4 form-control text-center"
+              onChange={(e) => {
+                const [hours, minutes, seconds] = e.target.value.split(':')
+                const nexttime = (
+                  parseInt(hours, 10) * 60
+                  + parseInt(minutes, 10)
+                  + parseInt(seconds, 10) / 60
+                )
+                if (nexttime <= maxActivityDurationInMinutes) {
+                  setState({ time: nexttime })
+                }
+              }}
+              onClick={() => setState((matchedState) => ({
+                time: matchedState.time,
+                playing: false,
+              }))}
+              mask={[/\d/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/]}
+              value={formatDuration(time * 60000)}
+            />
+          </div>
+        </MyCardBody>
+      </ActivityMap>
+    </div>
   )
 }
 
@@ -113,7 +119,7 @@ const MyRangeSlider = styled.input`
     background-color: ${() => colors.purple};
   }
 
-  &:focus::thumb {
+  &:focus::-moz-range-thumb {
     border-color: ${() => colors.purple};
     background-color: ${() => colors.purple};
   }

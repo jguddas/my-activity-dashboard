@@ -37,7 +37,7 @@ function ActivitiesOverview({ activities, month }) {
             </MyBadge>
           </MyCardHeader>
           <MyCardBody>
-            {todaysActivities.map((activity) => (
+            {todaysActivities.reverse().map((activity) => (
               <ActivityCard
                 key={activity.id}
                 activity={activity}
@@ -50,6 +50,7 @@ function ActivitiesOverview({ activities, month }) {
         <Pagnition>
           {Object.entries(activitiesGroupedByMonth).map(([key, val]) => (
             <MyButton
+              key={key}
               RootComponent={Link}
               color={key === month ? 'purple' : 'secondary'}
               to={`/activities/${key}`}

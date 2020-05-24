@@ -31,8 +31,17 @@ function App() {
             const activity = activities.find(({ id }) => (
               id === decodeURI(match.params.activityId)
             ))
-            if (!activity) return <Error404Page />
-            return <ArctivityPage activity={activity} />
+            if (!activity) {
+              return (
+                <Error404Page />
+              )
+            }
+            return (
+              <ArctivityPage
+                activity={activity}
+                activities={activities}
+              />
+            )
           }}
         />
         <Redirect

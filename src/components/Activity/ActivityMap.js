@@ -1,13 +1,21 @@
 import React from 'react'
 import L from 'leaflet'
+import styled from 'styled-components'
+import screenfull from 'screenfull'
+import { findLastIndex, findLast } from 'lodash'
+import { withRouter } from 'react-router-dom'
+import { Button, colors } from 'tabler-react'
 import 'leaflet/dist/leaflet.css'
+
+const getLatLon = ([lat, lon]) => [lat, lon]
 
 class Activity extends React.Component {
   static defaultProps = {
     height: 200,
     width: 200,
+    matchedActivities: [],
     smoothFactor: 4,
-    fillColor: '#a55eea',
+    fillColor: colors.purple,
     strokeColor: '#000000',
     controls: false,
   }
@@ -15,16 +23,12 @@ class Activity extends React.Component {
   constructor(props) {
     super(props)
     this.mapId = `map-${Math.ceil(Math.random() * 10000000)}`
+    this.state = { isFullscreen: screenfull.isFullscreen }
+    this.containerRef = React.createRef()
   }
 
   componentDidMount() {
-    const {
-      cords,
-      smoothFactor,
-      fillColor,
-      strokeColor,
-      controls,
-    } = this.props
+    const { controls, scrollWheelZoom } = this.props
 
     this.map = L.map(this.mapId, {
       attributionControl: false,
@@ -32,7 +36,7 @@ class Activity extends React.Component {
       dragging: controls,
       touchZoom: controls,
       doubleClickZoom: controls,
-      scrollWheelZoom: controls,
+      scrollWheelZoom: controls && scrollWheelZoom !== false,
       boxZoom: controls,
       keyboard: controls,
       tap: controls,
@@ -42,6 +46,56 @@ class Activity extends React.Component {
       detectRetina: true,
     }).addTo(this.map)
 
+    this.addMarkersAndLines()
+    this.fitBounds()
+
+    screenfull.on('change', this.updateFullscreen)
+  }
+
+  componentDidUpdate(previousProps) {
+    this.componentDidUpdateZoom(previousProps)
+    this.componentDidUpdateTrimEnd(previousProps)
+    this.componentDidUpdateActvity(previousProps)
+  }
+
+  componentWillUnmount() {
+    screenfull.off('change', this.updateFullscreen)
+  }
+
+  fitBounds = () => {
+    this.map.fitBounds(this.bounds, { padding: [2, 2] })
+  }
+
+  updateFullscreen = () => {
+    const { setFullscreen } = this.props
+    this.setState({ isFullscreen: screenfull.isFullscreen })
+    if (setFullscreen) setFullscreen(screenfull.isFullscreen)
+  }
+
+  addMarkersAndLines = () => {
+    const {
+      history,
+      activity,
+      smoothFactor,
+      fillColor,
+      strokeColor,
+      matchedActivities,
+    } = this.props
+
+    const cords = activity.trkpts.map(getLatLon)
+
+    this.matchedLines = matchedActivities
+      .concat(activity)
+      .map((matchedActivity) => (
+        L.polyline(matchedActivity.trkpts.map(getLatLon), {
+          color: 'gray',
+          weight: 3,
+          lineJoin: 'round',
+          smoothFactor,
+        })
+          .addTo(this.map)
+          .on('click', () => history.push(`/activity/${matchedActivity.id}`))
+      ))
     this.stroke = L.polyline(cords, {
       color: strokeColor,
       weight: 5,
@@ -54,7 +108,20 @@ class Activity extends React.Component {
       lineJoin: 'round',
       smoothFactor,
     }).addTo(this.map)
-    this.startMarker = L.circleMarker(cords[cords.length - 1], {
+    this.bounds = this.line.getBounds()
+    this.matchedMarkers = matchedActivities.map((matchedActivity) => (
+      L.circleMarker(getLatLon(matchedActivity.endpt), {
+        radius: 2,
+        color: 'black',
+        fillColor: colors.gray,
+        fill: true,
+        fillOpacity: 1,
+        weight: 1,
+      })
+        .addTo(this.map)
+        .on('click', () => history.push(`/activity/${matchedActivity.id}`))
+    ))
+    this.marker = L.circleMarker(getLatLon(activity.endpt), {
       radius: 3,
       color: strokeColor,
       fillColor,
@@ -62,39 +129,117 @@ class Activity extends React.Component {
       fillOpacity: 1,
       weight: 1,
     }).addTo(this.map)
-    this.endMarker = L.circleMarker(cords[0], {
-      radius: 3,
-      color: strokeColor,
-      fillColor,
-      fill: true,
-      fillOpacity: 1,
-      weight: 1,
-    }).addTo(this.map)
-    this.map.fitBounds(this.line.getBounds(), { padding: [2, 2] })
   }
 
-  componentDidUpdate(previousProps) {
-    const { cords } = this.props
-    if (cords.length !== previousProps.cords.length) {
-      this.stroke.setLatLngs(cords)
-      this.line.setLatLngs(cords)
-      if (cords.length) {
-        this.startMarker.setLatLng(cords[0])
-        this.endMarker.setLatLng(cords[cords.length - 1])
+  removeMarkersAndLines = () => {
+    this.marker.remove()
+    this.line.remove()
+    this.stroke.remove()
+    this.matchedLines.forEach((matchedLine) => matchedLine.remove())
+    this.matchedMarkers.forEach((matchedMarker) => matchedMarker.remove())
+  }
+
+  updateTrimEnd = () => {
+    const { trimEnd, activity, matchedActivities } = this.props
+    const isNotTrimEnd = (trkpt) => trkpt[3] <= trimEnd
+    const lastPtIdx = findLastIndex(activity.trkpts, isNotTrimEnd)
+    const cords = activity.trkpts.slice(0, lastPtIdx).map(getLatLon)
+    this.stroke.setLatLngs(cords)
+    this.line.setLatLngs(cords)
+    this.marker.setLatLng(getLatLon(activity.trkpts[lastPtIdx]))
+    this.matchedMarkers.forEach((matchedMarker, idx) => (
+      matchedMarker.setLatLng(getLatLon(
+        findLast(matchedActivities[idx].trkpts, isNotTrimEnd),
+      ))
+    ))
+  }
+
+  componentDidUpdateZoom = (previousProps) => {
+    const { scrollWheelZoom, controls } = this.props
+    if (
+      scrollWheelZoom !== previousProps.scrollWheelZoom
+        || controls !== previousProps.controls
+    ) {
+      if (controls && scrollWheelZoom !== false) {
+        this.map.scrollWheelZoom.enable()
+      } else {
+        this.map.scrollWheelZoom.disable()
       }
     }
   }
 
+  componentDidUpdateTrimEnd = (previousProps) => {
+    const { trimEnd } = this.props
+    if (trimEnd !== previousProps.trimEnd) {
+      this.updateTrimEnd()
+    }
+  }
+
+  componentDidUpdateActvity(previousProps) {
+    const { activity } = this.props
+    if (activity.id !== previousProps.activity.id) {
+      this.removeMarkersAndLines()
+      this.addMarkersAndLines()
+      this.updateTrimEnd()
+    }
+  }
+
   render() {
-    const { className, height, width } = this.props
+    const {
+      className, children, height, width, controls,
+    } = this.props
+    const { isFullscreen } = this.state
+
     return (
-      <div
-        id={this.mapId}
-        className={className}
-        style={{ height, width }}
-      />
+      <div ref={this.containerRef}>
+        {controls ? (
+          <MyControl>
+            <Button
+              className="ml-2 mt-2"
+              color="secondary"
+              prefix="fe"
+              icon={isFullscreen ? 'minimize' : 'maximize'}
+              onClick={() => screenfull.toggle(this.containerRef.current)}
+            />
+            <Button
+              className="ml-2 mt-2"
+              color="secondary"
+              prefix="fe"
+              icon="zoom-in"
+              onClick={() => this.map.zoomIn()}
+            />
+            <Button
+              className="ml-2 mt-2"
+              color="secondary"
+              prefix="fe"
+              icon="zoom-out"
+              onClick={() => this.map.zoomOut()}
+            />
+            <Button
+              className="ml-2 mt-2"
+              color="secondary"
+              prefix="fe"
+              icon="target"
+              onClick={this.fitBounds}
+            />
+          </MyControl>
+        ) : null}
+        <div
+          id={this.mapId}
+          className={className}
+          style={{ height, width }}
+        />
+        {children}
+      </div>
     )
   }
 }
 
-export default Activity
+export default withRouter(Activity)
+
+const MyControl = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1000;
+`

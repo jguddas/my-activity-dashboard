@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Card, colors } from 'tabler-react'
+import { Card } from 'tabler-react'
 
 import ActivityMap from './ActivityMap.js'
 import ActivityFooter from './ActivityFooter.js'
@@ -18,7 +18,7 @@ function ActivityCard({ activity }) {
           </MyCardHeader>
         </Link>
         <Link to={`/activity/${encodeURI(activity.id)}`}>
-          <ActivityMap cords={activity.trkpts.map(([lat, lng]) => [lat, lng])} />
+          <ActivityMap activity={activity} />
         </Link>
         <ActivityFooter
           distance={activity.distance}
@@ -40,10 +40,6 @@ const MyCard = styled(Card)`
 const MyCardHeader = styled(Card.Body)`
   border-bottom: 1px solid rgba(0, 40, 100, 0.12);
   padding: .75rem 1rem;
-  color: #495057;
-  &:hover {
-    color: ${colors['purple-darker']};
-  }
 `
 
 const Container = styled.div`
