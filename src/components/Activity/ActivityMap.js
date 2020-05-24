@@ -28,12 +28,12 @@ class Activity extends React.Component {
   }
 
   componentDidMount() {
-    const { controls, scrollWheelZoom } = this.props
+    const { controls, scrollWheelZoom, dragging } = this.props
 
     this.map = L.map(this.mapId, {
       attributionControl: false,
       zoomControl: false,
-      dragging: controls,
+      dragging: controls && dragging !== false,
       touchZoom: controls,
       doubleClickZoom: controls,
       scrollWheelZoom: controls && scrollWheelZoom !== false,
@@ -155,7 +155,7 @@ class Activity extends React.Component {
   }
 
   componentDidUpdateZoom = (previousProps) => {
-    const { scrollWheelZoom, controls } = this.props
+    const { scrollWheelZoom, dragging, controls } = this.props
     if (
       scrollWheelZoom !== previousProps.scrollWheelZoom
         || controls !== previousProps.controls
@@ -164,6 +164,16 @@ class Activity extends React.Component {
         this.map.scrollWheelZoom.enable()
       } else {
         this.map.scrollWheelZoom.disable()
+      }
+    }
+    if (
+      dragging !== previousProps.dragging
+        || controls !== previousProps.controls
+    ) {
+      if (controls && dragging !== false) {
+        this.map.dragging.enable()
+      } else {
+        this.map.dragging.disable()
       }
     }
   }
