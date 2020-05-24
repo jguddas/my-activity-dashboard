@@ -25,8 +25,11 @@ function MatchedActivitiesTable({ activities, activity }) {
   return (
     <Table cards striped responsive>
       <Table.Header>
-        <Table.Row>
-          <th onClick={() => toggleSort('startTime')}>
+        <Table.Row className="d-block d-md-table-row">
+          <th
+            className="d-block d-md-table-cell pl-4 pl-md-5"
+            onClick={() => toggleSort('startTime')}
+          >
             Name - Date
             {sortMethod === 'startTime' && activities.length > 1 ? (
               <Icon
@@ -35,7 +38,10 @@ function MatchedActivitiesTable({ activities, activity }) {
               />
             ) : null}
           </th>
-          <th onClick={() => toggleSort('distance')}>
+          <th
+            className="d-block d-md-table-cell pl-4 pl-md-3"
+            onClick={() => toggleSort('distance')}
+          >
             Distance
             {sortMethod === 'distance' && activities.length > 1 ? (
               <Icon
@@ -44,7 +50,10 @@ function MatchedActivitiesTable({ activities, activity }) {
               />
             ) : null}
           </th>
-          <th onClick={() => toggleSort('speed')}>
+          <th
+            className="d-block d-md-table-cell pl-4 pl-md-3"
+            onClick={() => toggleSort('speed')}
+          >
             Average Speed
             {sortMethod === 'speed' && activities.length > 1 ? (
               <Icon
@@ -53,7 +62,10 @@ function MatchedActivitiesTable({ activities, activity }) {
               />
             ) : null}
           </th>
-          <th onClick={() => toggleSort('duration')}>
+          <th
+            className="d-block d-md-table-cell pl-4 pl-md-3"
+            onClick={() => toggleSort('duration')}
+          >
             Elapsed Time
             {sortMethod === 'duration' ? (
               <Icon
@@ -65,6 +77,7 @@ function MatchedActivitiesTable({ activities, activity }) {
         </Table.Row>
       </Table.Header>
       <Table.Body>
+        <Table.Row className="d-md-none" />
         {(
           sortOrder
             ? sortBy(matchedActivities, sortMethod)
@@ -72,8 +85,8 @@ function MatchedActivitiesTable({ activities, activity }) {
         ).map(({
           id, name, duration, distance, speed, date, rank,
         }) => (
-          <Table.Row key={id}>
-            <Table.Col>
+          <Table.Row className="d-block d-md-table-row" key={id}>
+            <Table.Col className="d-block d-md-table-cell">
               <MyRankBadge
                 color={id === activity.id ? 'purple' : 'default'}
                 className="mr-1"
@@ -84,8 +97,8 @@ function MatchedActivitiesTable({ activities, activity }) {
                 {`${name} - ${dayjs(date).format('DD.MM.YYYY')}`}
               </Link>
             </Table.Col>
-            <Table.Col>
-              <span className="pr-1">
+            <MyTableCol className="pl-5 pl-md-3">
+              <span className="pr-lg-1 d-block d-lg-inline">
                 {round(distance, 2)}
                 km
               </span>
@@ -94,9 +107,9 @@ function MatchedActivitiesTable({ activities, activity }) {
                 {round(Math.abs(matchedActivities[0].distance - distance), 2)}
                 km
               </Badge>
-            </Table.Col>
-            <Table.Col>
-              <span className="pr-1">
+            </MyTableCol>
+            <MyTableCol className="text-center text-md-left">
+              <span className="pr-lg-1 d-block d-lg-inline">
                 {round(speed, 1)}
                 km/h
               </span>
@@ -105,14 +118,14 @@ function MatchedActivitiesTable({ activities, activity }) {
                 {round(Math.abs(matchedActivities[0].speed - speed), 1)}
                 km/h
               </Badge>
-            </Table.Col>
-            <Table.Col>
-              <span className="pr-1">{formatDuration(duration)}</span>
+            </MyTableCol>
+            <MyTableCol className="text-right text-md-left">
+              <span className="pr-lg-1 d-block d-lg-inline">{formatDuration(duration)}</span>
               <Badge color="default" className="color-info">
                 {(matchedActivities[0].duration - duration) > 0 ? '-' : '+'}
                 {formatDuration(Math.abs(matchedActivities[0].duration - duration))}
               </Badge>
-            </Table.Col>
+            </MyTableCol>
           </Table.Row>
         ))}
       </Table.Body>
@@ -125,4 +138,13 @@ export default MatchedActivitiesTable
 const MyRankBadge = styled(Badge)`
   background-color: ${({ color }) => colors[color]};
   min-width: 1.8rem;
+`
+
+const MyTableCol = styled(Table.Col)`
+  width: 33.3333%;
+  display: inline-block;
+  @media (min-width: 768px) {
+    display: tabel-cell;
+    width: unset;
+  }
 `

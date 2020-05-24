@@ -77,6 +77,11 @@ const MyHeaderText = styled.h4`
 
 const MyCardBody = styled(Card.Body)`
   padding-bottom: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  @media (min-width: 768px) {
+    display: block;
+  }
 `
 
 const MyBadge = styled(Badge)`

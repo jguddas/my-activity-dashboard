@@ -6,8 +6,6 @@ import { Card } from 'tabler-react'
 import ActivityMap from './ActivityMap.js'
 import ActivityFooter from './ActivityFooter.js'
 
-import 'tabler-react/dist/Tabler.css'
-
 function ActivityCard({ activity }) {
   return (
     <Container>
@@ -44,6 +42,9 @@ const MyCardHeader = styled(Card.Body)`
 
 const Container = styled.div`
   display: inline-block;
-  width: 200px;
-  margin: 5px;
+  width: 100%;
+  @media (min-width: 768px) {
+    width: 200px;
+    margin: 5px;
+  }
 `

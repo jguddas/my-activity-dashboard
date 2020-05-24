@@ -57,7 +57,6 @@ function ActivityMapWithSlider({ activity, matchedActivities }) {
         setFullscreen={setFullscreen}
         smoothFactor={3}
         height={isFullscreen ? 'calc(100vh - 87px)' : 350}
-        width={null}
       >
         <MyCardBody className="bg-white">
           <div className="d-flex">

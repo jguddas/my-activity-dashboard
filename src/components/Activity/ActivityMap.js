@@ -12,7 +12,7 @@ const getLatLon = ([lat, lon]) => [lat, lon]
 class Activity extends React.Component {
   static defaultProps = {
     height: 200,
-    width: 200,
+    width: '100%',
     matchedActivities: [],
     smoothFactor: 4,
     fillColor: colors.purple,
@@ -191,7 +191,7 @@ class Activity extends React.Component {
     const { isFullscreen } = this.state
 
     return (
-      <div ref={this.containerRef}>
+      <div style={{ width }} ref={this.containerRef}>
         {controls ? (
           <MyControl>
             <Button

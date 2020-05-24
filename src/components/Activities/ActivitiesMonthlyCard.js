@@ -67,7 +67,6 @@ function ActivitiesCard({ activities, month }) {
           />
         </MyCardHeader>
         <MyChart
-          style={{ height: '10rem' }}
           key={currentMonth.format('YYYY-MM')}
           data={{
             columns: [
@@ -137,6 +136,7 @@ const MyButton = styled(Button)`
 `
 
 const MyChart = styled(C3Chart)`
+  height: 10rem;
   * { fill: none };
   .c3-lines {
     stroke-width: 3;
