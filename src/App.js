@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import {
-  HashRouter, Switch, Route, Redirect,
+  BrowserRouter, Switch, Route, Redirect,
 } from 'react-router-dom'
 import { Error404Page } from 'tabler-react'
 
@@ -12,7 +12,7 @@ import activities from './activities.js'
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Switch>
         <Route
           exact
@@ -48,7 +48,7 @@ function App() {
           to={`/activities/${dayjs(activities[0].date).format('YYYY-MM')}`}
         />
       </Switch>
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 
