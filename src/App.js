@@ -5,8 +5,8 @@ import {
 } from 'react-router-dom'
 import { Error404Page } from 'tabler-react'
 
-import ArctivitiesPage from './components/Activities/ActivitiesPage.js'
-import ArctivityPage from './components/Activity/ActivityPage.js'
+import ActivitiesPage from './components/Activities/ActivitiesPage.js'
+import ActivityPage from './components/Activity/ActivityPage.js'
 
 import activities from './activities.js'
 
@@ -18,7 +18,7 @@ function App() {
           exact
           path="/activities/:month"
           render={({ match }) => (
-            <ArctivitiesPage
+            <ActivitiesPage
               activities={activities}
               month={match.params.month}
             />
@@ -37,7 +37,7 @@ function App() {
               )
             }
             return (
-              <ArctivityPage
+              <ActivityPage
                 activity={activity}
                 activities={activities}
               />

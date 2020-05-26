@@ -47,7 +47,7 @@ function ActivitiesOverview({ activities, month }) {
         </Card>
       )) }
       {(
-        <Pagnition>
+        <Pagination>
           {Object.entries(activitiesGroupedByMonth).map(([key, val]) => (
             <MyButton
               key={key}
@@ -58,7 +58,7 @@ function ActivitiesOverview({ activities, month }) {
               {dayjs(val[0].date).format('MMM YYYY')}
             </MyButton>
           )).reverse()}
-        </Pagnition>
+        </Pagination>
       )}
     </>
   )
@@ -96,4 +96,4 @@ const MyButton = styled(Button)`
   }
 `
 
-const Pagnition = styled.div``
+const Pagination = styled.div``
