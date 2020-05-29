@@ -1,4 +1,6 @@
 import dayjs from 'dayjs'
+import L from 'leaflet'
+import { last } from 'lodash'
 
 import getDistance from './getDistance.js'
 
@@ -32,10 +34,16 @@ const activities = importAll(require.context('./activities', false, /\.json$/))
 //   return R * c
 // } // Distance in km
 
+
+const simplify = (trkpts, lvl) => L.LineUtil.simplify(
+  trkpts.map((pt) => ({ x: Number(pt.lat), y: Number(pt.lon), ...pt })),
+  10 ** lvl / 1000000,
+)
+
 const mappedActivities = activities.map(({ gpx, key }) => {
   const endTime = last(gpx.trk.trkseg.trkpt).time
   const startTime = gpx.trk.trkseg.trkpt[0].time
-  const trkpts = gpx.trk.trkseg.trkpt.reduce((acc, pt, idx) => {
+  const trkpts = simplify(gpx.trk.trkseg.trkpt, 2).reduce((acc, pt, idx) => {
     const time = dayjs(pt.time)
     const previousPt = acc[idx - 1]
     return [...acc, [
