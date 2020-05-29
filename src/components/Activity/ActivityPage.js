@@ -5,6 +5,7 @@ import { Page, Card, Button } from 'tabler-react'
 
 import getDistance from '../../getDistance.js'
 
+import ActivitySplits from './ActivitSplits.js'
 import ActivityMapWithSlider from './ActivitMapWithSlider.js'
 import MatchedActivitiesTable from '../Matched/MatchedActivitiesTable.js'
 
@@ -40,6 +41,7 @@ function ActivitysPage({ activity, activities }) {
           matchedActivities.filter(({ id }) => id !== activity.id)
         }
       />
+      <ActivitySplits activity={activity} />
       <Card>
         <Card.Header>
           <Card.Title>Matched - Start and End Point</Card.Title>

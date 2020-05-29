@@ -33,18 +33,21 @@ const activities = importAll(require.context('./activities', false, /\.json$/))
 // } // Distance in km
 
 const mappedActivities = activities.map(({ gpx, key }) => {
-  const endTime = gpx.trk.trkseg.trkpt[gpx.trk.trkseg.trkpt.length - 1].time
+  const endTime = last(gpx.trk.trkseg.trkpt).time
   const startTime = gpx.trk.trkseg.trkpt[0].time
-  const distance = gpx.trk.trkseg.trkpt.reduce((acc, val) => ({
-    sum: (acc.sum || 0) + getDistance([acc.lat, acc.lon], [val.lat, val.lon]),
-    ...val,
-  })).sum
-  const trkpts = gpx.trk.trkseg.trkpt.map((pt) => [
-    pt.lat,
-    pt.lon,
-    pt.ele,
-    dayjs(pt.time).diff(startTime),
-  ])
+  const trkpts = gpx.trk.trkseg.trkpt.reduce((acc, pt, idx) => {
+    const time = dayjs(pt.time)
+    const previousPt = acc[idx - 1]
+    return [...acc, [
+      pt.lat,
+      pt.lon,
+      pt.ele,
+      time.diff(startTime),
+      previousPt ? getDistance(previousPt, [pt.lat, pt.lon]) + previousPt[4] : 0,
+    ]]
+  }, [])
+  const endpt = last(trkpts)
+  const distance = endpt[4]
 
   return ({
     id: key.replace(/^.\//, '').replace(/\.\w*$/, ''),
@@ -56,7 +59,7 @@ const mappedActivities = activities.map(({ gpx, key }) => {
     date: dayjs(startTime).format('YYYY-MM-DD'),
     trkpts,
     startpt: trkpts[0],
-    endpt: trkpts[trkpts.length - 1],
+    endpt,
     speed: distance / (dayjs(endTime).diff(startTime) / 3600000),
   })
 }).sort((a, b) => dayjs(b.startTime).diff(a.startTime))
