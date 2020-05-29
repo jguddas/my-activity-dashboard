@@ -143,7 +143,7 @@ class Activity extends React.Component {
     const { trimEnd, activity, matchedActivities } = this.props
     const isNotTrimEnd = (trkpt) => trkpt[3] <= trimEnd
     const lastPtIdx = findLastIndex(activity.trkpts, isNotTrimEnd)
-    const cords = activity.trkpts.slice(0, lastPtIdx).map(getLatLon)
+    const cords = activity.trkpts.slice(0, lastPtIdx + 1).map(getLatLon)
     this.stroke.setLatLngs(cords)
     this.line.setLatLngs(cords)
     this.marker.setLatLng(getLatLon(activity.trkpts[lastPtIdx]))
