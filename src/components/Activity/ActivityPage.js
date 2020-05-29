@@ -21,19 +21,19 @@ function ActivitysPage({ activity, activities }) {
 
   return (
     <Page.Content>
-      <Button
-        icon="arrow-left"
-        prefix="fe"
-        color="secondary"
-        RootComponent={Link}
-        to={`/activities/${dayjs(activity.date).format('YYYY-MM')}`}
-      >
-        Go Back
-      </Button>
       <Page.Header>
-        <Page.Title>
+        <Page.Title className="mr-auto">
           {`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}
         </Page.Title>
+        <Button
+          icon="arrow-left"
+          prefix="fe"
+          color="secondary"
+          RootComponent={Link}
+          to={`/activities/${dayjs(activity.date).format('YYYY-MM')}`}
+        >
+          Go Back
+        </Button>
       </Page.Header>
       <ActivityMapWithSlider
         activity={activity}
