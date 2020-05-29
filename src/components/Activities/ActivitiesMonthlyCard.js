@@ -73,12 +73,12 @@ function ActivitiesCard({ activities, month }) {
               [
                 'currentMonthFill',
                 ...getTimeSeriesData(currentMonth)
-                  .slice(0, (dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()) + 1),
+                  .slice(0, (dayjs().format('YYYY-MM') === month ? dayjs().date() : currentMonth.daysInMonth()) + 1),
               ],
               [
                 'currentMonthStroke',
                 ...getTimeSeriesData(currentMonth)
-                  .slice(0, (dayjs().format('YYYY-MM') === month ? currentMonth.date() : currentMonth.daysInMonth()) + 1),
+                  .slice(0, (dayjs().format('YYYY-MM') === month ? dayjs().date() : currentMonth.daysInMonth()) + 1),
               ],
               ['oneMonthAgo', ...getTimeSeriesData(currentMonth.add(-1, 'month'))],
               ['twoMonthsAgo', ...getTimeSeriesData(currentMonth.add(-2, 'month'))],
@@ -138,13 +138,13 @@ const MyButton = styled(Button)`
 const MyChart = styled(C3Chart)`
   height: 10rem;
   * { fill: none };
-  .c3-lines {
+  .c3-line {
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .c3-lines-currentMonthFill { stroke-width: 3; }
-  .c3-lines-currentMonthStroke { stroke-width: 5; }
+  .c3-line-currentMonthFill { stroke-width: 3; }
+  .c3-line-currentMonthStroke { stroke-width: 5; }
 `
 
 const MyColorLedgendBadge = styled(Badge)`
