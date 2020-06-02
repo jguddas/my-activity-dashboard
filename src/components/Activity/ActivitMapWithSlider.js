@@ -26,7 +26,7 @@ function ActivityMapWithSlider({ activity, matchedActivities }) {
     if (matchedTimeRef.current !== undefined) {
       setState((matchedState) => {
         const deltaTime = newTime - matchedTimeRef.current
-        const nexttime = matchedState.time + deltaTime * 0.01
+        const nexttime = matchedState.time + deltaTime * 0.005
         const inRange = nexttime < maxActivityDurationInMinutes
         return (
           matchedState.playing ? ({

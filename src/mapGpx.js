@@ -13,7 +13,7 @@ const simplify = (trkpts, lvl) => L.LineUtil.simplify(
 const mapActivity = (gpx) => {
   const endTime = last(gpx.trk.trkseg.trkpt).time._text
   const startTime = gpx.trk.trkseg.trkpt[0].time._text
-  const trkpts = simplify(gpx.trk.trkseg.trkpt, 2).reduce((acc, pt, idx) => {
+  const trkpts = simplify(gpx.trk.trkseg.trkpt, 1.5).reduce((acc, pt, idx) => {
     const time = dayjs(pt.time._text)
     const previousPt = acc[idx - 1]
     return [...acc, [
