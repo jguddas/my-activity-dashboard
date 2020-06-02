@@ -37,6 +37,7 @@ function ActivitiesCard({ activities, month }) {
   )
   const activitiesGroupedByDate = groupBy(activities, 'date')
   const currentActivities = activitiesGroupedByMonth[month]
+  if (!currentActivities) return null
   const currentMonth = dayjs(currentActivities[0].date)
 
   const getTimeSeriesData = (date) => range(0, date.daysInMonth())

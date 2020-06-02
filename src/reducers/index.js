@@ -1,3 +1,5 @@
 import { combineReducers } from 'redux'
 
-export default combineReducers({})
+import Activity from './ActivityReducer.js'
+
+export default combineReducers({ Activity })
