@@ -5,7 +5,7 @@ import { BrowserRouter, Switch } from 'react-router-dom'
 
 import Routes from './Routes.js'
 
-import store, { persistor } from './store.js'
+import store, { persistor } from '../store.js'
 
 function App() {
   return (
