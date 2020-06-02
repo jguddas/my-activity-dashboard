@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 import { Page, Card, Button } from 'tabler-react'
 
-import getDistance from '../getDistance.js'
+import getDistance from '../utils/getDistance.js'
 
 import ActivitySplits from './ActivitSplits.js'
 import ActivityMapWithSlider from './ActivitMapWithSlider.js'

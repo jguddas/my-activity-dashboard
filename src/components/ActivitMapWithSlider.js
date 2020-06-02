@@ -7,7 +7,7 @@ import {
   Card, Button, Form, colors,
 } from 'tabler-react'
 
-import formatDuration from '../formatDuration.js'
+import formatDuration from '../utils/formatDuration.js'
 
 import ActivityMap from './ActivityMap.js'
 
