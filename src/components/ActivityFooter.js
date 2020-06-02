@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { round, isFinite } from 'lodash'
 import { Card, Badge } from 'tabler-react'
-import formatDuration from '../../formatDuration.js'
+import formatDuration from '../formatDuration.js'
 
 function ActivityFooter({
   distance, speed, duration, startTime,

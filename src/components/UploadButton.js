@@ -3,10 +3,10 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Button } from 'tabler-react'
 
-import parseGpx from '../../parseGpx.js'
-import mapGpx from '../../mapGpx.js'
+import parseGpx from '../parseGpx.js'
+import mapGpx from '../mapGpx.js'
 
-import { loadGpx } from '../../actions/ActivityActions.js'
+import { loadGpx } from '../actions/ActivityActions.js'
 
 function UploadButton(props) {
   const dispatch = useDispatch()

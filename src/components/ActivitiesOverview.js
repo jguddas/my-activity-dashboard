@@ -5,9 +5,9 @@ import { groupBy, round, sumBy } from 'lodash'
 import { Card, Badge, Button } from 'tabler-react'
 import { Link } from 'react-router-dom'
 
-import formatDuration from '../../formatDuration.js'
+import formatDuration from '../formatDuration.js'
 
-import ActivityCard from '../Activity/ActivityCard.js'
+import ActivityCard from './ActivityCard.js'
 
 function ActivitiesOverview({ activities, month }) {
   const activitiesGroupedByMonth = groupBy(

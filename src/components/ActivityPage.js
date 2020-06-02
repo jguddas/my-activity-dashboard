@@ -3,11 +3,11 @@ import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 import { Page, Card, Button } from 'tabler-react'
 
-import getDistance from '../../getDistance.js'
+import getDistance from '../getDistance.js'
 
 import ActivitySplits from './ActivitSplits.js'
 import ActivityMapWithSlider from './ActivitMapWithSlider.js'
-import MatchedActivitiesTable from '../Matched/MatchedActivitiesTable.js'
+import MatchedActivitiesTable from './MatchedActivitiesTable.js'
 
 function ActivitysPage({ activity, activities }) {
   const isRoundTrip = getDistance(activity.startpt, activity.endpt) <= 0.5

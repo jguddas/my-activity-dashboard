@@ -8,7 +8,7 @@ import {
   Card, Button, Badge, colors,
 } from 'tabler-react'
 
-import ActivityFooter from '../Activity/ActivityFooter.js'
+import ActivityFooter from './ActivityFooter.js'
 
 function ActivitiesDetailsCard({ activities, month, color }) {
   return (

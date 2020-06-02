@@ -7,7 +7,7 @@ import {
   Table, Badge, Icon, colors,
 } from 'tabler-react'
 
-import formatDuration from '../../formatDuration.js'
+import formatDuration from '../formatDuration.js'
 
 function MatchedActivitiesTable({ activities, activity }) {
   const [sortMethod, setSortMethod] = useState('startTime')

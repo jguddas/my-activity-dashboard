@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import { Error404Page } from 'tabler-react'
 
-import ActivitiesPage from './Activities/ActivitiesPage.js'
-import ActivityPage from './Activity/ActivityPage.js'
+import ActivitiesPage from './ActivitiesPage.js'
+import ActivityPage from './ActivityPage.js'
 
 function Routes() {
   const activities = useSelector((state) => state.Activity.activities)
