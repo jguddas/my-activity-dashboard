@@ -3,6 +3,7 @@ import { Page, Grid } from 'tabler-react'
 
 import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
+import SyncButton from './SyncButton.js'
 import ActivitiesOverview from './ActivitiesOverview.js'
 import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
 
@@ -13,7 +14,16 @@ function ActivitysPage({ activities, month }) {
     <Page.Content>
       <Page.Header>
         <Page.Title className="mr-auto">My Activities</Page.Title>
-        <UploadButton className="mr-1" setLoading={setLoading} />
+        <SyncButton
+          className="mr-1"
+          disabled={loading}
+          setLoading={setLoading}
+        />
+        <UploadButton
+          className="mr-1"
+          disabled={loading}
+          setLoading={setLoading}
+        />
         <LoginButton />
       </Page.Header>
       {activities.length && !loading ? (

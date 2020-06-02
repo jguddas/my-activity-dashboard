@@ -8,7 +8,7 @@ import mapGpx from '../utils/mapGpx.js'
 
 import { loadGpx } from '../actions/ActivityActions.js'
 
-function UploadButton(props) {
+function UploadButton({ disabled, ...props }) {
   const dispatch = useDispatch()
   const [loading, setLoading] = React.useState(false)
   const fileSelector = React.useRef()
@@ -31,8 +31,11 @@ function UploadButton(props) {
     fileSelector.current.addEventListener('input', () => {
       const files = Array.from(fileSelector.current.files)
       files.reduce((acc, file, idx, arr) => acc.then(() => {
-        if (props.setLoading) props.setLoading(arr.length - idx - 1 > 0)
-        setLoading(arr.length - idx - 1)
+        const nextLoading = arr.length - idx - 1
+        if (props.setLoading && !nextLoading) {
+          props.setLoading(false)
+        }
+        setLoading(nextLoading)
         return loadFile(file)
       }), Promise.resolve())
       if (props.setLoading) props.setLoading(!!files.length)
@@ -45,8 +48,8 @@ function UploadButton(props) {
       prefix="fe"
       icon="upload"
       color="secondary"
+      disabled={loading || disabled}
       {...props}
-      disabled={loading}
       onClick={() => fileSelector.current.click()}
     >
       {loading ? `Upload (${loading})` : 'Upload'}
