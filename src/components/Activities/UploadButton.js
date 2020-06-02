@@ -12,7 +12,6 @@ function UploadButton(props) {
   const dispatch = useDispatch()
   const [loading, setLoading] = React.useState(false)
   const fileSelector = React.useRef()
-  const limit = React.useRef()
   React.useEffect(() => {
     const loadFile = (file) => new Promise((resolve) => {
       const reader = new FileReader()
@@ -25,7 +24,6 @@ function UploadButton(props) {
       }
       reader.readAsText(file)
     })
-    limit.current = pLimit(5)
     fileSelector.current = document.createElement('input')
     fileSelector.current.setAttribute('type', 'file')
     fileSelector.current.setAttribute('accept', '.gpx')
