@@ -14,17 +14,19 @@ function ActivitysPage({ activities, month }) {
     <Page.Content>
       <Page.Header>
         <Page.Title className="mr-auto">My Activities</Page.Title>
-        <SyncButton
-          className="mr-1"
-          disabled={loading}
-          setLoading={setLoading}
-        />
-        <UploadButton
-          className="mr-1"
-          disabled={loading}
-          setLoading={setLoading}
-        />
-        <LoginButton />
+        <div>
+          <SyncButton
+            className="mr-1"
+            disabled={loading}
+            setLoading={setLoading}
+          />
+          <UploadButton
+            className="mr-1"
+            disabled={loading}
+            setLoading={setLoading}
+          />
+          <LoginButton />
+        </div>
       </Page.Header>
       {activities.length && !loading ? (
         <Grid.Row className="flex-column-reverse flex-md-row">

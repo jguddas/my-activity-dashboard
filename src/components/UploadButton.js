@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Button } from 'tabler-react'
+import { Button, Icon } from 'tabler-react'
 
 import parseGpx from '../utils/parseGpx.js'
 import mapGpx from '../utils/mapGpx.js'
@@ -45,14 +45,15 @@ function UploadButton({ disabled, ...props }) {
 
   return (
     <Button
-      prefix="fe"
-      icon="upload"
       color="secondary"
       disabled={loading || disabled}
       {...props}
       onClick={() => fileSelector.current.click()}
     >
-      {loading ? `Upload (${loading})` : 'Upload'}
+      <Icon name="upload" prefix="fe" className="mr-md-2" />
+      <span className="d-none d-md-inline">
+        {loading ? `Upload (${loading})` : 'Upload'}
+      </span>
     </Button>
   )
 }

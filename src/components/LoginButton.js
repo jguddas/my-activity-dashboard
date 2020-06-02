@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button } from 'tabler-react'
+import { Button, Icon } from 'tabler-react'
 import { stringify as stringifyQuery } from 'query-string'
 
 import { deauthorize } from '../actions/StravaActions.js'
@@ -37,13 +37,21 @@ function LoginButton(props) {
 
   return (
     <Button
-      prefix="fe"
-      icon={athlete ? 'log-out' : 'log-in'}
       color="secondary"
       {...props}
       onClick={athlete ? unAuth : getCode}
     >
-      {athlete ? `Logout (${athlete.firstname} ${athlete.lastname})` : 'Login'}
+      <Icon
+        name={athlete ? 'log-out' : 'log-in'}
+        prefix="fe"
+        className="mr-sm-2"
+      />
+      <span className="d-none d-sm-inline">
+        {athlete ? 'Logout' : 'Login'}
+      </span>
+      <span className="d-none d-md-inline">
+        {athlete ? ` (${athlete.firstname} ${athlete.lastname})` : null}
+      </span>
     </Button>
   )
 }

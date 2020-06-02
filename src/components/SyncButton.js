@@ -3,7 +3,7 @@ import React from 'react'
 import dayjs from 'dayjs'
 import { last, isFinite } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button } from 'tabler-react'
+import { Button, Icon } from 'tabler-react'
 import { stringify as stringifyQuery } from 'query-string'
 
 import { loadGpx } from '../actions/ActivityActions.js'
@@ -68,8 +68,6 @@ function SyncButton({ disabled, ...props }) {
 
   return (
     <Button
-      prefix="fe"
-      icon="refresh-cw"
       color="secondary"
       {...props}
       disabled={loading || disabled}
@@ -98,7 +96,10 @@ function SyncButton({ disabled, ...props }) {
         })
       }}
     >
-      {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
+      <Icon name="refresh-cw" prefix="fe" className="mr-md-2" />
+      <span className="d-none d-md-inline">
+        {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
+      </span>
     </Button>
   )
 }
