@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/es/integration/react.js'
 import { BrowserRouter, Switch } from 'react-router-dom'
 
-import Routes from './Routes.js'
+import Routes from './components/Routes.js'
 
 import store, { persistor } from './store.js'
 
