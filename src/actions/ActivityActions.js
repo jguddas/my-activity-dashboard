@@ -1,4 +1,3 @@
-
 export const LOAD_GPX = 'LOAD_GPX'
 
 export const loadGpx = (gpx) => ({

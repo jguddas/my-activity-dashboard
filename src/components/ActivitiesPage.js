@@ -1,6 +1,7 @@
 import React from 'react'
 import { Page, Grid } from 'tabler-react'
 
+import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
 import ActivitiesOverview from './ActivitiesOverview.js'
 import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
@@ -12,7 +13,8 @@ function ActivitysPage({ activities, month }) {
     <Page.Content>
       <Page.Header>
         <Page.Title className="mr-auto">My Activities</Page.Title>
-        <UploadButton setLoading={setLoading} />
+        <UploadButton className="mr-1" setLoading={setLoading} />
+        <LoginButton />
       </Page.Header>
       {activities.length && !loading ? (
         <Grid.Row className="flex-column-reverse flex-md-row">
