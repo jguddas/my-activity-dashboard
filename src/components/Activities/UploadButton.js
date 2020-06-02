@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
-import pLimit from 'p-limit'
 import { useDispatch } from 'react-redux'
 import { Button } from 'tabler-react'
 
