@@ -21,7 +21,9 @@ const mapActivity = (gpx) => {
       pt._attributes.lon,
       pt.ele._text,
       time.diff(startTime),
-      previousPt ? getDistance(previousPt, [pt._attributes.lat, pt._attributes.lon]) + previousPt[4] : 0,
+      previousPt
+        ? getDistance(previousPt, [pt._attributes.lat, pt._attributes.lon]) + previousPt[4]
+        : 0,
     ]]
   }, [])
   const endpt = last(trkpts)
