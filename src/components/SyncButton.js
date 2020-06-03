@@ -75,9 +75,11 @@ function SyncButton({ disabled, ...props }) {
       onClick={() => {
         if (props.setLoading) props.setLoading(true)
         setLoading(true)
-        getActivities().then((activities) => (activities.filter((activity) => (
-          !activitiesFromStore.some(({ id }) => `${activity.id}` === id)
-        )))).then((activities) => {
+        getActivities().then((activities) => (
+          activities.filter((activity) => (
+            !activitiesFromStore.some(({ id }) => `${activity.id}` === id)
+          )).reverse()
+        )).then((activities) => {
           setLoading(activities.length)
           if (!activities.length && props.setLoading) {
             props.setLoading(false)
