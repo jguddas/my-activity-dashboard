@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Error404Page } from 'tabler-react'
 import {
   parse as parseQuery,
@@ -24,7 +24,7 @@ function Routes() {
   const dispatch = useDispatch()
 
   return (
-    <>
+    <Switch>
       <Route
         path="/exchange-token"
         render={({ location: { search } }) => {
@@ -74,7 +74,7 @@ function Routes() {
       <Redirect
         to={`/activities/${dayjs(activities[0]?.date).format('YYYY-MM')}`}
       />
-    </>
+    </Switch>
   )
 }
 
