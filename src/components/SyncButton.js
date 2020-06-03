@@ -7,6 +7,7 @@ import { Button, Icon } from 'tabler-react'
 import { stringify as stringifyQuery } from 'query-string'
 
 import { loadGpx } from '../actions/ActivityActions.js'
+import { deauthorize } from '../actions/StravaActions.js'
 
 import { STRAVA_ACTIVITIES_URL, STRAVA_ACTIVITY_STREAM_URL } from '../constants.js'
 
@@ -56,7 +57,7 @@ function SyncButton({ disabled, ...props }) {
     page: 1,
     per_page: 50,
   })}`, { headers: { Authorization: `Bearer ${accessToken}` } })
-    .then((res) => res.json())
+    .then((res) => res.json().then((json) => (res.ok ? json : Promise.reject(json))))
 
   const getActivityStream = (id) => fetch(`${
     STRAVA_ACTIVITY_STREAM_URL.replace('%s', id)
@@ -64,7 +65,7 @@ function SyncButton({ disabled, ...props }) {
     keys: 'time,distance,latlng,altitude',
     key_by_type: true,
   })}`, { headers: { Authorization: `Bearer ${accessToken}` } })
-    .then((res) => res.json())
+    .then((res) => res.json().then((json) => (res.ok ? json : Promise.reject(json))))
 
   return (
     <Button
@@ -92,7 +93,19 @@ function SyncButton({ disabled, ...props }) {
               }
               setLoading(nextLoading)
             })
-          )), Promise.resolve())
+          )), Promise.resolve()).catch((err) => {
+            if (err?.message === 'Authorization Error') {
+              dispatch(deauthorize())
+            }
+            setLoading(false)
+            if (props.setLoading) props.setLoading(false)
+          })
+        }).catch((err) => {
+          if (err?.message === 'Authorization Error') {
+            dispatch(deauthorize())
+          }
+          setLoading(false)
+          if (props.setLoading) props.setLoading(false)
         })
       }}
     >
