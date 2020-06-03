@@ -22,7 +22,7 @@ function ActivitiesOverview({ activities, month }) {
         <Card key={date}>
           <MyCardHeader>
             <MyHeaderText>
-              {dayjs(date).format('DD.MM.YYYY')}
+              {dayjs(date).format('ddd DD.MM.YYYY')}
             </MyHeaderText>
             <MyBadge color="default">
               <h6>
