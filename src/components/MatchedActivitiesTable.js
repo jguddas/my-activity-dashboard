@@ -67,7 +67,7 @@ function MatchedActivitiesTable({ activities, activity }) {
             onClick={() => toggleSort('duration')}
           >
             Elapsed Time
-            {sortMethod === 'duration' ? (
+            {sortMethod === 'duration' && activities.length > 1 ? (
               <Icon
                 prefix="fe"
                 name={sortOrder ? 'chevron-down' : 'chevron-up'}
