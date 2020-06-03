@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Page, Grid } from 'tabler-react'
 
 import LoginButton from './LoginButton.js'
@@ -9,6 +10,7 @@ import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
 
 function ActivitysPage({ activities, month }) {
   const [loading, setLoading] = React.useState(false)
+  const isLogedIn = useSelector((state) => !!state.Strava.athlete)
 
   return (
     <Page.Content>
@@ -43,7 +45,17 @@ function ActivitysPage({ activities, month }) {
             />
           </Grid.Col>
         </Grid.Row>
-      ) : null}
+      ) : (
+        <div className="text-center">
+          <h4 className="text-muted">
+            {
+              loading
+                ? 'Loading...'
+                : `Upload or ${isLogedIn ? '':  'Login and '}Sync activities to get started.`
+            }
+          </h4>
+        </div>
+      )}
     </Page.Content>
   )
 }
