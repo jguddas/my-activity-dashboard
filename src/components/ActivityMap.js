@@ -43,7 +43,7 @@ class Activity extends React.Component {
     })
 
     L.tileLayer('http://a.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-      detectRetina: true,
+      detectRetina: false,
     }).addTo(this.map)
 
     this.addMarkersAndLines()
