@@ -5,6 +5,7 @@ import { Page, Grid } from 'tabler-react'
 import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
 import SyncButton from './SyncButton.js'
+import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivitiesOverview from './ActivitiesOverview.js'
 import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
 
@@ -14,6 +15,7 @@ function ActivitysPage({ activities, month }) {
 
   return (
     <Page.Content>
+      <ScrollToTopOnLocationChange />
       <Page.Header>
         <Page.Title className="mr-auto">My Activities</Page.Title>
         <div>
@@ -51,7 +53,7 @@ function ActivitysPage({ activities, month }) {
             {
               loading
                 ? 'Loading...'
-                : `Upload or ${isLogedIn ? '':  'Login and '}Sync activities to get started.`
+                : `Upload or ${isLogedIn ? '' : 'Login and '}Sync activities to get started.`
             }
           </h4>
         </div>

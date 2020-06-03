@@ -8,6 +8,7 @@ import getDistance from '../utils/getDistance.js'
 import ActivitySplits from './ActivitSplits.js'
 import ActivityMapWithSlider from './ActivitMapWithSlider.js'
 import MatchedActivitiesTable from './MatchedActivitiesTable.js'
+import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 
 function ActivitysPage({ activity, activities }) {
   const isRoundTrip = getDistance(activity.startpt, activity.endpt) <= 0.5
@@ -21,6 +22,7 @@ function ActivitysPage({ activity, activities }) {
 
   return (
     <Page.Content>
+      <ScrollToTopOnMount />
       <Page.Header>
         <Page.Title className="mr-auto">
           {`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}
