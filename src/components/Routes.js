@@ -38,7 +38,7 @@ function Routes() {
           })}`, { method: 'POST' })
             .then((res) => res.json())
             .then((res) => dispatch(addToken(res)))
-          return null
+          return <Redirect to="/" />
         }}
       />
       <Route
