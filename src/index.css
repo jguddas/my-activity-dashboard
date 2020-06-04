@@ -1,3 +1,7 @@
+svg {
+  touch-action: auto;
+}
+
 a:not(.btn-purple) {
   color: #495057 !important;
 }
