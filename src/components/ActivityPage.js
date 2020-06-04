@@ -8,6 +8,7 @@ import getDistance from '../utils/getDistance.js'
 import ActivitySplits from './ActivitSplits.js'
 import ActivityMapWithSlider from './ActivitMapWithSlider.js'
 import MatchedActivitiesTable from './MatchedActivitiesTable.js'
+import MatchedActivitiesChartCard from './MatchedActivitiesChartCard.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 
 function ActivitysPage({ activity, activities }) {
@@ -44,6 +45,10 @@ function ActivitysPage({ activity, activities }) {
         }
       />
       <ActivitySplits activity={activity} />
+      <MatchedActivitiesChartCard
+        activities={matchedActivities}
+        activity={activity}
+      />
       <Card>
         <Card.Header>
           <Card.Title>Matched - Start and End Point</Card.Title>
