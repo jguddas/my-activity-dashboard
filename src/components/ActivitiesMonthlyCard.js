@@ -38,18 +38,20 @@ function ActivitiesCard({ activities, month }) {
     ({ date }) => dayjs(date).format('YYYY-MM'),
   ), [activities])
   const currentActivities = activitiesGroupedByMonth[month]
-  if (!currentActivities) return null
-  const currentMonth = dayjs(currentActivities[0].date)
+  const currentMonth = currentActivities && dayjs(currentActivities[0].date)
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const getTimeSeriesData = React.useMemo(() => {
+    if (!currentActivities) return null
     const activitiesGroupedByDate = groupBy(activities, 'date')
     return (date) => range(0, date.daysInMonth())
       .map((val) => date.date(val).format('YYYY-MM-DD'))
       .map((val) => sumBy(activitiesGroupedByDate[val] || [], 'distance'))
       .reduce((acc, val, idx) => (acc ? [...acc, (acc[idx - 1] || 0) + val] : [val]), [])
       .map((y, x) => ({ x, y }))
-  }, [activities])
+  }, [activities, currentActivities])
+
+  if (!currentActivities) return null
 
   return (
     <>
