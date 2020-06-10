@@ -27,9 +27,11 @@ const mapPtTime = (pt) => [pt[4] * 10, 0 - pt[3] / 10000]
 const mapPtDist = (pt) => [pt[3] / 10000, pt[4]]
 
 function MatchedActivitiesChart({
-  activity, activities, mapTime, baseOnFastest,
+  activity, activities, mapTime, baseMethod, baseOrder,
 }) {
-  const baseActivity = baseOnFastest ? sortBy(activities, 'duration')[0] : activity
+  const baseActivity = baseMethod ? ((a) => (baseOrder ? a[0] : last(a)))(
+    sortBy(activities, baseMethod),
+  ) : activity
   const baseLine = mapData(baseActivity.trkpts.map(mapTime ? mapPtTime : mapPtDist))
   const matched = activities.map(({ trkpts, id }) => ({
     id,

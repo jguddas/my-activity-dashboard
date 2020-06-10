@@ -5,7 +5,7 @@ import MatchedActivitiesChart from './MatchedActivitiesChart.js'
 
 function MatchedActivitiesChartCard({ activity, activities }) {
   const [mapTime, setMapTime] = React.useState(false)
-  const [baseOnFastest, setBaseOnFastest] = React.useState(true)
+  const [base, setBase] = React.useState(['duration', false])
   if (activities.length <= 1) return null
 
   return (
@@ -15,7 +15,8 @@ function MatchedActivitiesChartCard({ activity, activities }) {
           activities={activities}
           activity={activity}
           mapTime={mapTime}
-          baseOnFastest={baseOnFastest}
+          baseMethod={base[0]}
+          baseOrder={base[1]}
         />
       </Card.Header>
       <div className="mr-4 ml-4 mt-2">
@@ -23,18 +24,18 @@ function MatchedActivitiesChartCard({ activity, activities }) {
           <Grid.Col md={6} sm={12} width={12}>
             <Form.SelectGroup>
               <Form.SelectGroupItem
-                checked={baseOnFastest}
+                checked={base[0] === 'duration' && !base[1]}
                 className="w-50"
                 name="baseline"
-                label="Fastest"
-                onClick={() => setBaseOnFastest(true)}
+                label="Longest"
+                onClick={() => setBase(['duration', false])}
               />
               <Form.SelectGroupItem
-                checked={!baseOnFastest}
+                checked={!base[0]}
                 className="w-50"
                 name="baseline"
                 label="Current"
-                onClick={() => setBaseOnFastest(false)}
+                onClick={() => setBase([null, true])}
               />
             </Form.SelectGroup>
           </Grid.Col>
