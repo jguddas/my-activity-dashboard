@@ -52,10 +52,10 @@ function SyncButton({ disabled, ...props }) {
     after: (
       activitiesFromStore[0]?.startTime
         ? dayjs(activitiesFromStore[0].startTime).unix()
-        : 0
+        : dayjs().add(-1, 'month').startOf('month').unix()
     ),
     page: 1,
-    per_page: 50,
+    per_page: 100,
   })}`, { headers: { Authorization: `Bearer ${accessToken}` } })
     .then((res) => res.json().then((json) => (res.ok ? json : Promise.reject(json))))
 
