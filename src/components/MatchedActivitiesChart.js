@@ -3,7 +3,7 @@ import { colors } from 'tabler-react'
 import { sortBy, isFinite, last } from 'lodash'
 import { ResponsiveLineCanvas } from '../nivo-line.esm.js'
 
-import { drawLine } from '../utils/lineUtils.js'
+import { drawLine, drawEndCap } from '../utils/lineUtils.js'
 
 const mapData = (data) => {
   let prev = -1
@@ -55,7 +55,7 @@ function MatchedActivitiesChart({
         yScale={{ min: 'auto', max: 'auto', type: 'linear' }}
         xScale={{ min: 'auto', max: 'auto', type: 'linear' }}
         margin={{ top: 5, bottom: 5, right: 5 }}
-        layers={[drawLine]}
+        layers={[drawLine, drawEndCap]}
       />
     </div>
   )

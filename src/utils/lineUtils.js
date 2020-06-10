@@ -2,7 +2,10 @@ import { last } from 'lodash'
 
 export const drawEndCap = ({ series, ctx }) => {
   const serie = series.find(({ id }) => id === 0)
-  const { position } = last(serie.data)
+  const { position } = last(
+    serie.data
+      .filter(({ position: { x, y } }) => (x !== null) && (y !== null)),
+  )
   ctx.strokeStyle = 'black'
   ctx.fillStyle = serie.color
   ctx.lineWidth = 2
