@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Card } from 'tabler-react'
+import LazyLoad from 'react-lazyload'
 
 import ActivityMap from './ActivityMap.js'
 import ActivityFooter from './ActivityFooter.js'
@@ -16,7 +17,9 @@ function ActivityCard({ activity }) {
           </MyCardHeader>
         </Link>
         <Link to={`/activity/${encodeURI(activity.id)}`}>
-          <ActivityMap activity={activity} />
+          <LazyLoad height={200} once>
+            <ActivityMap activity={activity} />
+          </LazyLoad>
         </Link>
         <ActivityFooter
           distance={activity.distance}

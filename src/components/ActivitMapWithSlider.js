@@ -50,6 +50,7 @@ function ActivityMapWithSlider({ activity, matchedActivities }) {
   return (
     <div className="card">
       <ActivityMap
+        key={activity.id}
         activity={activity}
         matchedActivities={matchedActivities}
         trimEnd={time * 60000}

@@ -1,8 +1,9 @@
 import React from 'react'
-import C3Chart from 'react-c3js'
-import styled from 'styled-components'
 import { colors } from 'tabler-react'
-import { sortBy } from 'lodash'
+import { sortBy, isFinite, last } from 'lodash'
+import { ResponsiveLineCanvas } from '../nivo-line.esm.js'
+
+import { drawLine } from '../utils/lineUtils.js'
 
 const mapData = (data) => {
   let prev = -1
@@ -34,41 +35,28 @@ function MatchedActivitiesChart({
     id,
     line: diff(baseLine, mapData(trkpts.map(mapTime ? mapPtTime : mapPtDist))),
   }))
-  const current = matched.find(({ id }) => id === activity.id)
+  const maxLen = matched.reduce((acc, val) => (val.line.length > acc ? val.line.length : acc), 0)
 
   return (
-    <MyChart
-      data={{
-        columns: [
-          ['stroke', ...current.line],
-          ['fill', ...current.line],
-          ...matched.map(({ line, id }) => [id, ...line]),
-        ],
-        type: 'line',
-        colors: {
-          fill: colors.purple,
-          stroke: 'black',
-          ...Object.fromEntries(matched.map(({ id }) => [id, 'gray'])),
-        },
-      }}
-      point={{ show: false }}
-      legend={{ show: false }}
-      padding={{ left: -12, right: -12 }}
-      axis={{ y: { show: false }, x: { show: false } }}
-    />
+    <div style={{ height: '10rem' }}>
+      <ResponsiveLineCanvas
+        data={matched.map(({ line, id }) => ({
+          id: id === activity.id ? 0 : id,
+          data: line
+            .concat(new Array(maxLen - line.length).fill(null))
+            .map((y, x) => ({ x, y: isFinite(y) ? y : null })),
+        }))}
+        lineWidth={3}
+        curve="monotoneX"
+        isInteractive={false}
+        colors={({ id }) => (id ? 'gray' : colors.purple)}
+        yScale={{ min: 'auto', max: 'auto', type: 'linear' }}
+        xScale={{ min: 'auto', max: 'auto', type: 'linear' }}
+        margin={{ top: 5, bottom: 5, right: 5 }}
+        layers={[drawLine]}
+      />
+    </div>
   )
 }
 
 export default MatchedActivitiesChart
-
-const MyChart = styled(C3Chart)`
-  height: 10rem;
-  * { fill: none };
-  .c3-line {
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .c3-line-fill { stroke-width: 3; }
-  .c3-line-stroke { stroke-width: 5; }
-`

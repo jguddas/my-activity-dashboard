@@ -21,3 +21,7 @@ a:not(.btn-purple):hover {
   color: #a55eea;
   box-shadow: 0 0 0 2px rgba(165, 94, 234, 0.25);
 }
+
+.leaflet-container {
+  background: white !important;
+}

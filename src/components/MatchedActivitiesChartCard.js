@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Form, Grid } from 'tabler-react'
+
 import MatchedActivitiesChart from './MatchedActivitiesChart.js'
 
 function MatchedActivitiesChartCard({ activity, activities }) {

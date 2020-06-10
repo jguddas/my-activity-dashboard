@@ -1,5 +1,4 @@
 import React from 'react'
-import C3Chart from 'react-c3js'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { sumBy, groupBy, range } from 'lodash'
@@ -7,6 +6,9 @@ import { Link } from 'react-router-dom'
 import {
   Card, Button, Badge, colors,
 } from 'tabler-react'
+import { ResponsiveLineCanvas } from '../nivo-line.esm.js'
+
+import { drawLine, drawEndCap } from '../utils/lineUtils.js'
 
 import ActivityFooter from './ActivityFooter.js'
 
@@ -31,19 +33,23 @@ function ActivitiesDetailsCard({ activities, month, color }) {
 }
 
 function ActivitiesCard({ activities, month }) {
-  const activitiesGroupedByMonth = groupBy(
+  const activitiesGroupedByMonth = React.useMemo(() => groupBy(
     activities,
     ({ date }) => dayjs(date).format('YYYY-MM'),
-  )
-  const activitiesGroupedByDate = groupBy(activities, 'date')
+  ), [activities])
   const currentActivities = activitiesGroupedByMonth[month]
   if (!currentActivities) return null
   const currentMonth = dayjs(currentActivities[0].date)
 
-  const getTimeSeriesData = (date) => range(0, date.daysInMonth())
-    .map((val) => date.date(val).format('YYYY-MM-DD'))
-    .map((val) => sumBy(activitiesGroupedByDate[val] || [], 'distance'))
-    .reduce((acc, val, idx) => (acc ? [...acc, (acc[idx - 1] || 0) + val] : [val]), [])
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const getTimeSeriesData = React.useMemo(() => {
+    const activitiesGroupedByDate = groupBy(activities, 'date')
+    return (date) => range(0, date.daysInMonth())
+      .map((val) => date.date(val).format('YYYY-MM-DD'))
+      .map((val) => sumBy(activitiesGroupedByDate[val] || [], 'distance'))
+      .reduce((acc, val, idx) => (acc ? [...acc, (acc[idx - 1] || 0) + val] : [val]), [])
+      .map((y, x) => ({ x, y }))
+  }, [activities])
 
   return (
     <>
@@ -67,35 +73,31 @@ function ActivitiesCard({ activities, month }) {
             disabled={!activitiesGroupedByMonth[currentMonth.add(1, 'month').format('YYYY-MM')]}
           />
         </MyCardHeader>
-        <MyChart
-          key={currentMonth.format('YYYY-MM')}
-          data={{
-            columns: [
-              [
-                'currentMonthFill',
-                ...getTimeSeriesData(currentMonth)
-                  .slice(0, (dayjs().format('YYYY-MM') === month ? dayjs().date() : currentMonth.daysInMonth()) + 1),
-              ],
-              [
-                'currentMonthStroke',
-                ...getTimeSeriesData(currentMonth)
-                  .slice(0, (dayjs().format('YYYY-MM') === month ? dayjs().date() : currentMonth.daysInMonth()) + 1),
-              ],
-              ['oneMonthAgo', ...getTimeSeriesData(currentMonth.add(-1, 'month'))],
-              ['twoMonthsAgo', ...getTimeSeriesData(currentMonth.add(-2, 'month'))],
-            ].reverse(),
-            type: 'line',
-            colors: {
-              currentMonthFill: colors.purple,
-              currentMonthStroke: 'black',
-              oneMonthAgo: colors.gray,
-              twoMonthsAgo: colors['gray-lighter'],
-            },
-          }}
-          point={{ show: false }}
-          legend={{ show: false }}
-          axis={{ y: { show: false }, x: { show: false } }}
-        />
+        <div style={{ height: '10rem' }}>
+          <ResponsiveLineCanvas
+            data={[{
+              id: 2,
+              data: getTimeSeriesData(currentMonth.add(-2, 'month')),
+            }, {
+              id: 1,
+              data: getTimeSeriesData(currentMonth.add(-1, 'month')),
+            }, {
+              id: 0,
+              data: getTimeSeriesData(currentMonth)
+                .slice(0, (dayjs().format('YYYY-MM') === month ? dayjs().date() : currentMonth.daysInMonth()) + 1),
+            }]}
+            colors={[
+              colors['gray-lighter'],
+              colors.gray,
+              colors.purple,
+            ]}
+            layers={[drawLine, drawEndCap]}
+            lineWidth={3}
+            curve="monotoneX"
+            margin={{ top: 5, bottom: 5, right: 5 }}
+            isInteractive={false}
+          />
+        </div>
       </Card>
       <ActivitiesDetailsCard
         activities={currentActivities}
@@ -134,18 +136,6 @@ const MyButton = styled(Button)`
     cursor: default;
     opacity: 0;
   }
-`
-
-const MyChart = styled(C3Chart)`
-  height: 10rem;
-  * { fill: none };
-  .c3-line {
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .c3-line-currentMonthFill { stroke-width: 3; }
-  .c3-line-currentMonthStroke { stroke-width: 5; }
 `
 
 const MyColorLedgendBadge = styled(Badge)`
