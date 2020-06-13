@@ -36,7 +36,6 @@ const MyDropdown = styled(Dropdown)`
   }
   .dropdown-menu {
     margin-top: 7px;
-    margin-left: 12px;
     z-index: 9999;
   }
   .dropdown-item {
