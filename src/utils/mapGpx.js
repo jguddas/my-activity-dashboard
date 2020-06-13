@@ -1,14 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import dayjs from 'dayjs'
-import L from 'leaflet'
 import { last } from 'lodash'
 
 import getDistance from './getDistance.js'
-
-const simplify = (trkpts, lvl) => L.LineUtil.simplify(
-  trkpts.map((pt) => ({ x: Number(pt._attributes.lat), y: Number(pt._attributes.lon), ...pt })),
-  10 ** lvl / 1000000,
-)
 
 const mapActivity = (gpx) => {
   const endTime = last(gpx.trk.trkseg.trkpt).time._text
