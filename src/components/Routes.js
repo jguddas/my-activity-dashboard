@@ -10,6 +10,7 @@ import {
 
 import ActivitiesPage from './ActivitiesPage.js'
 import ActivityPage from './ActivityPage.js'
+import SegmentsPage from './SegmentsPage.js'
 
 import { addToken } from '../actions/StravaActions.js'
 
@@ -25,6 +26,9 @@ function Routes() {
 
   return (
     <Switch>
+      <Route path="/segments">
+        <SegmentsPage />
+      </Route>
       <Route
         path="/exchange-token"
         render={({ location: { search } }) => {

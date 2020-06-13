@@ -5,6 +5,7 @@ import { Dropdown, Button } from 'tabler-react'
 
 const navItems = [
   { name: 'My Activities', link: '/activities' },
+  { name: 'My Segments', link: '/segments' },
 ]
 
 const NavButton = () => (
