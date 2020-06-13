@@ -5,6 +5,7 @@ import { Page, Card, Button } from 'tabler-react'
 
 import getDistance from '../utils/getDistance.js'
 
+import NavButton from './NavButton.js'
 import ActivitySplits from './ActivitSplits.js'
 import ActivityMapWithSlider from './ActivitMapWithSlider.js'
 import MatchedActivitiesTable from './MatchedActivitiesTable.js'
@@ -25,6 +26,7 @@ function ActivitysPage({ activity, activities }) {
     <Page.Content>
       <ScrollToTopOnMount />
       <Page.Header>
+        <NavButton />
         <Page.Title className="mr-auto">
           {`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}
         </Page.Title>

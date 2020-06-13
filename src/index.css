@@ -2,12 +2,21 @@ svg {
   touch-action: auto;
 }
 
-a:not(.btn-purple) {
+a:not(.btn-purple):not(.dropdown-item) {
   color: #495057 !important;
 }
 
-a:not(.btn-purple):hover {
+a:not(.btn-purple):not(.dropdown-item):hover {
   color: #42265e !important;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 2px rgba(165, 94, 234, 0.15);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff !important;
+  background-color: #a55eea;
 }
 
 .selectgroup-input:checked + .selectgroup-button {
