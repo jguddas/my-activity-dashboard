@@ -42,7 +42,7 @@ class Activity extends React.Component {
       tap: false,
     })
 
-    L.tileLayer('http://a.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
       detectRetina: false,
     }).addTo(this.map)
 

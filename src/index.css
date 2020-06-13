@@ -14,7 +14,12 @@ a:not(.btn-purple):not(.dropdown-item):hover {
   box-shadow: 0 0 0 2px rgba(165, 94, 234, 0.15);
 }
 
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item:active {
+  color: #16181b;
+  background-color: #f8f9fa;
+}
+
+.dropdown-item.active {
   color: #fff !important;
   background-color: #a55eea;
 }
