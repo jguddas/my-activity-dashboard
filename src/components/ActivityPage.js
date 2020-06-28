@@ -12,16 +12,7 @@ import MatchedActivitiesTable from './MatchedActivitiesTable.js'
 import MatchedActivitiesChartCard from './MatchedActivitiesChartCard.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 
-function ActivitysPage({ activity, activities }) {
-  const isRoundTrip = getDistance(activity.startpt, activity.endpt) <= 0.5
-
-  const matchedActivities = isRoundTrip
-    ? [activity]
-    : activities.filter(({ startpt, endpt }) => (
-      getDistance(endpt, activity.endpt) < 0.5
-      && getDistance(startpt, activity.startpt) < 0.5
-    ))
-
+function ActivitysPage({ activity }) {
   return (
     <Page.Content>
       <ScrollToTopOnMount />
@@ -40,26 +31,7 @@ function ActivitysPage({ activity, activities }) {
           Go Back
         </Button>
       </Page.Header>
-      <ActivityMapWithSlider
-        activity={activity}
-        matchedActivities={
-          matchedActivities.filter(({ id }) => id !== activity.id)
-        }
-      />
-      <ActivitySplits activity={activity} />
-      <MatchedActivitiesChartCard
-        activities={matchedActivities}
-        activity={activity}
-      />
-      <Card>
-        <Card.Header>
-          <Card.Title>Matched - Start and End Point</Card.Title>
-        </Card.Header>
-        <MatchedActivitiesTable
-          activities={matchedActivities}
-          activity={activity}
-        />
-      </Card>
+      <ActivityMapWithSlider activity={activity} />
     </Page.Content>
   )
 }
