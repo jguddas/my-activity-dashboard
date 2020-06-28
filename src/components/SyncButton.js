@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading, camelcase */
 import React from 'react'
 import dayjs from 'dayjs'
-import { last, isFinite } from 'lodash'
+import { last, isFinite, round } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Icon } from 'tabler-react'
 import { stringify as stringifyQuery } from 'query-string'
@@ -19,7 +19,7 @@ const mapStava = ({
     streams.latlng.data[idx][1],
     streams.altitude.data[idx],
     time * 1000,
-    streams.distance.data[idx] / 1000,
+    round(streams.distance.data[idx] / 1000, 4),
   ]))
 
   const startTime = dayjs(start_date)

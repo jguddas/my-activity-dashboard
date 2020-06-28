@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import dayjs from 'dayjs'
-import { last } from 'lodash'
+import { last, round } from 'lodash'
 
 import getDistance from './getDistance.js'
 
@@ -16,7 +16,10 @@ const mapActivity = (gpx) => {
       pt.ele._text,
       time.diff(startTime),
       previousPt
-        ? getDistance(previousPt, [pt._attributes.lat, pt._attributes.lon]) + previousPt[4]
+        ? round(getDistance(previousPt, [
+          pt._attributes.lat,
+          pt._attributes.lon,
+        ]) + previousPt[4], 4)
         : 0,
     ]]
   }, [])
