@@ -1,5 +1,4 @@
-export const STRAVA_ADD_TOKEN = 'STRAVA_ADD_TOKEN'
-export const STRAVA_DEAUTHORIZE = 'STRAVA_DEAUTHORIZE'
+import { createAction } from '@reduxjs/toolkit'
 
-export const addToken = (payload) => ({ type: STRAVA_ADD_TOKEN, payload })
-export const deauthorize = (payload) => ({ type: STRAVA_DEAUTHORIZE, payload })
+export const addToken = createAction('STRAVA_ADD_TOKEN')
+export const deauthorize = createAction('STRAVA_DEAUTHORIZE')

@@ -1,6 +1,4 @@
-export const LOAD_GPX = 'LOAD_GPX'
+/* eslint-disable import/prefer-default-export */
+import { createAction } from '@reduxjs/toolkit'
 
-export const loadGpx = (gpx) => ({
-  type: LOAD_GPX,
-  payload: gpx,
-})
+export const loadGpx = createAction('LOAD_GPX')

@@ -1,3 +1,4 @@
-export const ADD_SEGMENT = 'ADD_SEGMENT'
+/* eslint-disable import/prefer-default-export */
+import { createAction } from '@reduxjs/toolkit'
 
-export const addSegment = (payload) => ({ type: ADD_SEGMENT, payload })
+export const addSegment = createAction('ADD_SEGMENT')

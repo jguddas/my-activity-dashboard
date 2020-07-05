@@ -1,10 +1,11 @@
-/* eslint-disable no-nested-ternary */
+import { createReducer } from '@reduxjs/toolkit'
 import { unionBy } from 'lodash'
-import { ADD_SEGMENT } from '../actions/SegmentActions.js'
 
-export default (state, action) => (state ? (
-  action.type === ADD_SEGMENT ? ({
+import { addSegment } from '../actions/SegmentActions.js'
+
+export default createReducer({ segments: [] }, {
+  [addSegment]: (state, action) => ({
     ...state,
     segments: unionBy([action.payload], state.segments, 'id'),
-  }) : state
-) : ({ segments: [] }))
+  }),
+})

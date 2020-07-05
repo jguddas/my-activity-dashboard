@@ -1,15 +1,27 @@
-import { createStore, applyMiddleware } from 'redux'
+import { combineReducers } from 'redux'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist'
 import localforage from 'localforage'
 import logger from 'redux-logger'
 
-import rootReducer from './reducers/index.js'
+import Activity from './reducers/ActivityReducer.js'
+import Segment from './reducers/SegmentReducer.js'
+import Strava from './reducers/StravaReducer.js'
 
-const persistConfig = { key: 'root', storage: localforage }
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-const store = createStore(persistedReducer, applyMiddleware(logger))
+const store = configureStore({
+  reducer: persistReducer({
+    key: 'root',
+    storage: localforage,
+  }, combineReducers({
+    Activity,
+    Segment,
+    Strava,
+  })),
+  middleware: [
+    ...getDefaultMiddleware(),
+    logger,
+  ],
+})
 
 export const persistor = persistStore(store)
 export default store

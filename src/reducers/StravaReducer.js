@@ -1,12 +1,11 @@
-/* eslint-disable no-nested-ternary */
-import { STRAVA_ADD_TOKEN, STRAVA_DEAUTHORIZE } from '../actions/StravaActions.js'
+import { createReducer } from '@reduxjs/toolkit'
+import { addToken, deauthorize } from '../actions/StravaActions.js'
 
-export default (state, action) => (state ? (
-  action.type === STRAVA_ADD_TOKEN ? {
+export default createReducer({}, {
+  [addToken]: (state, action) => ({
     ...state,
     accessToken: action.payload.access_token,
     athlete: action.payload.athlete,
-  } : action.type === STRAVA_DEAUTHORIZE
-    ? {}
-    : state
-) : {})
+  }),
+  [deauthorize]: () => ({}),
+})
