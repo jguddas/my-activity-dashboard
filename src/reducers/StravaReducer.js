@@ -14,5 +14,5 @@ export default createReducer({}, {
     athlete: action.payload.athlete,
   }),
   [refreshAuth.rejected]: () => ({}),
-  [deauthorize]: () => ({}),
+  [deauthorize.pending]: () => ({}),
 })

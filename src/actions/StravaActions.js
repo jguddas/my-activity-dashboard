@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import fetchWithQuery from '../utils/fetchWithQuery.js'
 
@@ -9,9 +9,16 @@ import {
   STRAVA_CLIENT_SECRET,
   STRAVA_ACTIVITIES_URL,
   STRAVA_ACTIVITY_STREAM_URL,
+  STRAVA_DEAUTHORIZATION_URL,
 } from '../constants.js'
 
-export const deauthorize = createAction('STRAVA_DEAUTHORIZE')
+export const deauthorize = createAsyncThunk(
+  'STRAVA_DEAUTHORIZE',
+  (accessToken) => fetchWithQuery(STRAVA_DEAUTHORIZATION_URL, {
+    method: 'POST',
+    query: { accessToken },
+  }),
+)
 
 export const refreshAuth = createAsyncThunk(
   'STRAVA_REFRESH_AUTH',

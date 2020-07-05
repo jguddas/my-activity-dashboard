@@ -10,7 +10,6 @@ import {
   STRAVA_SCOPE,
   STRAVA_CLIENT_ID,
   STRAVA_OAUTH_URL,
-  STRAVA_DEAUTHORIZATION_URL,
 } from '../constants.js'
 
 function LoginButton(props) {
@@ -26,14 +25,7 @@ function LoginButton(props) {
     })}`, '_self')
   }
 
-  const unAuth = () => {
-    fetch(`${STRAVA_DEAUTHORIZATION_URL}?${stringifyQuery({
-      access_token: accessToken,
-    })}`, { method: 'POST' })
-      .then((res) => res.json())
-      .then((res) => dispatch(deauthorize(res)))
-      .catch((err) => dispatch(deauthorize({ err })))
-  }
+  const unAuth = () => dispatch(deauthorize(accessToken))
 
   return (
     <Button
