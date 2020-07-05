@@ -17,6 +17,7 @@ const NavButton = () => (
     items={navItems.map(({ name, link }) => (
       <Dropdown.Item
         RootComponent={withRouter(NavLink)}
+        key={name}
         to={link}
       >
         {name}
