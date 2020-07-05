@@ -1,15 +1,10 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
-import { Page, Card, Button } from 'tabler-react'
-
-import getDistance from '../utils/getDistance.js'
+import { Page, Button } from 'tabler-react'
 
 import NavButton from './NavButton.js'
-import ActivitySplits from './ActivitSplits.js'
 import ActivityMapWithSlider from './ActivitMapWithSlider.js'
-import MatchedActivitiesTable from './MatchedActivitiesTable.js'
-import MatchedActivitiesChartCard from './MatchedActivitiesChartCard.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 
 function ActivitysPage({ activity }) {

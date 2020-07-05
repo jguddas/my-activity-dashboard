@@ -3,14 +3,13 @@ import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import fetchWithQuery from '../utils/fetchWithQuery.js'
 
 import {
+  STRAVA_TOKEN_URL,
   STRAVA_REFRESH_TOKEN_URL,
   STRAVA_CLIENT_ID,
   STRAVA_CLIENT_SECRET,
   STRAVA_ACTIVITIES_URL,
   STRAVA_ACTIVITY_STREAM_URL,
 } from '../constants.js'
-
-export const addToken = createAction('STRAVA_ADD_TOKEN')
 
 export const deauthorize = createAction('STRAVA_DEAUTHORIZE')
 
@@ -66,4 +65,17 @@ export const getActivityStream = createAsyncThunkWithAuth(
     STRAVA_ACTIVITY_STREAM_URL.replace('%s', id),
     { query, accessToken },
   ),
+)
+
+export const exchangeToken = createAsyncThunk(
+  'STRAVA_EXCHANGE_TOKEN',
+  (code) => fetchWithQuery(STRAVA_TOKEN_URL, {
+    method: 'POST',
+    query: {
+      code,
+      client_id: STRAVA_CLIENT_ID,
+      client_secret: STRAVA_CLIENT_SECRET,
+      grant_type: 'authorization_code',
+    },
+  }),
 )

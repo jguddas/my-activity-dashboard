@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  addToken,
+  exchangeToken,
   refreshAuth,
   deauthorize,
 } from '../actions/StravaActions.js'
 
 export default createReducer({}, {
-  [addToken]: (state, action) => ({
+  [exchangeToken.fulfilled]: (state, action) => ({
     ...state,
     accessToken: action.payload.access_token,
     accessTokenExpiresAt: action.payload.expires_at,

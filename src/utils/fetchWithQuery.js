@@ -10,5 +10,4 @@ const fetchWithQuery = (url, { query, ...opts }) => fetch(
   res.json().then((json) => (res.ok ? json : Promise.reject(json)))
 ))
 
-
 export default fetchWithQuery
