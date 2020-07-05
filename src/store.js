@@ -18,7 +18,10 @@ const store = configureStore({
     Strava,
   })),
   middleware: [
-    ...getDefaultMiddleware(),
+    ...getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
     logger,
   ],
 })
