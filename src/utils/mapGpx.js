@@ -4,7 +4,7 @@ import { last, round } from 'lodash'
 
 import getDistance from './getDistance.js'
 
-const mapActivity = (gpx) => {
+const mapGpx = (gpx) => {
   const endTime = last(gpx.trk.trkseg.trkpt).time._text
   const startTime = gpx.trk.trkseg.trkpt[0].time._text
   const trkpts = gpx.trk.trkseg.trkpt.reduce((acc, pt, idx) => {
@@ -40,4 +40,4 @@ const mapActivity = (gpx) => {
   })
 }
 
-export default mapActivity
+export default mapGpx

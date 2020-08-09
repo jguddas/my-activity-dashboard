@@ -3,10 +3,7 @@ import dayjs from 'dayjs'
 import { useSelector, useDispatch } from 'react-redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Error404Page } from 'tabler-react'
-import {
-  parse as parseQuery,
-  stringify as stringifyQuery,
-} from 'query-string'
+import { parse as parseQuery } from 'query-string'
 
 import ActivitiesPage from './ActivitiesPage.js'
 import ActivityPage from './ActivityPage.js'

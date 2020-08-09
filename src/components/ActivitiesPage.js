@@ -10,7 +10,7 @@ import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivitiesOverview from './ActivitiesOverview.js'
 import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
 
-function ActivitysPage({ activities, month }) {
+function ActivitiesPage({ activities, month }) {
   const [loading, setLoading] = React.useState(false)
   const isLogedIn = useSelector((state) => !!state.Strava.athlete)
 
@@ -66,4 +66,4 @@ function ActivitysPage({ activities, month }) {
   )
 }
 
-export default ActivitysPage
+export default ActivitiesPage

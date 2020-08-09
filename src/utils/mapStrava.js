@@ -2,7 +2,7 @@
 import dayjs from 'dayjs'
 import { last, round } from 'lodash'
 
-const mapStava = ({
+const mapStrava = ({
   id, name, distance, streams, start_date, elapsed_time,
 }) => {
   const trkpts = streams.time.data.map((time, idx) => ([
@@ -30,4 +30,4 @@ const mapStava = ({
   }
 }
 
-export default mapStava
+export default mapStrava

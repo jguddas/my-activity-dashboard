@@ -32,7 +32,7 @@ function ActivitiesDetailsCard({ activities, month, color }) {
   )
 }
 
-function ActivitiesCard({ activities, month }) {
+function ActivitiesMonthlyCard({ activities, month }) {
   const activitiesGroupedByMonth = React.useMemo(() => groupBy(
     activities,
     ({ date }) => dayjs(date).format('YYYY-MM'),
@@ -120,7 +120,7 @@ function ActivitiesCard({ activities, month }) {
   )
 }
 
-export default ActivitiesCard
+export default ActivitiesMonthlyCard
 
 const MyHeaderText = styled.h4`
   text-align: center;

@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import { Page, Button } from 'tabler-react'
 
 import NavButton from './NavButton.js'
-import ActivityMapWithSlider from './ActivitMapWithSlider.js'
+import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 
-function ActivitysPage({ activity }) {
+function ActivityPage({ activity, activities }) {
   return (
     <Page.Content>
       <ScrollToTopOnMount />
@@ -26,9 +26,12 @@ function ActivitysPage({ activity }) {
           Go Back
         </Button>
       </Page.Header>
-      <ActivityMapWithSlider activity={activity} />
+      <ActivityMapWithSlider
+        activity={activity}
+        matchedActivities={activities}
+      />
     </Page.Content>
   )
 }
 
-export default ActivitysPage
+export default ActivityPage

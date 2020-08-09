@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import L from 'leaflet'
 
-const startTrkPts = (trkpts, lvl) => L.LineUtil.simplify(
+const simplifyTrkPts = (trkpts, lvl) => L.LineUtil.simplify(
   trkpts.map((pt) => ({
     x: Number(pt._attributes.lat),
     y: Number(pt._attributes.lon),
@@ -10,4 +10,4 @@ const startTrkPts = (trkpts, lvl) => L.LineUtil.simplify(
   10 ** lvl / 1000000,
 )
 
-export default startTrkPts
+export default simplifyTrkPts
