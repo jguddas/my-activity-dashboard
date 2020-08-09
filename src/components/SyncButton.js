@@ -47,9 +47,9 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
           page: 1,
           per_page: 100,
         }))
-        for (let i = 0; i < activities.length; i += 1) {
+        for (let i = activities.length - 1; i >= 0; i -= 1) {
           const activity = activities[i]
-          setLoading(activities.length - i)
+          setLoading(i)
           // eslint-disable-next-line no-await-in-loop
           const streams = await myDispatch(getActivityStream({
             id: activity.id,
@@ -57,9 +57,10 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
             key_by_type: true,
           }))
           if (streams.time) {
-            loadGpx(mapStava({ ...activity, streams }))
+            dispatch(loadGpx(mapStava({ ...activity, streams })))
           }
         }
+        setLoading(false)
       }}
     >
       <Icon name="refresh-cw" prefix="fe" className="mr-md-2" />
