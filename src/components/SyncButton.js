@@ -42,7 +42,7 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
           after: (
             activitiesFromStore[0]?.startTime
               ? dayjs(activitiesFromStore[0].startTime).unix()
-              : dayjs().add(-1, 'month').startOf('month').unix()
+              : dayjs().add(-2, 'month').startOf('month').unix()
           ),
           page: 1,
           per_page: 100,
