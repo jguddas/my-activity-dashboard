@@ -7,7 +7,7 @@ import NavButton from './NavButton.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 
-function ActivityPage({ activity, activities }) {
+function ActivityPage({ activity }) {
   return (
     <Page.Content>
       <ScrollToTopOnMount />
@@ -29,7 +29,7 @@ function ActivityPage({ activity, activities }) {
       {activity.trkpts ? (
         <ActivityMapWithSlider
           activity={activity}
-          matchedActivities={activities}
+          matchedActivities={[]}
         />
       ) : null}
     </Page.Content>
