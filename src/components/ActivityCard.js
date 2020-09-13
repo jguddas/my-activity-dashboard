@@ -16,11 +16,13 @@ function ActivityCard({ activity }) {
             <h4>{activity.name}</h4>
           </MyCardHeader>
         </Link>
-        <Link to={`/activity/${encodeURI(activity.id)}`}>
-          <LazyLoad height={200} once>
-            <ActivityMap activity={activity} />
-          </LazyLoad>
-        </Link>
+        {activity.trkpts ? (
+          <Link to={`/activity/${encodeURI(activity.id)}`}>
+            <LazyLoad height={200} once>
+              <ActivityMap activity={activity} />
+            </LazyLoad>
+          </Link>
+        ) : null}
         <ActivityFooter
           distance={activity.distance}
           speed={activity.speed}

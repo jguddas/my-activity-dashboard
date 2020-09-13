@@ -5,13 +5,13 @@ import { last, round } from 'lodash'
 const mapStrava = ({
   id, name, distance, streams, start_date, elapsed_time,
 }) => {
-  const trkpts = streams.time.data.map((time, idx) => ([
+  const trkpts = streams ? streams.time.data.map((time, idx) => ([
     streams.latlng.data[idx][0],
     streams.latlng.data[idx][1],
     streams.altitude.data[idx],
     time * 1000,
     round(streams.distance.data[idx] / 1000, 4),
-  ]))
+  ])) : null
 
   const startTime = dayjs(start_date)
 
@@ -24,8 +24,8 @@ const mapStrava = ({
     duration: elapsed_time * 1000,
     date: startTime.format('YYYY-MM-DD'),
     trkpts,
-    startpt: trkpts[0],
-    endpt: last(trkpts),
+    startpt: trkpts?.[0],
+    endpt: trkpts ? last(trkpts) : null,
     speed: distance / (elapsed_time / 3.6),
   }
 }

@@ -35,7 +35,7 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
       color="secondary"
       {...props}
       disabled={loading || disabled}
-      onClick={async () => {
+      onClick={() => (async () => {
         setLoading(true)
         const activities = await myDispatch(getActivities({
           before: dayjs().unix(),
@@ -50,18 +50,20 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
         for (let i = activities.length - 1; i >= 0; i -= 1) {
           const activity = activities[i]
           setLoading(i)
-          // eslint-disable-next-line no-await-in-loop
-          const streams = await myDispatch(getActivityStream({
-            id: activity.id,
-            keys: 'time,distance,latlng,altitude',
-            key_by_type: true,
-          }))
-          if (streams.time) {
+          if (activity.start_latlng) {
+            // eslint-disable-next-line no-await-in-loop
+            const streams = await myDispatch(getActivityStream({
+              id: activity.id,
+              keys: 'time,distance,latlng,altitude',
+              key_by_type: true,
+            }))
             dispatch(loadGpx(mapStava({ ...activity, streams })))
+          } else {
+            dispatch(loadGpx(mapStava(activity)))
           }
         }
         setLoading(false)
-      }}
+      })().catch((err) => alert(err.message))}
     >
       <Icon name="refresh-cw" prefix="fe" className="mr-md-2" />
       <span className="d-none d-md-inline">

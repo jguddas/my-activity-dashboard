@@ -26,10 +26,12 @@ function ActivityPage({ activity, activities }) {
           Go Back
         </Button>
       </Page.Header>
-      <ActivityMapWithSlider
-        activity={activity}
-        matchedActivities={activities}
-      />
+      {activity.trkpts ? (
+        <ActivityMapWithSlider
+          activity={activity}
+          matchedActivities={activities}
+        />
+      ) : null}
     </Page.Content>
   )
 }
