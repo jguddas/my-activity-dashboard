@@ -5,7 +5,7 @@ import localforage from 'localforage'
 import logger from 'redux-logger'
 
 import Activity from './reducers/ActivityReducer.js'
-import Segment from './reducers/SegmentReducer.js'
+import Split from './reducers/SplitReducer.js'
 import Strava from './reducers/StravaReducer.js'
 
 const store = configureStore({
@@ -14,7 +14,7 @@ const store = configureStore({
     storage: localforage,
   }, combineReducers({
     Activity,
-    Segment,
+    Split,
     Strava,
   })),
   middleware: [

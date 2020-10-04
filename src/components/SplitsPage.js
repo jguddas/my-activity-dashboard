@@ -5,8 +5,8 @@ import { Page, Card, Table } from 'tabler-react'
 import NavButton from './NavButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 
-function SegmentsPage() {
-  const segments = useSelector((state) => state.Segment.segments)
+function SplitsPage() {
+  const splits = useSelector((state) => state.Split.splits)
 
   return (
     <Page.Content>
@@ -14,14 +14,14 @@ function SegmentsPage() {
       <Page.Header>
         <NavButton />
         <Page.Title className="mr-auto">
-          My Segments
+          My Splits
         </Page.Title>
       </Page.Header>
-      {segments.length ? (
+      {splits.length ? (
         <Card>
           <Table cards striped responsive>
             <Table.Body>
-              {segments.map(({ id, name }) => (
+              {splits.map(({ id, name }) => (
                 <Table.Row className="d-block d-md-table-row" key={id}>
                   <Table.Col>
                     {name}
@@ -42,4 +42,4 @@ function SegmentsPage() {
   )
 }
 
-export default SegmentsPage
+export default SplitsPage

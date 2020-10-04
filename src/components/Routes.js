@@ -7,7 +7,7 @@ import { parse as parseQuery } from 'query-string'
 
 import ActivitiesPage from './ActivitiesPage.js'
 import ActivityPage from './ActivityPage.js'
-import SegmentsPage from './SegmentsPage.js'
+import SplitsPage from './SplitsPage.js'
 
 import { exchangeToken } from '../actions/StravaActions.js'
 
@@ -17,8 +17,8 @@ function Routes() {
 
   return (
     <Switch>
-      <Route path="/segments">
-        <SegmentsPage />
+      <Route path="/splits">
+        <SplitsPage />
       </Route>
       <Route
         path="/exchange-token"
