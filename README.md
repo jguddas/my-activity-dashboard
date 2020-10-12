@@ -1,3 +1,8 @@
+# My Activity Dashboard
+<p align=center>
+  <img src="https://user-images.githubusercontent.com/25524993/95764646-0b1b1100-0cb1-11eb-854a-788ba284abe1.png"/>
+</p>
+
 ## Available Scripts
 
 ### `REACT_APP_STRAVA_CLIENT_ID=… REACT_APP_STRAVA_CLIENT_SECRET=… yarn start`
