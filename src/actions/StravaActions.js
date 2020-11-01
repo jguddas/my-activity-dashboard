@@ -45,7 +45,7 @@ const createAsyncThunkWithAuth = (type, payloadCreator) => createAsyncThunk(
     }
     const { payload, error } = await thunkApi.dispatch(refreshAuth(state.refreshToken))
     if (error) throw error
-    return payloadCreator(arg, payload.accessToken, thunkApi)
+    return payloadCreator(arg, payload.access_token, thunkApi)
   },
 )
 
