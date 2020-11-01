@@ -23,6 +23,7 @@ export const deauthorize = createAsyncThunk(
 export const refreshAuth = createAsyncThunk(
   'STRAVA_REFRESH_AUTH',
   (refreshToken) => fetchWithQuery(STRAVA_REFRESH_TOKEN_URL, {
+    method: 'POST',
     query: {
       clientId: STRAVA_CLIENT_ID,
       clientSecret: STRAVA_CLIENT_SECRET,
