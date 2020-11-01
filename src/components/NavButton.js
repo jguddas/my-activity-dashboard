@@ -10,7 +10,7 @@ const navItems = [
 
 const NavButton = () => (
   <MyDropdown
-    triggerContent={<Button icon="menu" prefix="fe" />}
+    triggerContent={<Button icon="menu" prefix="fe" color="secondary" />}
     isNavLink
     position="bottom-start"
     arrow
