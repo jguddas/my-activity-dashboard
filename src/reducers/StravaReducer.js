@@ -14,5 +14,11 @@ export default createReducer({}, {
     athlete: action.payload.athlete,
   }),
   [refreshAuth.rejected]: () => ({}),
+  [refreshAuth.fulfilled]: (state, action) => ({
+    ...state,
+    accessToken: action.payload.access_token,
+    accessTokenExpiresAt: action.payload.expires_at,
+    refreshToken: action.payload.refresh_token,
+  }),
   [deauthorize.pending]: () => ({}),
 })
