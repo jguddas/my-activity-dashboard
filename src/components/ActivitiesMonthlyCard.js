@@ -6,9 +6,8 @@ import { Link } from 'react-router-dom'
 import {
   Card, Button, Badge, colors,
 } from 'tabler-react'
-import { ResponsiveLineCanvas } from '../nivo-line.esm.js'
 
-import { drawLine, drawEndCap } from '../utils/lineUtils.js'
+import LineGraph from './LineGraph.js'
 
 import ActivityFooter from './ActivityFooter.js'
 
@@ -48,7 +47,6 @@ function ActivitiesMonthlyCard({ activities, month }) {
       .map((val) => date.date(val).format('YYYY-MM-DD'))
       .map((val) => sumBy(activitiesGroupedByDate[val] || [], 'distance'))
       .reduce((acc, val, idx) => (acc ? [...acc, (acc[idx - 1] || 0) + val] : [val]), [])
-      .map((y, x) => ({ x, y }))
   }, [activities, currentActivities])
 
   if (!currentActivities) return null
@@ -76,28 +74,16 @@ function ActivitiesMonthlyCard({ activities, month }) {
           />
         </MyCardHeader>
         <div style={{ height: '10rem' }}>
-          <ResponsiveLineCanvas
-            data={[{
-              id: 2,
-              data: getTimeSeriesData(currentMonth.add(-2, 'month')),
-            }, {
-              id: 1,
-              data: getTimeSeriesData(currentMonth.add(-1, 'month')),
-            }, {
-              id: 0,
-              data: getTimeSeriesData(currentMonth)
-                .slice(0, (dayjs().format('YYYY-MM') === month ? dayjs().date() : currentMonth.daysInMonth()) + 1),
-            }]}
-            colors={[
-              colors['gray-lighter'],
-              colors.gray,
-              colors.purple,
+          <LineGraph
+            data={[
+              getTimeSeriesData(currentMonth).slice(0, (
+                dayjs().format('YYYY-MM') === month
+                  ? dayjs().date()
+                  : currentMonth.daysInMonth()
+              ) + 1),
+              getTimeSeriesData(currentMonth.add(-1, 'month')),
+              getTimeSeriesData(currentMonth.add(-2, 'month')),
             ]}
-            layers={[drawLine, drawEndCap]}
-            lineWidth={3}
-            curve="monotoneX"
-            margin={{ top: 5, bottom: 5, right: 5 }}
-            isInteractive={false}
           />
         </div>
       </Card>
