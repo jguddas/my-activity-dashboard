@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import formatDuration from '../utils/formatDuration.js'
 
 import ActivityCard from './ActivityCard.js'
+import ScrollToElementOnHashChange from './ScrollToElementOnHashChange.js'
 
 function ActivitiesOverview({ activities, month }) {
   const activitiesGroupedByMonth = groupBy(
@@ -19,10 +20,16 @@ function ActivitiesOverview({ activities, month }) {
   return (
     <>
       { Object.entries(activitiesGroupedByDate).map(([date, todaysActivities]) => (
-        <Card key={date}>
+        <ScrollToElementOnHashChange
+          id={dayjs(date).format('DD')}
+          className="card"
+          key={date}
+        >
           <MyCardHeader>
             <MyHeaderText>
-              {dayjs(date).format('ddd DD.MM.YYYY')}
+              <Link to={dayjs(date).format('#DD')}>
+                {dayjs(date).format('ddd DD.MM.YYYY')}
+              </Link>
             </MyHeaderText>
             <MyBadge color="default">
               <h6>
@@ -44,7 +51,7 @@ function ActivitiesOverview({ activities, month }) {
               />
             ))}
           </MyCardBody>
-        </Card>
+        </ScrollToElementOnHashChange>
       )) }
       {(
         <Pagination>

@@ -17,7 +17,7 @@ function ActivityPage({ activity }) {
         <Page.Title className="mr-auto">
           {`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}
         </Page.Title>
-        <BackButton to={`/activities/${dayjs(activity.date).format('YYYY-MM')}`} />
+        <BackButton to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`} />
       </Page.Header>
       {activity.trkpts ? (
         <ActivityMapWithSlider
