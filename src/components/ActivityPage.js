@@ -35,9 +35,9 @@ function ActivityPage({ activity, activities, history }) {
       <ScrollToTopOnMount />
       <Page.Header>
         <NavButton />
-        <Page.Title className="mr-auto">
+        <MyPageTitle>
           {`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}
-        </Page.Title>
+        </MyPageTitle>
         <BackButton to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`} />
         {!!activity.externalLink && (
         <Button
@@ -95,6 +95,14 @@ function ActivityPage({ activity, activities, history }) {
 }
 
 export default withRouter(ActivityPage)
+
+const MyPageTitle = styled(Page.Title)`
+  width: 0;
+  flex-grow: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`
 
 const MyCardHeader = styled(Card.Header)`
   display: flex;
