@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
+import L from 'leaflet'
+import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
@@ -7,11 +9,15 @@ import { Page, Card } from 'tabler-react'
 import BackButton from './BackButton.js'
 import NavButton from './NavButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
+import ActivityMapWithSlider from './ActivityMapWithSlider.js'
+import ActivityMap from './ActivityMap.js'
 import DotGraph from './DotGraph.js'
 
 import splitMatchers from '../utils/splitMatchers.js'
 
 function SplitPage({ split, activities, history }) {
+  const [isFullscreen, setFullscreen] = useState(screenfull.isFullscreen)
+
   const matchedSplits = activities
     .filter((activity) => activity.trkpts)
     .reverse()
@@ -27,7 +33,32 @@ function SplitPage({ split, activities, history }) {
         </MyPageTitle>
         <BackButton to="/splits" className="mr-1" />
       </Page.Header>
-      {matchedSplits.length > 1 && (
+      {split.type === 'aTob' && (
+        matchedSplits.length > 0 ? (
+          <ActivityMapWithSlider
+            factor={0.0005}
+            activity={matchedSplits[matchedSplits.length - 1]}
+            matchedActivities={matchedSplits}
+          />
+        ) : (
+          <div className="card">
+            <ActivityMap
+              activity={{
+                trkpts: [split.a, split.b],
+                startpt: split.a,
+                endpt: split.b,
+              }}
+              controls
+              scrollWheelZoom={isFullscreen}
+              dragging={isFullscreen || !L.Browser.touch}
+              setFullscreen={setFullscreen}
+              smoothFactor={3}
+              height={isFullscreen ? '100vh' : 350}
+            />
+          </div>
+        )
+      )}
+      {matchedSplits.length > 0 && (
         <Card>
           <MyCardHeader>
             <MyHeaderText>
