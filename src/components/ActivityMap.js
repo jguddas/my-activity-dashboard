@@ -9,7 +9,7 @@ import 'leaflet/dist/leaflet.css'
 
 const getLatLon = ([lat, lon]) => [lat, lon]
 
-class Activity extends React.Component {
+class ActivityMap extends React.Component {
   static defaultProps = {
     height: 200,
     width: '100%',
@@ -241,7 +241,7 @@ class Activity extends React.Component {
   }
 }
 
-export default withRouter(Activity)
+export default withRouter(ActivityMap)
 
 const MyControl = styled.div`
   display: flex;
