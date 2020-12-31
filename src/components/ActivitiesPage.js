@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Page, Grid } from 'tabler-react'
+import { withRouter } from 'react-router-dom'
 
 import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
@@ -10,8 +11,14 @@ import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivitiesOverview from './ActivitiesOverview.js'
 import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
 
-function ActivitiesPage({ activities, month }) {
-  const [loading, setLoading] = React.useState(false)
+function ActivitiesPage({ activities, month, history }) {
+  const [loading, _setLoading] = React.useState(false)
+  const setLoading = (value) => {
+    if (value && !loading) {
+      history.replace({ hash: '' })
+    }
+    _setLoading(value)
+  }
   const isLogedIn = useSelector((state) => !!state.Strava.athlete)
 
   return (
@@ -66,4 +73,4 @@ function ActivitiesPage({ activities, month }) {
   )
 }
 
-export default ActivitiesPage
+export default withRouter(ActivitiesPage)
