@@ -37,16 +37,19 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
       disabled={loading || disabled}
       onClick={() => (async () => {
         setLoading(true)
-        const activities = await myDispatch(getActivities({
+        const alreadyExists = (activity) => (
+          activitiesFromStore.some(({ id }) => id === activity.id)
+        )
+        const activities = (await myDispatch(getActivities({
           before: dayjs().unix(),
           after: (
             activitiesFromStore[0]?.startTime
-              ? dayjs(activitiesFromStore[0].startTime).unix()
+              ? dayjs(activitiesFromStore[0].startTime).add(-7, 'days').unix()
               : dayjs().add(-2, 'month').startOf('month').unix()
           ),
           page: 1,
           per_page: 100,
-        }))
+        }))).filter(alreadyExists)
         for (let i = activities.length - 1; i >= 0; i -= 1) {
           const activity = activities[i]
           setLoading(i)
