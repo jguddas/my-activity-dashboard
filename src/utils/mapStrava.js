@@ -17,6 +17,7 @@ const mapStrava = ({
 
   return {
     id: `${id}`,
+    externalLink: `https://www.strava.com/activities/${id}`,
     endTime: startTime.add(elapsed_time, 'seconds').toISOString(),
     startTime: startTime.toISOString(),
     distance: distance / 1000,

@@ -2,7 +2,7 @@ import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
-import { Page, Card, Badge } from 'tabler-react'
+import { Page, Card, Badge, Button, Icon } from 'tabler-react'
 
 import BackButton from './BackButton.js'
 import NavButton from './NavButton.js'
@@ -39,6 +39,20 @@ function ActivityPage({ activity, activities, history }) {
           {`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}
         </Page.Title>
         <BackButton to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`} />
+        {!!activity.externalLink && (
+        <Button
+          className="ml-1"
+          color="secondary"
+          RootComponent="a"
+          href={activity.externalLink}
+          target="_blank"
+        >
+          <Icon name="external-link" prefix="fe" className="mr-md-2" />
+          <span className="d-none d-md-inline">
+            Source
+          </span>
+        </Button>
+        )}
       </Page.Header>
       {activity.trkpts ? (
         <ActivityMapWithSlider
