@@ -4,10 +4,13 @@ import { Page, Card } from 'tabler-react'
 
 import BackButton from './BackButton.js'
 import NavButton from './NavButton.js'
+import SyncStarredSegmentsButton from './SyncStarredSegmentsButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import SplitsTable from './SplitsTable.js'
 
 function SplitsPage({ splits, history }) {
+  const [loading, setLoading] = React.useState(false)
+
   return (
     <Page.Content>
       <ScrollToTopOnLocationChange />
@@ -16,7 +19,11 @@ function SplitsPage({ splits, history }) {
         <Page.Title className="mr-auto">
           My Splits
         </Page.Title>
-        <BackButton to="/" />
+        <BackButton to="/" className="mr-1" />
+        <SyncStarredSegmentsButton
+          disabled={loading}
+          setLoading={setLoading}
+        />
       </Page.Header>
       {splits.length ? (
         <Card>

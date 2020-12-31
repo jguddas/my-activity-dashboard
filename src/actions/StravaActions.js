@@ -9,6 +9,7 @@ import {
   STRAVA_CLIENT_SECRET,
   STRAVA_ACTIVITIES_URL,
   STRAVA_ACTIVITY_STREAM_URL,
+  STRAVA_STARRED_SEGMENTS_URL,
   STRAVA_DEAUTHORIZATION_URL,
 } from '../constants.js'
 
@@ -74,6 +75,16 @@ export const getActivityStream = createAsyncThunkWithAuth(
     { query, accessToken },
   ),
 )
+
+export const getStarredSegments = createAsyncThunkWithAuth(
+  'STRAVA_GET_STARRED_SEGMENTS',
+  (query, accessToken, { rejectWithValue }) => fetchWithAuth(
+    STRAVA_STARRED_SEGMENTS_URL,
+    { query, accessToken },
+  ).catch(rejectWithValue),
+)
+
+window.getStarredSegments = getStarredSegments
 
 export const exchangeToken = createAsyncThunk(
   'STRAVA_EXCHANGE_TOKEN',
