@@ -3,9 +3,7 @@ import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { sumBy, groupBy, range } from 'lodash'
 import { Link } from 'react-router-dom'
-import {
-  Card, Button, Badge, colors,
-} from 'tabler-react'
+import { Card, Button, Badge, colors } from 'tabler-react'
 
 import LineGraph from './LineGraph.js'
 

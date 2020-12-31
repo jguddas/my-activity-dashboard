@@ -5,9 +5,7 @@ import splitMatchers from '../utils/splitMatchers.js'
 
 import DotGraph from './DotGraph.js'
 
-const SplitsGraph = ({
-  activities, activity, split, onClick = () => {},
-}) => {
+const SplitsGraph = ({ activities, activity, split, onClick = () => {} }) => {
   const matchedSplits = activities
     .reverse()
     .flatMap((_activity) => splitMatchers[split.type](split, _activity))

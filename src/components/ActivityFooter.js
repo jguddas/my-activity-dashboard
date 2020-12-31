@@ -6,9 +6,7 @@ import { round, isFinite } from 'lodash'
 import { Card, Badge } from 'tabler-react'
 import formatDuration from '../utils/formatDuration.js'
 
-function ActivityFooter({
-  distance, speed, duration, startTime,
-}) {
+function ActivityFooter({ distance, speed, duration, startTime }) {
   return (
     <MyCardBody>
       {isFinite(distance) && (

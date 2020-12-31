@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import C3Chart from 'react-c3js'
-import {
-  groupBy, floor, round, last,
-} from 'lodash'
+import { groupBy, floor, round, last } from 'lodash'
 import { Card, colors } from 'tabler-react'
 
 function ActivitySplits({ activity, splitFactor = 5 }) {
@@ -23,9 +21,7 @@ function ActivitySplits({ activity, splitFactor = 5 }) {
           columns: [
             ['data', ...data],
           ],
-          colors: {
-            data: colors.purple,
-          },
+          colors: { data: colors.purple },
           type: 'bar',
         }}
         tooltip={{

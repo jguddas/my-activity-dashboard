@@ -2,9 +2,7 @@
 import dayjs from 'dayjs'
 import { last, round } from 'lodash'
 
-const mapStrava = ({
-  id, name, distance, streams, start_date, elapsed_time,
-}) => {
+const mapStrava = ({ id, name, distance, streams, start_date, elapsed_time }) => {
   const trkpts = streams ? streams.time.data.map((time, idx) => ([
     streams.latlng.data[idx][0],
     streams.latlng.data[idx][1],

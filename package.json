@@ -52,6 +52,13 @@
         "error",
         "never"
       ],
+      "object-curly-newline": [
+        "error",
+        {
+          "multiline": true,
+          "consistent": false
+        }
+      ],
       "import/extensions": [
         "error",
         "always"

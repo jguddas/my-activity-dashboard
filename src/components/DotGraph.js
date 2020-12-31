@@ -13,9 +13,7 @@ const DotGraph = ({
     xScale={{ type: 'linear' }}
     yScale={{ type: 'linear', min: 0 }}
     curve="monotoneX"
-    margin={{
-      top: 5, bottom: 0, right: 5, left: 5,
-    }}
+    margin={{ top: 5, bottom: 0, right: 5, left: 5 }}
     isInteractive={isInteractive}
     lineWidth={3}
     data={[{
@@ -42,9 +40,7 @@ const DotGraph = ({
       </div>
     )}
     onClick={({ data: { x } }) => onClick(x)}
-    layers={[({
-      lineGenerator, series, ctx, lineWidth,
-    }) => {
+    layers={[({ lineGenerator, series, ctx, lineWidth }) => {
       lineGenerator.context(ctx)
       series[0].data
         .forEach(({ position }, idx, arr) => { // eslint-disable-line consistent-return

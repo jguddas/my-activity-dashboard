@@ -26,9 +26,7 @@ const diff = (a, b) => a.map((val, idx) => b[idx] - val)
 const mapPtTime = (pt) => [pt[4] * 10, 0 - pt[3] / 10000]
 const mapPtDist = (pt) => [pt[3] / 10000, pt[4]]
 
-function MatchedActivitiesChart({
-  activity, activities, mapTime, baseMethod, baseOrder,
-}) {
+function MatchedActivitiesChart({ activity, activities, mapTime, baseMethod, baseOrder }) {
   const baseActivity = baseMethod ? ((a) => (baseOrder ? a[0] : last(a)))(
     sortBy(activities, baseMethod),
   ) : activity

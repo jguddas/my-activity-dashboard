@@ -16,9 +16,7 @@ export const drawEndCap = ({ series, ctx }) => {
   ctx.fill()
 }
 
-export const drawLine = ({
-  lineGenerator, series, ctx, lineWidth,
-}) => {
+export const drawLine = ({ lineGenerator, series, ctx, lineWidth }) => {
   lineGenerator.context(ctx)
   series.sort((a, b) => b.id - a.id).forEach((serie) => {
     if (serie.id === 0) {

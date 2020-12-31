@@ -3,9 +3,7 @@ import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { sortBy, round } from 'lodash'
-import {
-  Table, Badge, Icon, colors,
-} from 'tabler-react'
+import { Table, Badge, Icon, colors } from 'tabler-react'
 
 import formatDuration from '../utils/formatDuration.js'
 
@@ -81,9 +79,7 @@ function MatchedActivitiesTable({ activities, activity }) {
           sortOrder
             ? sortBy(matchedActivities, sortMethod)
             : sortBy(matchedActivities, sortMethod).reverse()
-        ).map(({
-          id, name, duration, distance, speed, date, rank,
-        }) => (
+        ).map(({ id, name, duration, distance, speed, date, rank }) => (
           <Table.Row className="d-block d-md-table-row" key={id}>
             <Table.Col className="d-block d-md-table-cell">
               <MyRankBadge

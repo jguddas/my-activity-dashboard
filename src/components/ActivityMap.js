@@ -42,9 +42,7 @@ class Activity extends React.Component {
       tap: false,
     })
 
-    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
-      detectRetina: true,
-    }).addTo(this.map)
+    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', { detectRetina: true }).addTo(this.map)
 
     this.addMarkersAndLines()
     this.fitBounds()
@@ -195,9 +193,7 @@ class Activity extends React.Component {
   }
 
   render() {
-    const {
-      className, children, height, width, controls,
-    } = this.props
+    const { className, children, height, width, controls } = this.props
     const { isFullscreen } = this.state
 
     return (

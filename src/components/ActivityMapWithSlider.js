@@ -3,9 +3,7 @@ import L from 'leaflet'
 import styled from 'styled-components'
 import screenfull from 'screenfull'
 import { round, maxBy } from 'lodash'
-import {
-  Card, Button, Form, colors,
-} from 'tabler-react'
+import { Card, Button, Form, colors } from 'tabler-react'
 
 import formatDuration from '../utils/formatDuration.js'
 
@@ -17,9 +15,10 @@ function ActivityMapWithSlider({ activity, matchedActivities }) {
   ), [activity, matchedActivities])
   const requestRef = useRef()
   const matchedTimeRef = useRef()
-  const [{ playing, time }, setState] = useState({
-    time: maxActivityDurationInMinutes,
-  })
+  const [
+    { playing, time },
+    setState,
+  ] = useState({ time: maxActivityDurationInMinutes })
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const animate = (newTime) => {
