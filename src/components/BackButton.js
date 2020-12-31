@@ -1,16 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'tabler-react'
+import { Button, Icon } from 'tabler-react'
 
-const BackButton = ({ to }) => (
+const BackButton = ({ to, className }) => (
   <Button
-    icon="arrow-left"
-    prefix="fe"
+    className={className}
     color="secondary"
     RootComponent={Link}
     to={to}
   >
-    Go Back
+    <Icon name="arrow-left" prefix="fe" className="mr-md-2" />
+    <span className="d-none d-md-inline">
+      Go Back
+    </span>
   </Button>
 )
 
