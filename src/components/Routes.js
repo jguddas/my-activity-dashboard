@@ -8,20 +8,39 @@ import { parse as parseQuery } from 'query-string'
 import ActivitiesPage from './ActivitiesPage.js'
 import ActivityPage from './ActivityPage.js'
 import SplitsPage from './SplitsPage.js'
+import SplitPage from './SplitPage.js'
 
 import { exchangeToken } from '../actions/StravaActions.js'
 
 function Routes() {
   const activities = useSelector((state) => state.Activity.activities)
+  const splits = useSelector((state) => state.Split.splits)
   const dispatch = useDispatch()
 
   return (
     <Switch>
+      <Route path="/splits" exact>
+        <SplitsPage splits={splits} />
+      </Route>
       <Route
-        path="/splits/:splitId?"
-        render={({ match }) => (
-          <SplitsPage splitId={match.params.splitId} />
-        )}
+        path="/split/:splitId"
+        render={({ match }) => {
+          const split = splits.find(({ id }) => (
+            `${id}` === decodeURI(match.params.splitId)
+          ))
+          if (!split) {
+            return (
+              <Error404Page />
+            )
+          }
+          return (
+            <SplitPage
+              activities={activities}
+              splits={splits}
+              split={split}
+            />
+          )
+        }}
       />
       <Route
         path="/exchange-token"
