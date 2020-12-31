@@ -17,9 +17,12 @@ function Routes() {
 
   return (
     <Switch>
-      <Route path="/splits">
-        <SplitsPage />
-      </Route>
+      <Route
+        path="/splits/:splitId?"
+        render={({ match }) => (
+          <SplitsPage splitId={match.params.splitId} />
+        )}
+      />
       <Route
         path="/exchange-token"
         render={({ location: { search } }) => {

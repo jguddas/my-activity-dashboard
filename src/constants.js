@@ -8,3 +8,4 @@ export const STRAVA_ACTIVITY_STREAM_URL = 'https://www.strava.com/api/v3/activit
 export const STRAVA_SCOPE = 'read,activity:read_all'
 export const STRAVA_CLIENT_ID = process.env.REACT_APP_STRAVA_CLIENT_ID
 export const STRAVA_CLIENT_SECRET = process.env.REACT_APP_STRAVA_CLIENT_SECRET
+export const RESAMPLE_SCALE = 0.5
