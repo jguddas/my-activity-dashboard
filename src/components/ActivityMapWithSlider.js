@@ -9,7 +9,7 @@ import formatDuration from '../utils/formatDuration.js'
 
 import ActivityMap from './ActivityMap.js'
 
-function ActivityMapWithSlider({ activity, matchedActivities }) {
+function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) {
   const maxActivityDurationInMinutes = useMemo(() => Math.ceil(
     maxBy([activity].concat(matchedActivities), 'duration').duration / 60000,
   ), [activity, matchedActivities])
@@ -25,7 +25,7 @@ function ActivityMapWithSlider({ activity, matchedActivities }) {
     if (matchedTimeRef.current !== undefined) {
       setState((matchedState) => {
         const deltaTime = newTime - matchedTimeRef.current
-        const nexttime = matchedState.time + deltaTime * 0.005
+        const nexttime = matchedState.time + deltaTime * factor
         const inRange = nexttime < maxActivityDurationInMinutes
         return (
           matchedState.playing ? ({
