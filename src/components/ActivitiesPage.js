@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { Page, Grid } from 'tabler-react'
 import { withRouter } from 'react-router-dom'
 
+import BackButton from './BackButton.js'
 import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
 import SyncButton from './SyncButton.js'
@@ -30,6 +31,7 @@ function ActivitiesPage({ activities, month, history }) {
           My Activities
         </Page.Title>
         <div>
+          <BackButton className="mr-1" />
           <SyncButton
             className="mr-1"
             disabled={loading}
