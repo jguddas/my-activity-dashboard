@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 
 import PageHeaderButton from './PageHeaderButton.js'
 
-const OverviewButton = ({ to = '/activities' }) => (
+const SplitsButton = ({ to = '/splits' }) => (
   <PageHeaderButton
     RootComponent={Link}
     to={to}
-    icon="calendar"
+    icon="scissors"
   >
-    Overview
+    Splits
   </PageHeaderButton>
 )
 
-export default OverviewButton
+export default SplitsButton

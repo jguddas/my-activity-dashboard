@@ -2,12 +2,12 @@ import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
-import { Page, Card, Badge, Button, Icon } from 'tabler-react'
+import { Page, Card, Badge } from 'tabler-react'
 
 import PageHeader from './PageHeader.js'
 import OverviewButton from './OverviewButton.js'
+import SplitsButton from './SplitsButton.js'
 import ExternalSourceButton from './ExternalSourceButton.js'
-import BackButton from './BackButton.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 import DotGraph from './DotGraph.js'
@@ -36,10 +36,10 @@ function ActivityPage({ activity, activities, history }) {
     <Page.Content>
       <ScrollToTopOnMount />
       <PageHeader title={`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}>
-        <BackButton />
         <OverviewButton
           to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`}
         />
+        <SplitsButton />
         {!!activity.externalLink && (
           <ExternalSourceButton
             to={activity.externalLink}

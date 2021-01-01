@@ -3,11 +3,12 @@ import L from 'leaflet'
 import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
-import { withRouter, Link, Redirect } from 'react-router-dom'
-import { Page, Card, Button, Icon } from 'tabler-react'
+import { withRouter, Redirect } from 'react-router-dom'
+import { Page, Card } from 'tabler-react'
 
 import PageHeader from './PageHeader.js'
-import BackButton from './BackButton.js'
+import SplitsButton from './SplitsButton.js'
+import OverviewButton from './OverviewButton.js'
 import ActivityButton from './ActivityButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
@@ -36,7 +37,8 @@ function SplitPage({ split, activities, activity, history }) {
     <Page.Content>
       <ScrollToTopOnLocationChange />
       <PageHeader title={split.name}>
-        <BackButton />
+        <OverviewButton />
+        <SplitsButton />
         {activity ? (
           <ActivityButton
             to={`/activity/${activity.id}`}
@@ -101,14 +103,6 @@ function SplitPage({ split, activities, activity, history }) {
 }
 
 export default withRouter(SplitPage)
-
-const MyPageTitle = styled(Page.Title)`
-  width: 0;
-  flex-grow: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
 
 const MyCardHeader = styled(Card.Header)`
   display: flex;

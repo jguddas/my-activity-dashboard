@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Page } from 'tabler-react'
 
-import NavButton from './NavButton.js'
+import BackButton from './BackButton.js'
 
 const PageHeader = ({ title, children }) => (
   <Page.Header>
-    <NavButton />
+    <BackButton />
     <MyPageTitle>
       {title}
     </MyPageTitle>

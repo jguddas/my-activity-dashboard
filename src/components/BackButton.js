@@ -1,15 +1,14 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-
-import PageHeaderButton from './PageHeaderButton.js'
+import { Button } from 'tabler-react'
 
 const BackButton = ({ history }) => (
-  <PageHeaderButton
+  <Button
+    color="secondary"
     onClick={() => history.goBack()}
+    className="mr-1"
     icon="arrow-left"
-  >
-    Back
-  </PageHeaderButton>
+  />
 )
 
 export default withRouter(BackButton)

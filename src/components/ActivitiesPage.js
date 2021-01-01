@@ -4,7 +4,7 @@ import { Page, Grid } from 'tabler-react'
 import { withRouter } from 'react-router-dom'
 
 import PageHeader from './PageHeader.js'
-import BackButton from './BackButton.js'
+import SplitsButton from './SplitsButton.js'
 import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
 import SyncButton from './SyncButton.js'
@@ -26,7 +26,7 @@ function ActivitiesPage({ activities, month, history }) {
     <Page.Content>
       <ScrollToTopOnLocationChange />
       <PageHeader title="My Activities">
-        <BackButton />
+        <SplitsButton />
         <SyncButton
           disabled={loading}
           setLoading={setLoading}
