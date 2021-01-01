@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { withRouter, Link } from 'react-router-dom'
 import { Page, Card, Badge, Button, Icon } from 'tabler-react'
 
+import PageHeader from './PageHeader.js'
 import BackButton from './BackButton.js'
-import NavButton from './NavButton.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 import DotGraph from './DotGraph.js'
@@ -33,11 +33,7 @@ function ActivityPage({ activity, activities, history }) {
   return (
     <Page.Content>
       <ScrollToTopOnMount />
-      <Page.Header>
-        <NavButton />
-        <MyPageTitle>
-          {`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}
-        </MyPageTitle>
+      <PageHeader title={`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}>
         <BackButton />
         <Button
           className="ml-1"
@@ -64,7 +60,7 @@ function ActivityPage({ activity, activities, history }) {
           </span>
         </Button>
         )}
-      </Page.Header>
+      </PageHeader>
       {activity.trkpts ? (
         <ActivityMapWithSlider
           activity={activity}
@@ -106,14 +102,6 @@ function ActivityPage({ activity, activities, history }) {
 }
 
 export default withRouter(ActivityPage)
-
-const MyPageTitle = styled(Page.Title)`
-  width: 0;
-  flex-grow: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
 
 const MyCardHeader = styled(Card.Header)`
   display: flex;

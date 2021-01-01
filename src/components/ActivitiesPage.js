@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { Page, Grid } from 'tabler-react'
 import { withRouter } from 'react-router-dom'
 
+import PageHeader from './PageHeader.js'
 import BackButton from './BackButton.js'
 import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
@@ -25,26 +26,20 @@ function ActivitiesPage({ activities, month, history }) {
   return (
     <Page.Content>
       <ScrollToTopOnLocationChange />
-      <Page.Header>
-        <NavButton />
-        <Page.Title className="mr-auto">
-          My Activities
-        </Page.Title>
-        <div>
-          <BackButton className="mr-1" />
-          <SyncButton
-            className="mr-1"
-            disabled={loading}
-            setLoading={setLoading}
-          />
-          <UploadButton
-            className="mr-1"
-            disabled={loading}
-            setLoading={setLoading}
-          />
-          <LoginButton />
-        </div>
-      </Page.Header>
+      <PageHeader title="My Activities">
+        <BackButton className="mr-1" />
+        <SyncButton
+          className="mr-1"
+          disabled={loading}
+          setLoading={setLoading}
+        />
+        <UploadButton
+          className="mr-1"
+          disabled={loading}
+          setLoading={setLoading}
+        />
+        <LoginButton />
+      </PageHeader>
       {activities.length && !loading ? (
         <Grid.Row className="flex-column-reverse flex-md-row">
           <Grid.Col md={9} sm={12} width={12} cards>

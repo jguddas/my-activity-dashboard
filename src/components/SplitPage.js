@@ -6,8 +6,8 @@ import styled from 'styled-components'
 import { withRouter, Link, Redirect } from 'react-router-dom'
 import { Page, Card, Button, Icon } from 'tabler-react'
 
+import PageHeader from './PageHeader.js'
 import BackButton from './BackButton.js'
-import NavButton from './NavButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ActivityMap from './ActivityMap.js'
@@ -34,12 +34,8 @@ function SplitPage({ split, activities, activity, history }) {
   return (
     <Page.Content>
       <ScrollToTopOnLocationChange />
-      <Page.Header>
-        <NavButton />
-        <MyPageTitle>
-          {split.name}
-        </MyPageTitle>
-        <BackButton to="/splits" />
+      <PageHeader title={split.name}>
+        <BackButton />
         {activity ? (
           <Button
             className="ml-1"
@@ -53,7 +49,7 @@ function SplitPage({ split, activities, activity, history }) {
             </span>
           </Button>
         ) : null}
-      </Page.Header>
+      </PageHeader>
       {split.type === 'aTob' && (
         matchedSplits.length > 0 ? (
           <ActivityMapWithSlider

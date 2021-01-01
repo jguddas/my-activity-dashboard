@@ -2,8 +2,8 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Page, Card } from 'tabler-react'
 
+import PageHeader from './PageHeader.js'
 import BackButton from './BackButton.js'
-import NavButton from './NavButton.js'
 import SyncStarredSegmentsButton from './SyncStarredSegmentsButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import SplitsTable from './SplitsTable.js'
@@ -14,17 +14,13 @@ function SplitsPage({ splits, history }) {
   return (
     <Page.Content>
       <ScrollToTopOnLocationChange />
-      <Page.Header>
-        <NavButton />
-        <Page.Title className="mr-auto">
-          My Splits
-        </Page.Title>
-        <BackButton to="/" className="mr-1" />
+      <PageHeader title="My Splits">
+        <BackButton className="mr-1" />
         <SyncStarredSegmentsButton
           disabled={loading}
           setLoading={setLoading}
         />
-      </Page.Header>
+      </PageHeader>
       {splits.length ? (
         <Card>
           <SplitsTable
