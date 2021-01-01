@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Icon } from 'tabler-react'
 import { stringify as stringifyQuery } from 'query-string'
 
 import { deauthorize } from '../actions/StravaActions.js'
+
+import PageHeaderButton from './PageHeaderButton.js'
 
 import {
   STRAVA_SCOPE,
@@ -12,7 +13,7 @@ import {
   STRAVA_OAUTH_URL,
 } from '../constants.js'
 
-function LoginButton(props) {
+function LoginButton() {
   const dispatch = useDispatch()
   const { athlete, accessToken } = useSelector((state) => state.Strava)
 
@@ -28,23 +29,12 @@ function LoginButton(props) {
   const unAuth = () => dispatch(deauthorize(accessToken))
 
   return (
-    <Button
-      color="secondary"
-      {...props}
+    <PageHeaderButton
+      icon={athlete ? 'log-out' : 'log-in'}
       onClick={athlete ? unAuth : getCode}
     >
-      <Icon
-        name={athlete ? 'log-out' : 'log-in'}
-        prefix="fe"
-        className="mr-sm-2"
-      />
-      <span className="d-none d-sm-inline">
-        {athlete ? 'Logout' : 'Login'}
-      </span>
-      <span className="d-none d-md-inline">
-        {athlete ? ` (${athlete.firstname} ${athlete.lastname})` : null}
-      </span>
-    </Button>
+      {athlete ? `Logout (${athlete.firstname} ${athlete.lastname})` : 'Login'}
+    </PageHeaderButton>
   )
 }
 

@@ -1,12 +1,13 @@
 import React from 'react'
 import { isFinite } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Icon } from 'tabler-react'
 
 import { addSplit } from '../actions/SplitActions.js'
 import { getStarredSegments } from '../actions/StravaActions.js'
 
-function SyncStarredSegmentsButton({ disabled, setLoading: setLoadingProps, className }) {
+import PageHeaderButton from './PageHeaderButton.js'
+
+function SyncStarredSegmentsButton({ disabled, setLoading: setLoadingProps }) {
   const [loading, setLoadingState] = React.useState()
   const dispatch = useDispatch()
   const accessToken = useSelector((state) => state.Strava.accessToken)
@@ -26,10 +27,9 @@ function SyncStarredSegmentsButton({ disabled, setLoading: setLoadingProps, clas
     })
 
   return (
-    <Button
-      color="secondary"
-      className={className}
+    <PageHeaderButton
       disabled={loading || disabled}
+      icon="refresh-cw"
       onClick={() => (async () => {
         setLoading(true)
         const starredSegments = await myDispatch(getStarredSegments({
@@ -48,11 +48,8 @@ function SyncStarredSegmentsButton({ disabled, setLoading: setLoadingProps, clas
         setLoading(false)
       })().catch((err) => alert(err.message))}
     >
-      <Icon name="refresh-cw" prefix="fe" className="mr-md-2" />
-      <span className="d-none d-md-inline">
-        {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
-      </span>
-    </Button>
+      {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
+    </PageHeaderButton>
   )
 }
 

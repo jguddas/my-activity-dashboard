@@ -1,14 +1,14 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Button, Icon } from 'tabler-react'
 
 import parseGpx from '../utils/parseGpx.js'
 import mapGpx from '../utils/mapGpx.js'
 
 import { loadGpx } from '../actions/ActivityActions.js'
 
-function UploadButton({ disabled, ...props }) {
+import PageHeaderButton from './PageHeaderButton.js'
+
+function UploadButton({ disabled, setLoading: setLoadingProps }) {
   const dispatch = useDispatch()
   const [loading, setLoading] = React.useState(false)
   const fileSelector = React.useRef()
@@ -32,29 +32,26 @@ function UploadButton({ disabled, ...props }) {
       const files = Array.from(fileSelector.current.files)
       files.reduce((acc, file, idx, arr) => acc.then(() => {
         const nextLoading = arr.length - idx - 1
-        if (props.setLoading && !nextLoading) {
-          props.setLoading(false)
+        if (setLoadingProps && !nextLoading) {
+          setLoadingProps(false)
         }
         setLoading(nextLoading)
         return loadFile(file)
       }), Promise.resolve())
-      if (props.setLoading) props.setLoading(!!files.length)
+      if (setLoadingProps) setLoadingProps(!!files.length)
       setLoading(files.length)
     })
   })
 
   return (
-    <Button
+    <PageHeaderButton
       color="secondary"
       disabled={loading || disabled}
-      {...props}
+      icon="upload"
       onClick={() => fileSelector.current.click()}
     >
-      <Icon name="upload" prefix="fe" className="mr-md-2" />
-      <span className="d-none d-md-inline">
-        {loading ? `Upload (${loading})` : 'Upload'}
-      </span>
-    </Button>
+      {loading ? `Upload (${loading})` : 'Upload'}
+    </PageHeaderButton>
   )
 }
 

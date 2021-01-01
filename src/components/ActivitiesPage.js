@@ -8,7 +8,6 @@ import BackButton from './BackButton.js'
 import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
 import SyncButton from './SyncButton.js'
-import NavButton from './NavButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivitiesOverview from './ActivitiesOverview.js'
 import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
@@ -27,14 +26,12 @@ function ActivitiesPage({ activities, month, history }) {
     <Page.Content>
       <ScrollToTopOnLocationChange />
       <PageHeader title="My Activities">
-        <BackButton className="mr-1" />
+        <BackButton />
         <SyncButton
-          className="mr-1"
           disabled={loading}
           setLoading={setLoading}
         />
         <UploadButton
-          className="mr-1"
           disabled={loading}
           setLoading={setLoading}
         />

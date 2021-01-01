@@ -1,16 +1,17 @@
-/* eslint-disable react/jsx-props-no-spreading, camelcase */
+/* eslint-disable camelcase */
 import React from 'react'
 import dayjs from 'dayjs'
 import { isFinite } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Icon } from 'tabler-react'
 
 import { loadGpx } from '../actions/ActivityActions.js'
 import { getActivities, getActivityStream } from '../actions/StravaActions.js'
 
 import mapStava from '../utils/mapStrava.js'
 
-function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
+import PageHeaderButton from './PageHeaderButton.js'
+
+function SyncButton({ disabled, setLoading: setLoadingProps }) {
   const [loading, setLoadingState] = React.useState()
   const dispatch = useDispatch()
   const accessToken = useSelector((state) => state.Strava.accessToken)
@@ -31,9 +32,8 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
     })
 
   return (
-    <Button
-      color="secondary"
-      {...props}
+    <PageHeaderButton
+      icon="refresh-cw"
       disabled={loading || disabled}
       onClick={() => (async () => {
         setLoading(true)
@@ -68,11 +68,8 @@ function SyncButton({ disabled, setLoading: setLoadingProps, ...props }) {
         setLoading(false)
       })().catch((err) => alert(err.message))}
     >
-      <Icon name="refresh-cw" prefix="fe" className="mr-md-2" />
-      <span className="d-none d-md-inline">
-        {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
-      </span>
-    </Button>
+      {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
+    </PageHeaderButton>
   )
 }
 

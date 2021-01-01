@@ -1,10 +1,12 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Page, Card, Badge, Button, Icon } from 'tabler-react'
 
 import PageHeader from './PageHeader.js'
+import OverviewButton from './OverviewButton.js'
+import ExternalSourceButton from './ExternalSourceButton.js'
 import BackButton from './BackButton.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
@@ -35,30 +37,13 @@ function ActivityPage({ activity, activities, history }) {
       <ScrollToTopOnMount />
       <PageHeader title={`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}>
         <BackButton />
-        <Button
-          className="ml-1"
-          color="secondary"
-          RootComponent={Link}
+        <OverviewButton
           to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`}
-        >
-          <Icon name="calendar" prefix="fe" className="mr-md-2" />
-          <span className="d-none d-md-inline">
-            Overview
-          </span>
-        </Button>
+        />
         {!!activity.externalLink && (
-        <Button
-          className="ml-1"
-          color="secondary"
-          RootComponent="a"
-          href={activity.externalLink}
-          target="_blank"
-        >
-          <Icon name="external-link" prefix="fe" className="mr-md-2" />
-          <span className="d-none d-md-inline">
-            Source
-          </span>
-        </Button>
+          <ExternalSourceButton
+            to={activity.externalLink}
+          />
         )}
       </PageHeader>
       {activity.trkpts ? (

@@ -8,6 +8,7 @@ import { Page, Card, Button, Icon } from 'tabler-react'
 
 import PageHeader from './PageHeader.js'
 import BackButton from './BackButton.js'
+import ActivityButton from './ActivityButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ActivityMap from './ActivityMap.js'
@@ -37,17 +38,9 @@ function SplitPage({ split, activities, activity, history }) {
       <PageHeader title={split.name}>
         <BackButton />
         {activity ? (
-          <Button
-            className="ml-1"
-            color="secondary"
-            RootComponent={Link}
+          <ActivityButton
             to={`/activity/${activity.id}`}
-          >
-            <Icon name="navigation" prefix="fe" className="mr-md-2" />
-            <span className="d-none d-md-inline">
-              Activity
-            </span>
-          </Button>
+          />
         ) : null}
       </PageHeader>
       {split.type === 'aTob' && (
