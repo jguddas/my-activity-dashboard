@@ -3,8 +3,8 @@ import L from 'leaflet'
 import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
-import { withRouter } from 'react-router-dom'
-import { Page, Card } from 'tabler-react'
+import { withRouter, Link, Redirect } from 'react-router-dom'
+import { Page, Card, Button, Icon } from 'tabler-react'
 
 import BackButton from './BackButton.js'
 import NavButton from './NavButton.js'
@@ -15,13 +15,21 @@ import DotGraph from './DotGraph.js'
 
 import splitMatchers from '../utils/splitMatchers.js'
 
-function SplitPage({ split, activities, history }) {
+function SplitPage({ split, activities, activity, history }) {
   const [isFullscreen, setFullscreen] = useState(screenfull.isFullscreen)
 
   const matchedSplits = activities
-    .filter((activity) => activity.trkpts)
+    .filter((_activity) => _activity.trkpts)
     .reverse()
     .flatMap((_activity) => splitMatchers[split.type](split, _activity))
+
+  if (matchedSplits.length && !activity) {
+    return (
+      <Redirect
+        to={`/split/${split.id}/${matchedSplits[matchedSplits.length - 1].id}`}
+      />
+    )
+  }
 
   return (
     <Page.Content>
@@ -31,7 +39,20 @@ function SplitPage({ split, activities, history }) {
         <MyPageTitle>
           {split.name}
         </MyPageTitle>
-        <BackButton to="/splits" className="mr-1" />
+        <BackButton to="/splits" />
+        {activity ? (
+          <Button
+            className="ml-1"
+            color="secondary"
+            RootComponent={Link}
+            to={`/activity/${activity.id}`}
+          >
+            <Icon name="navigation" prefix="fe" className="mr-md-2" />
+            <span className="d-none d-md-inline">
+              Activity
+            </span>
+          </Button>
+        ) : null}
       </Page.Header>
       {split.type === 'aTob' && (
         matchedSplits.length > 0 ? (
@@ -69,8 +90,10 @@ function SplitPage({ split, activities, history }) {
             <DotGraph
               data={matchedSplits.map((matchedSplit) => matchedSplit.value)}
               isInteractive
-              selected={[matchedSplits.length - 1]}
-              onClick={(idx) => history.push(`/activity/${matchedSplits[idx].id}`)}
+              selected={activity ? matchedSplits.reduce((acc, { id }, idx) => (
+                id === activity.id ? [...acc, idx] : acc
+              ), []) : []}
+              onClick={(idx) => history.push(`/split/${split.id}/${matchedSplits[idx].id}`)}
               format={(val, idx) => (
                 <span>
                   <strong>

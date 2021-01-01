@@ -23,12 +23,16 @@ function Routes() {
         <SplitsPage splits={splits} />
       </Route>
       <Route
-        path="/split/:splitId"
+        path="/split/:splitId/:activityId?"
         render={({ match }) => {
-          const split = splits.find(({ id }) => (
-            `${id}` === decodeURI(match.params.splitId)
-          ))
-          if (!split) {
+          const { splitId, activityId } = match.params
+          const split = splitId ? splits.find(({ id }) => (
+            `${id}` === decodeURI(splitId)
+          )) : null
+          const activity = activityId ? activities.find(({ id }) => (
+            `${id}` === decodeURI(activityId)
+          )) : null
+          if (!split || (activityId && !activity)) {
             return (
               <Error404Page />
             )
@@ -36,6 +40,7 @@ function Routes() {
           return (
             <SplitPage
               activities={activities}
+              activity={activity}
               splits={splits}
               split={split}
             />
