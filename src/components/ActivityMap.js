@@ -67,6 +67,8 @@ class ActivityMap extends React.Component {
   updateFullscreen = () => {
     const { setFullscreen } = this.props
     this.setState({ isFullscreen: screenfull.isFullscreen })
+    // eslint-disable-next-line no-underscore-dangle
+    this.map._onResize()
     if (setFullscreen) setFullscreen(screenfull.isFullscreen)
   }
 
