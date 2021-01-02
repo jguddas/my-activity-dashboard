@@ -1,5 +1,4 @@
 import React from 'react'
-import { isFinite } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { addSplit } from '../actions/SplitActions.js'
@@ -48,7 +47,7 @@ function SyncStarredSegmentsButton({ disabled, setLoading: setLoadingProps }) {
         setLoading(false)
       })().catch((err) => alert(err.message))}
     >
-      {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
+      Sync Starred Segments
     </PageHeaderButton>
   )
 }
