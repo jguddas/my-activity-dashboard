@@ -71,4 +71,25 @@ const distanceMatcher = ({ distance }, { trkpts, id, name, date, startTime }) =>
   return []
 }
 
-export default { distance: distanceMatcher, aTob: aTobMatcher }
+const activityMatcher = (split, activity) => {
+  if (
+    activity.startpt
+      && activity.endpt
+      && Math.abs(split.distance - activity.distance) < 2
+      && getDistance(activity.endpt, split.endpt) < 0.5
+      && getDistance(activity.startpt, split.startpt) < 0.5
+  ) {
+    return [{
+      ...activity,
+      value: activity.duration,
+      label: formatDuration(activity.duration),
+    }]
+  }
+  return []
+}
+
+export default {
+  distance: distanceMatcher,
+  aTob: aTobMatcher,
+  matched: activityMatcher,
+}

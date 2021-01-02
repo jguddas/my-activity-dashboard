@@ -43,7 +43,7 @@ function SplitPage({ split, activities, activity, history }) {
           />
         ) : null}
       </PageHeader>
-      {split.type === 'aTob' && (
+      {(split.type === 'aTob' || split.type === 'matched') && (
         matchedSplits.length > 0 ? (
           <ActivityMapWithSlider
             factor={0.0005}

@@ -23,6 +23,32 @@ function Routes() {
         <SplitsPage splits={splits} />
       </Route>
       <Route
+        exact
+        path="/matched-activities/:activityId"
+        render={({ match }) => {
+          const activity = activities.find(({ id }) => (
+            id === decodeURI(match.params.activityId)
+          ))
+          if (!activity) {
+            return (
+              <Error404Page />
+            )
+          }
+          return (
+            <SplitPage
+              activities={activities}
+              activity={activity}
+              splits={splits}
+              split={{
+                ...activity,
+                name: 'Matched Activities',
+                type: 'matched',
+              }}
+            />
+          )
+        }}
+      />
+      <Route
         path="/split/:splitId/:activityId?"
         render={({ match }) => {
           const { splitId, activityId } = match.params
