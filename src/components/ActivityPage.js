@@ -6,6 +6,7 @@ import PageHeader from './PageHeader.js'
 import OverviewButton from './OverviewButton.js'
 import MatchedActivitiesButton from './MatchedActivitiesButton.js'
 import ExternalSourceButton from './ExternalSourceButton.js'
+import ActivitySplits from './ActivitySplits.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 
@@ -19,6 +20,7 @@ function ActivityPage({ activity, activities }) {
         {!!activity.externalLink && (<ExternalSourceButton to={activity.externalLink} />)}
       </PageHeader>
       {activity.trkpts ? <ActivityMapWithSlider activity={activity} /> : null}
+      <ActivitySplits activity={activity} activities={activities} />
     </PageWrapper>
   )
 }

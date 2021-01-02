@@ -1,47 +1,52 @@
 import React from 'react'
 import styled from 'styled-components'
-import C3Chart from 'react-c3js'
-import { groupBy, floor, round, last } from 'lodash'
-import { Card, colors } from 'tabler-react'
+import { useSelector } from 'react-redux'
+import { Table, Card } from 'tabler-react'
+import { Link } from 'react-router-dom'
 
-function ActivitySplits({ activity, splitFactor = 5 }) {
-  const groupFn = (pt) => floor((pt[3] / 60000) / splitFactor)
-  const grouped = Object.values(groupBy(activity.trkpts, groupFn))
-  const data = grouped.map((pts) => {
-    const lastPt = last(pts)
-    const time = lastPt[3] - pts[0][3]
-    const distance = lastPt[4] - pts[0][4]
-    return distance / (time / 3600000)
-  })
+import splitMatchers from '../utils/splitMatchers.js'
+
+function ActivitySplits({ activity }) {
+  const splits = useSelector((state) => state.Split.splits)
 
   return (
     <Card>
-      <MyChart
-        data={{
-          columns: [
-            ['data', ...data],
-          ],
-          colors: { data: colors.purple },
-          type: 'bar',
-        }}
-        tooltip={{
-          contents: ([{ value }]) => (`
-            <span class="tag tag-default">
-              ${round(value, 1)}km/h
-              <span class="tag-addon">${round(value * (splitFactor / 60), 2)}km</span>
-            </span>
-          `),
-        }}
-        legend={{ show: false }}
-        axis={{ y: { show: false }, x: { show: false } }}
-        padding={{ bottom: -8, top: -8 }}
-      />
+      <MyCardHeader>
+        <MyHeaderText>
+          Splits
+        </MyHeaderText>
+      </MyCardHeader>
+      <Table cards striped responsive>
+        <Table.Body>
+          {splits.map((split) => {
+            const matchedSplits = splitMatchers[split.type](split, activity)
+            if (!matchedSplits.length) return null
+            return (
+              <Table.Row
+                className="d-block d-md-table-row"
+                key={split.id}
+              >
+                <Table.Col>
+                  <Link to={`/split/${split.id}/${activity.id}`}>
+                    {split.name}
+                  </Link>
+                </Table.Col>
+              </Table.Row>
+            )
+          })}
+        </Table.Body>
+      </Table>
     </Card>
   )
 }
 
 export default ActivitySplits
 
-const MyChart = styled(C3Chart)`
-  height: 10rem;
+const MyCardHeader = styled(Card.Header)`
+  display: flex;
+`
+
+const MyHeaderText = styled.h4`
+  margin-bottom: 0;
+  flex-grow: 1;
 `
