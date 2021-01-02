@@ -94,23 +94,23 @@ function MatchedActivitiesTable({ activities, activity }) {
             </Table.Col>
             <MyTableCol className="pl-5 pl-md-3">
               <span className="pr-lg-1 d-block d-lg-inline">
-                {round(distance, 2)}
+                {round(distance, 2).toFixed(2)}
                 km
               </span>
               <Badge color="default">
                 {(matchedActivities[0].distance - distance) > 0 ? '-' : '+'}
-                {round(Math.abs(matchedActivities[0].distance - distance), 2)}
+                {round(Math.abs(matchedActivities[0].distance - distance), 2).toFixed(2)}
                 km
               </Badge>
             </MyTableCol>
             <MyTableCol className="text-center text-md-left">
               <span className="pr-lg-1 d-block d-lg-inline">
-                {round(speed, 1)}
+                {round(speed, 1).toFixed(2)}
                 km/h
               </span>
               <Badge color="default">
                 {(matchedActivities[0].speed - speed) > 0 ? '-' : '+'}
-                {round(Math.abs(matchedActivities[0].speed - speed), 1)}
+                {round(Math.abs(matchedActivities[0].speed - speed), 1).toFixed(2)}
                 km/h
               </Badge>
             </MyTableCol>
