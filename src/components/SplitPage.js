@@ -17,7 +17,7 @@ import MatchedActivitiesTable from './MatchedActivitiesTable.js'
 
 import splitMatchers from '../utils/splitMatchers.js'
 
-function SplitPage({ split, activities, activity, history }) {
+function SplitPage({ split, activities, activity, history, factor }) {
   const [isFullscreen, setFullscreen] = useState(screenfull.isFullscreen)
 
   const matchedSplits = activities
@@ -46,7 +46,7 @@ function SplitPage({ split, activities, activity, history }) {
       {(split.type === 'aTob' || split.type === 'matched') && (
         matchedSplits.length > 0 ? (
           <ActivityMapWithSlider
-            factor={0.0005}
+            factor={factor}
             activity={matchedSplits.find(({ id }) => id === activity.id)}
             matchedActivities={matchedSplits}
           />

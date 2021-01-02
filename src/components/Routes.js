@@ -69,6 +69,7 @@ function Routes() {
               activity={activity}
               splits={splits}
               split={split}
+              factor={0.0005}
             />
           )
         }}
