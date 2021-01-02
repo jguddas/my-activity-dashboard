@@ -4,11 +4,10 @@ import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { withRouter, Redirect } from 'react-router-dom'
-import { Page, Card } from 'tabler-react'
+import { Card } from 'tabler-react'
 
+import PageWrapper from './PageWrapper.js'
 import PageHeader from './PageHeader.js'
-import SplitsButton from './SplitsButton.js'
-import OverviewButton from './OverviewButton.js'
 import ActivityButton from './ActivityButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
@@ -34,11 +33,9 @@ function SplitPage({ split, activities, activity, history }) {
   }
 
   return (
-    <Page.Content>
+    <PageWrapper>
       <ScrollToTopOnLocationChange />
       <PageHeader title={split.name}>
-        <OverviewButton />
-        <SplitsButton />
         {activity ? (
           <ActivityButton
             to={`/activity/${activity.id}`}
@@ -98,7 +95,7 @@ function SplitPage({ split, activities, activity, history }) {
           </div>
         </Card>
       )}
-    </Page.Content>
+    </PageWrapper>
   )
 }
 

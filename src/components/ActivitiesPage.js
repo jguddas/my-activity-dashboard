@@ -1,11 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Page, Grid } from 'tabler-react'
+import { Grid } from 'tabler-react'
 import { withRouter } from 'react-router-dom'
 
+import PageWrapper from './PageWrapper.js'
 import PageHeader from './PageHeader.js'
-import SplitsButton from './SplitsButton.js'
-import LoginButton from './LoginButton.js'
 import UploadButton from './UploadButton.js'
 import SyncButton from './SyncButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
@@ -23,10 +22,9 @@ function ActivitiesPage({ activities, month, history }) {
   const isLogedIn = useSelector((state) => !!state.Strava.athlete)
 
   return (
-    <Page.Content>
+    <PageWrapper>
       <ScrollToTopOnLocationChange />
       <PageHeader title="My Activities">
-        <SplitsButton />
         <SyncButton
           disabled={loading}
           setLoading={setLoading}
@@ -35,7 +33,6 @@ function ActivitiesPage({ activities, month, history }) {
           disabled={loading}
           setLoading={setLoading}
         />
-        <LoginButton />
       </PageHeader>
       {activities.length && !loading ? (
         <Grid.Row className="flex-column-reverse flex-md-row">
@@ -63,7 +60,7 @@ function ActivitiesPage({ activities, month, history }) {
           </h4>
         </div>
       )}
-    </Page.Content>
+    </PageWrapper>
   )
 }
 

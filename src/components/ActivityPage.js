@@ -2,11 +2,11 @@ import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
-import { Page, Card, Badge } from 'tabler-react'
+import { Card, Badge } from 'tabler-react'
 
+import PageWrapper from './PageWrapper.js'
 import PageHeader from './PageHeader.js'
 import OverviewButton from './OverviewButton.js'
-import SplitsButton from './SplitsButton.js'
 import ExternalSourceButton from './ExternalSourceButton.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
@@ -33,18 +33,11 @@ function ActivityPage({ activity, activities, history }) {
   const minDuration = durations.reduce((acc, val) => (acc < val ? acc : val))
 
   return (
-    <Page.Content>
+    <PageWrapper>
       <ScrollToTopOnMount />
       <PageHeader title={`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}>
-        <OverviewButton
-          to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`}
-        />
-        <SplitsButton />
-        {!!activity.externalLink && (
-          <ExternalSourceButton
-            to={activity.externalLink}
-          />
-        )}
+        <OverviewButton to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`} />
+        {!!activity.externalLink && (<ExternalSourceButton to={activity.externalLink} />)}
       </PageHeader>
       {activity.trkpts ? (
         <ActivityMapWithSlider
@@ -82,7 +75,7 @@ function ActivityPage({ activity, activities, history }) {
         </div>
       </Card>
       )}
-    </Page.Content>
+    </PageWrapper>
   )
 }
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Page, Card } from 'tabler-react'
+import { Card } from 'tabler-react'
 
+import PageWrapper from './PageWrapper.js'
 import PageHeader from './PageHeader.js'
-import OverviewButton from './OverviewButton.js'
 import SyncStarredSegmentsButton from './SyncStarredSegmentsButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import SplitsTable from './SplitsTable.js'
@@ -12,10 +12,9 @@ function SplitsPage({ splits, history }) {
   const [loading, setLoading] = React.useState(false)
 
   return (
-    <Page.Content>
+    <PageWrapper>
       <ScrollToTopOnLocationChange />
       <PageHeader title="My Splits">
-        <OverviewButton />
         <SyncStarredSegmentsButton
           disabled={loading}
           setLoading={setLoading}
@@ -35,7 +34,7 @@ function SplitsPage({ splits, history }) {
           </h4>
         </div>
       )}
-    </Page.Content>
+    </PageWrapper>
   )
 }
 

@@ -2,11 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Page } from 'tabler-react'
 
-import BackButton from './BackButton.js'
-
 const PageHeader = ({ title, children }) => (
   <Page.Header>
-    <BackButton />
     <MyPageTitle>
       {title}
     </MyPageTitle>
