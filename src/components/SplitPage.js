@@ -46,7 +46,7 @@ function SplitPage({ split, activities, activity, history }) {
         matchedSplits.length > 0 ? (
           <ActivityMapWithSlider
             factor={0.0005}
-            activity={matchedSplits[matchedSplits.length - 1]}
+            activity={matchedSplits.find(({ id }) => id === activity.id)}
             matchedActivities={matchedSplits}
           />
         ) : (
