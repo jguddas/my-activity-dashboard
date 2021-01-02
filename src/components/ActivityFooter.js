@@ -14,7 +14,7 @@ function ActivityFooter({ distance, speed, duration, startTime }) {
           <MyRowText>Distance</MyRowText>
           <div>
             <MyBadge color="default">
-              {round(distance, 2)}
+              {round(distance, 2).toFixed(2)}
               km
             </MyBadge>
           </div>
@@ -25,7 +25,7 @@ function ActivityFooter({ distance, speed, duration, startTime }) {
           <MyRowText>Average Speed</MyRowText>
           <div>
             <MyBadge color="default">
-              {round(speed, 1)}
+              {round(speed, 1).toFixed(1)}
               km/h
             </MyBadge>
           </div>
