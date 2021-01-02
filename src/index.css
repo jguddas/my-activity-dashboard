@@ -39,3 +39,7 @@ a:not(.btn-purple):not(.dropdown-item):hover {
 .leaflet-container {
   background: white !important;
 }
+
+.opacity-0 {
+  opacity: 0;
+}

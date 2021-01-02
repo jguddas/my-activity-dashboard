@@ -25,52 +25,52 @@ function MatchedActivitiesTable({ activities, activity }) {
       <Table.Header>
         <Table.Row className="d-block d-md-table-row">
           <th
+            style={activities.length > 1 ? { userSelect: 'none', cursor: 'pointer' } : {}}
             className="d-block d-md-table-cell pl-4 pl-md-5"
             onClick={() => toggleSort('startTime')}
           >
             Name - Date
-            {sortMethod === 'startTime' && activities.length > 1 ? (
-              <Icon
-                prefix="fe"
-                name={sortOrder ? 'chevron-down' : 'chevron-up'}
-              />
-            ) : null}
+            <Icon
+              prefix="fe"
+              className={sortMethod === 'startTime' && activities.length > 1 ? '' : 'opacity-0'}
+              name={sortOrder ? 'chevron-down' : 'chevron-up'}
+            />
           </th>
           <th
+            style={activities.length > 1 ? { userSelect: 'none', cursor: 'pointer' } : {}}
             className="d-block d-md-table-cell pl-4 pl-md-3"
             onClick={() => toggleSort('distance')}
           >
             Distance
-            {sortMethod === 'distance' && activities.length > 1 ? (
-              <Icon
-                prefix="fe"
-                name={sortOrder ? 'chevron-down' : 'chevron-up'}
-              />
-            ) : null}
+            <Icon
+              prefix="fe"
+              className={sortMethod === 'distance' && activities.length > 1 ? '' : 'opacity-0'}
+              name={sortOrder ? 'chevron-down' : 'chevron-up'}
+            />
           </th>
           <th
+            style={activities.length > 1 ? { userSelect: 'none', cursor: 'pointer' } : {}}
             className="d-block d-md-table-cell pl-4 pl-md-3"
             onClick={() => toggleSort('speed')}
           >
             Average Speed
-            {sortMethod === 'speed' && activities.length > 1 ? (
-              <Icon
-                prefix="fe"
-                name={sortOrder ? 'chevron-down' : 'chevron-up'}
-              />
-            ) : null}
+            <Icon
+              prefix="fe"
+              className={sortMethod === 'speed' && activities.length > 1 ? '' : 'opacity-0'}
+              name={sortOrder ? 'chevron-down' : 'chevron-up'}
+            />
           </th>
           <th
+            style={activities.length > 1 ? { userSelect: 'none', cursor: 'pointer' } : {}}
             className="d-block d-md-table-cell pl-4 pl-md-3"
             onClick={() => toggleSort('duration')}
           >
             Elapsed Time
-            {sortMethod === 'duration' && activities.length > 1 ? (
-              <Icon
-                prefix="fe"
-                name={sortOrder ? 'chevron-down' : 'chevron-up'}
-              />
-            ) : null}
+            <Icon
+              prefix="fe"
+              className={sortMethod === 'duration' && activities.length > 1 ? '' : 'opacity-0'}
+              name={sortOrder ? 'chevron-down' : 'chevron-up'}
+            />
           </th>
         </Table.Row>
       </Table.Header>
