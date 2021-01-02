@@ -13,6 +13,7 @@ import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ActivityMap from './ActivityMap.js'
 import DotGraph from './DotGraph.js'
+import MatchedActivitiesTable from './MatchedActivitiesTable.js'
 
 import splitMatchers from '../utils/splitMatchers.js'
 
@@ -68,32 +69,41 @@ function SplitPage({ split, activities, activity, history }) {
         )
       )}
       {matchedSplits.length > 0 && (
-        <Card>
-          <MyCardHeader>
-            <MyHeaderText>
-              Matched Splits
-            </MyHeaderText>
-          </MyCardHeader>
-          <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
-            <DotGraph
-              data={matchedSplits.map((matchedSplit) => matchedSplit.value)}
-              isInteractive
-              selected={activity ? matchedSplits.reduce((acc, { id }, idx) => (
-                id === activity.id ? [...acc, idx] : acc
-              ), []) : []}
-              onClick={(idx) => history.push(`/split/${split.id}/${matchedSplits[idx].id}`)}
-              format={(val, idx) => (
-                <span>
-                  <strong>
-                    {dayjs(activities.find(({ id }) => id === matchedSplits[idx].id).date).format('DD.MM.YYYY')}
-                  </strong>
+        < >
+          <Card>
+            <MyCardHeader>
+              <MyHeaderText>
+                Matched Splits
+              </MyHeaderText>
+            </MyCardHeader>
+            <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
+              <DotGraph
+                data={matchedSplits.map((matchedSplit) => matchedSplit.value)}
+                isInteractive
+                selected={activity ? matchedSplits.reduce((acc, { id }, idx) => (
+                  id === activity.id ? [...acc, idx] : acc
+                ), []) : []}
+                onClick={(idx) => history.push(`/split/${split.id}/${matchedSplits[idx].id}`)}
+                format={(val, idx) => (
+                  <span>
+                    <strong>
+                      {dayjs(activities.find(({ id }) => id === matchedSplits[idx].id).date).format('DD.MM.YYYY')}
+                    </strong>
                   &nbsp;
-                  {matchedSplits[idx].label ?? matchedSplits[idx].value}
-                </span>
-              )}
+                    {matchedSplits[idx].label ?? matchedSplits[idx].value}
+                  </span>
+                )}
+              />
+            </div>
+          </Card>
+          <Card>
+            <MatchedActivitiesTable
+              link={`/split/${split.id}`}
+              activities={matchedSplits}
+              activity={matchedSplits.find(({ id }) => id === activity.id)}
             />
-          </div>
-        </Card>
+          </Card>
+        </>
       )}
     </PageWrapper>
   )

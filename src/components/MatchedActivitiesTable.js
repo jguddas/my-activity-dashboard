@@ -7,7 +7,7 @@ import { Table, Badge, Icon, colors } from 'tabler-react'
 
 import formatDuration from '../utils/formatDuration.js'
 
-function MatchedActivitiesTable({ activities, activity }) {
+function MatchedActivitiesTable({ activities, activity, link = '/activity' }) {
   const [sortMethod, setSortMethod] = useState('startTime')
   const [sortOrder, setSortOder] = useState(false)
 
@@ -88,7 +88,7 @@ function MatchedActivitiesTable({ activities, activity }) {
               >
                 {rank}
               </MyRankBadge>
-              <Link to={`/activity/${id}`}>
+              <Link to={`${link}/${id}`}>
                 {`${name} - ${dayjs(date).format('DD.MM.YYYY')}`}
               </Link>
             </Table.Col>

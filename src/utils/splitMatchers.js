@@ -6,7 +6,7 @@ import getDistance from './getDistance.js'
 import resample from './resample.js'
 import { RESAMPLE_SCALE } from '../constants.js'
 
-const aTobMatcher = ({ a, b }, { trkpts, id }) => {
+const aTobMatcher = ({ a, b }, { trkpts, id, name, date, startTime }) => {
   const adjustTrkpt = (startpt) => ([lat, lon, alt, time, distance]) => [
     lat,
     lon,
@@ -20,13 +20,20 @@ const aTobMatcher = ({ a, b }, { trkpts, id }) => {
       start = i
     }
     if (start && getDistance(b, trkpts[i]) < 0.05) {
+      const duration = trkpts[i][3] - trkpts[start][3]
+      const distance = trkpts[i][4] - trkpts[start][4]
       result.push({
         id,
+        name,
+        date,
+        startTime,
         trkpts: trkpts.slice(start, i).map(adjustTrkpt(trkpts[start])),
         strtpt: trkpts[start],
         endpt: trkpts[i],
         value: trkpts[i][3] - trkpts[start][3],
-        duration: trkpts[i][3] - trkpts[start][3],
+        speed: distance * (3600000 / duration),
+        duration,
+        distance,
         label: formatDuration(trkpts[i][3] - trkpts[start][3]),
       })
       start = null
@@ -35,7 +42,7 @@ const aTobMatcher = ({ a, b }, { trkpts, id }) => {
   return result
 }
 
-const distanceMatcher = ({ distance }, { trkpts, id }) => {
+const distanceMatcher = ({ distance }, { trkpts, id, name, date, startTime }) => {
   const alignedTrpts = resample(
     trkpts.map((trkpt) => [trkpt[4], trkpt[3] / 60000]),
     RESAMPLE_SCALE,
@@ -50,6 +57,12 @@ const distanceMatcher = ({ distance }, { trkpts, id }) => {
   if (isFinite(splits[minIdx])) {
     return [{
       id,
+      name,
+      date,
+      startTime,
+      distance,
+      duration: (distance / splits[minIdx]) * 3600000,
+      speed: splits[minIdx],
       value: splits[minIdx],
       label: `${round(splits[minIdx], 2)}km/h`,
     }]
