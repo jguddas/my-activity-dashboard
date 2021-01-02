@@ -8,7 +8,7 @@ import SyncStarredSegmentsButton from './SyncStarredSegmentsButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
 import SplitsTable from './SplitsTable.js'
 
-function SplitsPage({ splits, history }) {
+function SplitsPage({ splits }) {
   const [loading, setLoading] = React.useState(false)
 
   return (
@@ -24,7 +24,6 @@ function SplitsPage({ splits, history }) {
         <Card>
           <SplitsTable
             splits={splits}
-            onClick={(id) => history.push(`/split/${id}`)}
           />
         </Card>
       ) : (
@@ -38,4 +37,4 @@ function SplitsPage({ splits, history }) {
   )
 }
 
-export default withRouter(SplitsPage)
+export default SplitsPage
