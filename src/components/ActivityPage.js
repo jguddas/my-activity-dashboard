@@ -10,6 +10,7 @@ import OverviewButton from './OverviewButton.js'
 import ExternalSourceButton from './ExternalSourceButton.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ScrollToTopOnMount from './ScrollToTopOnMount.js'
+import MatchedActivitiesTable from './MatchedActivitiesTable.js'
 import DotGraph from './DotGraph.js'
 
 import getDistance from '../utils/getDistance.js'
@@ -46,34 +47,39 @@ function ActivityPage({ activity, activities, history }) {
         />
       ) : null}
       {matchedActivities.length > 1 && (
-      <Card>
-        <MyCardHeader>
-          <MyHeaderText>
-            Matched Activities
-          </MyHeaderText>
-          <MyBadge color="default">
-            <h6>
-              +
-              {formatDuration(activity.duration - minDuration)}
-            </h6>
-          </MyBadge>
-        </MyCardHeader>
-        <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
-          <DotGraph
-            data={durations.map((duration) => duration - minDuration)}
-            selected={[matchedActivities.findIndex(({ id }) => id === activity.id)]}
-            isInteractive
-            onClick={(idx) => history.push(`/activity/${matchedActivities[idx].id}`)}
-            format={(val, idx) => (
-              <span>
-                <strong>{dayjs(matchedActivities[idx].date).format('DD.MM.YYYY')}</strong>
+        < >
+          <Card>
+            <MyCardHeader>
+              <MyHeaderText>
+                Matched Activities
+              </MyHeaderText>
+              <MyBadge color="default">
+                <h6>
+                  +
+                  {formatDuration(activity.duration - minDuration)}
+                </h6>
+              </MyBadge>
+            </MyCardHeader>
+            <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
+              <DotGraph
+                data={durations.map((duration) => duration - minDuration)}
+                selected={[matchedActivities.findIndex(({ id }) => id === activity.id)]}
+                isInteractive
+                onClick={(idx) => history.push(`/activity/${matchedActivities[idx].id}`)}
+                format={(val, idx) => (
+                  <span>
+                    <strong>{dayjs(matchedActivities[idx].date).format('DD.MM.YYYY')}</strong>
                 &nbsp;
-                {formatDuration(matchedActivities[idx].duration)}
-              </span>
-            )}
-          />
-        </div>
-      </Card>
+                    {formatDuration(matchedActivities[idx].duration)}
+                  </span>
+                )}
+              />
+            </div>
+          </Card>
+          <Card>
+            <MatchedActivitiesTable activity={activity} activities={matchedActivities} />
+          </Card>
+        </>
       )}
     </PageWrapper>
   )
