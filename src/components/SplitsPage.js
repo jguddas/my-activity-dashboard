@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import { Card } from 'tabler-react'
 
 import PageWrapper from './PageWrapper.js'

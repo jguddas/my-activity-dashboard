@@ -83,7 +83,7 @@ function SplitPage({ split, activities, activity, history }) {
                 selected={activity ? matchedSplits.reduce((acc, { id }, idx) => (
                   id === activity.id ? [...acc, idx] : acc
                 ), []) : []}
-                onClick={(idx) => history.push(`/split/${split.id}/${matchedSplits[idx].id}`)}
+                onClick={(idx) => history.push(matchedSplits[idx].id)}
                 format={(val, idx) => (
                   <span>
                     <strong>
@@ -98,7 +98,6 @@ function SplitPage({ split, activities, activity, history }) {
           </Card>
           <Card>
             <MatchedActivitiesTable
-              link={`/split/${split.id}`}
               activities={matchedSplits}
               activity={matchedSplits.find(({ id }) => id === activity.id)}
             />
