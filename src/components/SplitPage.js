@@ -9,7 +9,7 @@ import { Card } from 'tabler-react'
 import PageWrapper from './PageWrapper.js'
 import PageHeader from './PageHeader.js'
 import ActivityButton from './ActivityButton.js'
-import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
+import ScrollToTopOnMount from './ScrollToTopOnMount.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
 import ActivityMap from './ActivityMap.js'
 import DotGraph from './DotGraph.js'
@@ -34,7 +34,7 @@ function SplitPage({ split, activities, activity, history }) {
 
   return (
     <PageWrapper>
-      <ScrollToTopOnLocationChange />
+      <ScrollToTopOnMount />
       <PageHeader title={split.name}>
         {activity ? (
           <ActivityButton
