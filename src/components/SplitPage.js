@@ -4,7 +4,6 @@ import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { withRouter, Redirect } from 'react-router-dom'
-import { Card } from 'tabler-react'
 
 import PageWrapper from './PageWrapper.js'
 import PageHeader from './PageHeader.js'
@@ -70,8 +69,8 @@ function SplitPage({ split, activities, activity, history, factor }) {
       )}
       {matchedSplits.length > 0 && (
         < >
-          <Card>
-            <MyCardHeader>
+          <div className="card">
+            <MyCardHeader className="card-header">
               <MyHeaderText>
                 Matched Splits
               </MyHeaderText>
@@ -95,13 +94,13 @@ function SplitPage({ split, activities, activity, history, factor }) {
                 )}
               />
             </div>
-          </Card>
-          <Card>
+          </div>
+          <div className="card">
             <MatchedActivitiesTable
               activities={matchedSplits}
               activity={matchedSplits.find(({ id }) => id === activity.id)}
             />
-          </Card>
+          </div>
         </>
       )}
     </PageWrapper>
@@ -110,7 +109,7 @@ function SplitPage({ split, activities, activity, history, factor }) {
 
 export default withRouter(SplitPage)
 
-const MyCardHeader = styled(Card.Header)`
+const MyCardHeader = styled.div`
   display: flex;
 `
 
