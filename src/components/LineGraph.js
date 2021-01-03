@@ -1,6 +1,7 @@
 import React from 'react'
-import { colors } from 'tabler-react'
 import { ResponsiveLineCanvas } from '../nivo-line.esm.js'
+
+import colors from '../colors.js'
 
 import { drawLine, drawEndCap } from '../utils/lineUtils.js'
 
