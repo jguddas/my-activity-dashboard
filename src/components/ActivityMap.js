@@ -94,7 +94,7 @@ class ActivityMap extends React.Component {
           smoothFactor,
         })
           .addTo(this.map)
-          .on('click', () => history.push(`/activity/${matchedActivity.id}`))
+          .on('click', () => history.push(matchedActivity.id))
       ))
     this.stroke = L.polyline(cords, {
       color: strokeColor,
