@@ -3,18 +3,21 @@ import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { sumBy, groupBy, range } from 'lodash'
 import { Link } from 'react-router-dom'
-import { Card, Button, Badge, colors } from 'tabler-react'
+
+import colors from '../colors.js'
 
 import LineGraph from './LineGraph.js'
-
 import ActivityFooter from './ActivityFooter.js'
 
 function ActivitiesDetailsCard({ activities, month, color }) {
   return (
-    <Card>
-      <MyCardBody>
+    <div className="card">
+      <MyCardBody className="card-body">
         <div>
-          <MyColorLedgendBadge color={color} />
+          <MyColorLedgendBadge
+            className="badge"
+            color={color}
+          />
           <MyColorLedgendText>
             {month.format('MMM YYYY')}
           </MyColorLedgendText>
@@ -25,7 +28,7 @@ function ActivitiesDetailsCard({ activities, month, color }) {
         distance={sumBy(activities, 'distance')}
         speed={sumBy(activities, 'distance') / (sumBy(activities, 'duration') / 3600000)}
       />
-    </Card>
+    </div>
   )
 }
 
@@ -51,25 +54,25 @@ function ActivitiesMonthlyCard({ activities, month }) {
 
   return (
     <>
-      <Card>
-        <MyCardHeader>
+      <div className="card">
+        <MyCardHeader className="card-header">
           <MyButton
-            icon="chevron-left"
-            prefix="fe"
-            RootComponent={Link}
+            className="btn"
             to={`/activities/${currentMonth.add(-1, 'month').format('YYYY-MM')}`}
             disabled={!activitiesGroupedByMonth[currentMonth.add(-1, 'month').format('YYYY-MM')]}
-          />
+          >
+            <i className="fe fe-chevron-left" />
+          </MyButton>
           <MyHeaderText>
             {currentMonth.format('MMM YYYY')}
           </MyHeaderText>
           <MyButton
-            icon="chevron-right"
-            prefix="fe"
-            RootComponent={Link}
+            className="btn"
             to={`/activities/${currentMonth.add(1, 'month').format('YYYY-MM')}`}
             disabled={!activitiesGroupedByMonth[currentMonth.add(1, 'month').format('YYYY-MM')]}
-          />
+          >
+            <i className="fe fe-chevron-right" />
+          </MyButton>
         </MyCardHeader>
         <div style={{ height: '10rem' }}>
           <LineGraph
@@ -84,7 +87,7 @@ function ActivitiesMonthlyCard({ activities, month }) {
             ]}
           />
         </div>
-      </Card>
+      </div>
       <ActivitiesDetailsCard
         activities={currentActivities}
         month={currentMonth}
@@ -113,18 +116,18 @@ const MyHeaderText = styled.h4`
   flex-grow: 1;
 `
 
-const MyCardHeader = styled(Card.Header)`
+const MyCardHeader = styled.div`
   padding: .5rem;
 `
 
-const MyButton = styled(Button)`
+const MyButton = styled(Link)`
   &.disabled {
     cursor: default;
     opacity: 0;
   }
 `
 
-const MyColorLedgendBadge = styled(Badge)`
+const MyColorLedgendBadge = styled.span`
   background-color: ${({ color }) => colors[color] || color};
   display: inline-block !important;
   vertical-align: middle;
@@ -133,7 +136,7 @@ const MyColorLedgendBadge = styled(Badge)`
   height: 1rem;
 `
 
-const MyCardBody = styled(Card.Body)`
+const MyCardBody = styled.div`
   border-top: 1px solid rgba(0, 40, 100, 0.12);
   padding: .75rem 1rem;
 `
