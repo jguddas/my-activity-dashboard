@@ -22,7 +22,10 @@ function ActivityCard({ activity }) {
           </MyCardHeader>
         </Link>
         {activity.trkpts ? (
-          <Link to={`/activity/${encodeURI(activity.id)}`}>
+          <Link
+            to={`/activity/${encodeURI(activity.id)}`}
+            style={{ height: 200 }}
+          >
             <LazyLoad height={200} once>
               <ActivityMap activity={activity} />
             </LazyLoad>
