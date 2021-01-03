@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import loadable from '@loadable/component'
 import { useSelector, useDispatch } from 'react-redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { Error404Page } from 'tabler-react'
 import { parse as parseQuery } from 'query-string'
 
 import PageWrapper from './PageWrapper.js'
@@ -12,6 +11,10 @@ import { exchangeToken } from '../actions/StravaActions.js'
 
 const fallback = () => <PageWrapper />
 
+const Error404Page = loadable(() => import(
+  /* webpackChunkName: "error-404-page" */
+  './Error404Page.js'
+))
 const ActivitiesPage = loadable(() => import(
   /* webpackChunkName: "activities-page" */
   './ActivitiesPage.js'
