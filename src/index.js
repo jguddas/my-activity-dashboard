@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'tabler-react/dist/Tabler.css'
 
-import './index.css'
+import './index.scss'
 import App from './components/App.js'
 import * as serviceWorker from './serviceWorker.js'
 
