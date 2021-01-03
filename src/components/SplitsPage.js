@@ -1,5 +1,4 @@
 import React from 'react'
-import { Card } from 'tabler-react'
 
 import PageWrapper from './PageWrapper.js'
 import PageHeader from './PageHeader.js'
@@ -20,11 +19,11 @@ function SplitsPage({ splits }) {
         />
       </PageHeader>
       {splits.length ? (
-        <Card>
+        <div className="card">
           <SplitsTable
             splits={splits}
           />
-        </Card>
+        </div>
       ) : (
         <div className="text-center">
           <h4 className="text-muted">
