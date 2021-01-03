@@ -1,7 +1,6 @@
 import React from 'react'
 import loadable from '@loadable/component'
 import { useSelector } from 'react-redux'
-import { Grid } from 'tabler-react'
 import { withRouter } from 'react-router-dom'
 
 import PageWrapper from './PageWrapper.js'
@@ -43,20 +42,20 @@ function ActivitiesPage({ activities, month, history }) {
         />
       </PageHeader>
       {activities.length && !loading ? (
-        <Grid.Row className="flex-column-reverse flex-md-row">
-          <Grid.Col md={9} sm={12} width={12} cards>
+        <div className="row flex-column-reverse flex-md-row">
+          <div className="col col-12 col-sm-12 col-md-9">
             <ActivitiesOverview
               activities={activities}
               month={month}
             />
-          </Grid.Col>
-          <Grid.Col md={3} sm={12} width={12} cards>
+          </div>
+          <div className="col col-12 col-sm-12 col-md-3">
             <ActivitiesMonthlyCard
               activities={activities}
               month={month}
             />
-          </Grid.Col>
-        </Grid.Row>
+          </div>
+        </div>
       ) : (
         <div className="text-center">
           <h4 className="text-muted">
