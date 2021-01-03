@@ -2,7 +2,6 @@ import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import { groupBy, round, sumBy } from 'lodash'
-import { Card, Badge, Button } from 'tabler-react'
 import { Link } from 'react-router-dom'
 
 import formatDuration from '../utils/formatDuration.js'
@@ -25,25 +24,25 @@ function ActivitiesOverview({ activities, month }) {
           className="card"
           key={date}
         >
-          <MyCardHeader>
+          <MyCardHeader className="card-header">
             <MyHeaderText>
               <Link to={dayjs(date).format('#DD')}>
                 {dayjs(date).format('ddd DD.MM.YYYY')}
               </Link>
             </MyHeaderText>
-            <MyBadge color="default">
+            <MyBadge className="badge badge-default">
               <h6>
                 {round(sumBy(todaysActivities, 'distance'), 2)}
                 km
               </h6>
             </MyBadge>
-            <MyBadge color="default">
+            <MyBadge className="badge badge-default">
               <h6>
                 {formatDuration(sumBy(todaysActivities, 'duration'))}
               </h6>
             </MyBadge>
           </MyCardHeader>
-          <MyCardBody>
+          <MyCardBody className="card-body">
             {todaysActivities.reverse().map((activity) => (
               <ActivityCard
                 key={activity.id}
@@ -58,8 +57,7 @@ function ActivitiesOverview({ activities, month }) {
           {Object.entries(activitiesGroupedByMonth).map(([key, val]) => (
             <MyButton
               key={key}
-              RootComponent={Link}
-              color={key === month ? 'purple' : 'secondary'}
+              className={`btn btn-${key === month ? 'purple' : 'secondary'}`}
               to={`/activities/${key}`}
             >
               {dayjs(val[0].date).format('MMM YYYY')}
@@ -73,7 +71,7 @@ function ActivitiesOverview({ activities, month }) {
 
 export default ActivitiesOverview
 
-const MyCardHeader = styled(Card.Header)`
+const MyCardHeader = styled.div`
   display: flex;
 `
 
@@ -82,7 +80,7 @@ const MyHeaderText = styled.h4`
   flex-grow: 1;
 `
 
-const MyCardBody = styled(Card.Body)`
+const MyCardBody = styled.div`
   padding-bottom: 0;
   display: flex;
   flex-direction: column-reverse;
@@ -91,12 +89,12 @@ const MyCardBody = styled(Card.Body)`
   }
 `
 
-const MyBadge = styled(Badge)`
+const MyBadge = styled.span`
   h6 { margin-bottom: 0 };
   margin-left: .25rem;
 `
 
-const MyButton = styled(Button)`
+const MyButton = styled(Link)`
   margin-top: .5rem;
   &:not(:last-child) {
     margin-right: .5rem;
