@@ -1,11 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import loadable from '@loadable/component'
 import { Link } from 'react-router-dom'
 import { Card } from 'tabler-react'
 import LazyLoad from 'react-lazyload'
 
-import ActivityMap from './ActivityMap.js'
 import ActivityFooter from './ActivityFooter.js'
+
+const ActivityMap = loadable(() => import(
+  /* webpackChunkName: "activity-map" */
+  './ActivityMap.js'
+))
 
 function ActivityCard({ activity }) {
   return (

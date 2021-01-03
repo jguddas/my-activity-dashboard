@@ -1,16 +1,33 @@
 import React from 'react'
 import dayjs from 'dayjs'
+import loadable from '@loadable/component'
 import { useSelector, useDispatch } from 'react-redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Error404Page } from 'tabler-react'
 import { parse as parseQuery } from 'query-string'
 
-import ActivitiesPage from './ActivitiesPage.js'
-import ActivityPage from './ActivityPage.js'
-import SplitsPage from './SplitsPage.js'
-import SplitPage from './SplitPage.js'
+import PageWrapper from './PageWrapper.js'
 
 import { exchangeToken } from '../actions/StravaActions.js'
+
+const fallback = () => <PageWrapper />
+
+const ActivitiesPage = loadable(() => import(
+  /* webpackChunkName: "activities-page" */
+  './ActivitiesPage.js'
+), { fallback })
+const ActivityPage = loadable(() => import(
+  /* webpackChunkName: "activity-page" */
+  './ActivityPage.js'
+), { fallback })
+const SplitsPage = loadable(() => import(
+  /* webpackChunkName: "splits-page" */
+  './SplitsPage.js'
+), { fallback })
+const SplitPage = loadable(() => import(
+  /* webpackChunkName: "split-page" */
+  './SplitPage.js'
+), { fallback })
 
 function Routes() {
   const activities = useSelector((state) => state.Activity.activities)

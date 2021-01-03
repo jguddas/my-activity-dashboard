@@ -1,4 +1,5 @@
 import React from 'react'
+import loadable from '@loadable/component'
 import { useSelector } from 'react-redux'
 import { Grid } from 'tabler-react'
 import { withRouter } from 'react-router-dom'
@@ -8,8 +9,15 @@ import PageHeader from './PageHeader.js'
 import UploadButton from './UploadButton.js'
 import SyncButton from './SyncButton.js'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange.js'
-import ActivitiesOverview from './ActivitiesOverview.js'
-import ActivitiesMonthlyCard from './ActivitiesMonthlyCard.js'
+
+const ActivitiesOverview = loadable(() => import(
+  /* webpackChunkName: "activities-overview" */
+  './ActivitiesOverview.js'
+))
+const ActivitiesMonthlyCard = loadable(() => import(
+  /* webpackChunkName: "activities-monthly-card" */
+  './ActivitiesMonthlyCard.js'
+))
 
 function ActivitiesPage({ activities, month, history }) {
   const [loading, _setLoading] = React.useState(false)
