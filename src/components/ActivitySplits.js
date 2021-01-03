@@ -9,6 +9,25 @@ import splitMatchers from '../utils/splitMatchers.js'
 function ActivitySplits({ activity }) {
   const splits = useSelector((state) => state.Split.splits)
 
+  const rows = splits.map((split) => {
+    const matchedSplits = splitMatchers[split.type](split, activity)
+    if (!matchedSplits.length) return null
+    return (
+      <Table.Row
+        className="d-block d-md-table-row"
+        key={split.id}
+      >
+        <Table.Col>
+          <Link to={`/split/${split.id}/${activity.id}`}>
+            {split.name}
+          </Link>
+        </Table.Col>
+      </Table.Row>
+    )
+  }).filter(Boolean)
+
+  if (!rows.length) return null
+
   return (
     <Card>
       <MyCardHeader>
@@ -18,22 +37,7 @@ function ActivitySplits({ activity }) {
       </MyCardHeader>
       <Table cards striped responsive>
         <Table.Body>
-          {splits.map((split) => {
-            const matchedSplits = splitMatchers[split.type](split, activity)
-            if (!matchedSplits.length) return null
-            return (
-              <Table.Row
-                className="d-block d-md-table-row"
-                key={split.id}
-              >
-                <Table.Col>
-                  <Link to={`/split/${split.id}/${activity.id}`}>
-                    {split.name}
-                  </Link>
-                </Table.Col>
-              </Table.Row>
-            )
-          })}
+          {rows}
         </Table.Body>
       </Table>
     </Card>
