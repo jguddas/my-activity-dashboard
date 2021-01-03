@@ -1,5 +1,6 @@
 {
   "name": "My Activity Dashboard",
+  "short_name": "My Activity Dashboard",
   "icons": [
    {
     "src": "android-icon-36x36.png",
