@@ -1,21 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Page } from 'tabler-react'
 
 const PageHeader = ({ title, children }) => (
-  <Page.Header>
-    <MyPageTitle>
+  <div className="page-header">
+    <MyPageTitle className="page-title">
       {title}
     </MyPageTitle>
     <div>
       {children}
     </div>
-  </Page.Header>
+  </div>
 )
 
 export default PageHeader
 
-const MyPageTitle = styled(Page.Title)`
+const MyPageTitle = styled.div`
   width: 0;
   flex-grow: 1;
   white-space: nowrap;
