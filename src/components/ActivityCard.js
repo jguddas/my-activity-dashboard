@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import loadable from '@loadable/component'
 import { Link } from 'react-router-dom'
-import { Card } from 'tabler-react'
 import LazyLoad from 'react-lazyload'
 
 import ActivityFooter from './ActivityFooter.js'
@@ -15,9 +14,9 @@ const ActivityMap = loadable(() => import(
 function ActivityCard({ activity }) {
   return (
     <Container>
-      <MyCard>
+      <MyCard className="card">
         <Link to={`/activity/${encodeURI(activity.id)}`}>
-          <MyCardHeader>
+          <MyCardHeader className="card-body">
             <h4>{activity.name}</h4>
           </MyCardHeader>
         </Link>
@@ -44,11 +43,11 @@ function ActivityCard({ activity }) {
 
 export default ActivityCard
 
-const MyCard = styled(Card)`
+const MyCard = styled.div`
   overflow: hidden;
 `
 
-const MyCardHeader = styled(Card.Body)`
+const MyCardHeader = styled.div`
   border-bottom: 1px solid rgba(0, 40, 100, 0.12);
   padding: .75rem 1rem;
 `
