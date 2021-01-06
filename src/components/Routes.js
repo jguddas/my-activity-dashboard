@@ -11,6 +11,10 @@ import { exchangeToken } from '../actions/StravaActions.js'
 
 const fallback = () => <PageWrapper />
 
+const LandingPage = loadable(() => import(
+  /* webpackChunkName: "error-404-page" */
+  './LandingPage.js'
+))
 const Error404Page = loadable(() => import(
   /* webpackChunkName: "error-404-page" */
   './Error404Page.js'
@@ -33,12 +37,27 @@ const SplitPage = loadable(() => import(
 ), { fallback })
 
 function Routes() {
+  const athlete = useSelector((state) => state.Strava.athlete)
   const activities = useSelector((state) => state.Activity.activities)
   const splits = useSelector((state) => state.Split.splits)
   const dispatch = useDispatch()
 
   return (
     <Switch>
+      <Route
+        path="/exchange-token"
+        render={({ location: { search } }) => {
+          const { code } = parseQuery(search)
+          if (!code) return null
+          dispatch(exchangeToken(code))
+          return athlete ? <Redirect to="/" /> : null
+        }}
+      />
+      {!athlete && (
+        <Route path="/">
+          <LandingPage />
+        </Route>
+      )}
       <Route path="/splits" exact>
         <SplitsPage splits={splits} />
       </Route>
@@ -92,15 +111,6 @@ function Routes() {
               factor={0.0005}
             />
           )
-        }}
-      />
-      <Route
-        path="/exchange-token"
-        render={({ location: { search } }) => {
-          const { code } = parseQuery(search)
-          if (!code) return null
-          dispatch(exchangeToken(code))
-          return <Redirect to="/" />
         }}
       />
       <Route
