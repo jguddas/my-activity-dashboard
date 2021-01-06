@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import L from 'leaflet'
 import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
@@ -59,7 +58,7 @@ function SplitPage({ split, activities, activity, history, factor }) {
               }}
               controls
               scrollWheelZoom={isFullscreen}
-              dragging={isFullscreen || !L.Browser.touch}
+              dragging={isFullscreen || 'touch'}
               setFullscreen={setFullscreen}
               smoothFactor={3}
               height={isFullscreen ? '100vh' : 350}

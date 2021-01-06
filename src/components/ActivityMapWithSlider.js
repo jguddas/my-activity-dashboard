@@ -1,5 +1,4 @@
 import React, { useState, useRef, useMemo } from 'react'
-import L from 'leaflet'
 import styled from 'styled-components'
 import screenfull from 'screenfull'
 import { round, maxBy } from 'lodash'
@@ -55,7 +54,7 @@ function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) 
         trimEnd={time * 60000}
         controls
         scrollWheelZoom={isFullscreen}
-        dragging={isFullscreen || !L.Browser.touch}
+        dragging={isFullscreen || 'touch'}
         setFullscreen={setFullscreen}
         smoothFactor={3}
         height={isFullscreen ? 'calc(100vh - 87px)' : 350}

@@ -33,7 +33,7 @@ class ActivityMap extends React.Component {
     this.map = L.map(this.mapId, {
       attributionControl: false,
       zoomControl: false,
-      dragging: controls && dragging !== false,
+      dragging: controls && dragging === 'touch' ? L.Browser.touch : dragging !== false,
       touchZoom: controls,
       doubleClickZoom: controls,
       scrollWheelZoom: controls && scrollWheelZoom !== false,
