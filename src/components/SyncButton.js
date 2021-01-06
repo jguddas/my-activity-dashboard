@@ -34,6 +34,7 @@ function SyncButton({ disabled, setLoading: setLoadingProps }) {
   return (
     <PageHeaderButton
       icon="refresh-cw"
+      className={activitiesFromStore.length ? '' : 'btn-purple'}
       disabled={loading || disabled}
       onClick={() => (async () => {
         setLoading(true)
