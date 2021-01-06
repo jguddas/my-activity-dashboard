@@ -6,9 +6,10 @@ import LoginButton from './LoginButton.js'
 import OverviewButton from './OverviewButton.js'
 import SplitsButton from './SplitsButton.js'
 
-const PageWrapper = ({ children }) => (
+const PageWrapper = ({ children, hideHeader }) => (
   <div className="page">
     <div className="page-main">
+      {!hideHeader && (
       <div className="header py-4">
         <MyContainer className="container">
           <div className="d-inline-block">
@@ -21,6 +22,7 @@ const PageWrapper = ({ children }) => (
           </div>
         </MyContainer>
       </div>
+      )}
       <div className="page-content">
         <div className="container">
           {children}
