@@ -56,23 +56,29 @@ function ActivitiesMonthlyCard({ activities, month }) {
     <>
       <div className="card">
         <MyCardHeader className="card-header">
-          <MyButton
-            className="btn"
-            to={`/activities/${currentMonth.add(-1, 'month').format('YYYY-MM')}`}
-            disabled={!activitiesGroupedByMonth[currentMonth.add(-1, 'month').format('YYYY-MM')]}
-          >
-            <i className="fe fe-chevron-left" />
-          </MyButton>
+          {activitiesGroupedByMonth[currentMonth.add(-1, 'month').format('YYYY-MM')] ? (
+            <Link
+              className="btn"
+              to={`/activities/${currentMonth.add(-1, 'month').format('YYYY-MM')}`}
+            >
+              <i className="fe fe-chevron-left" />
+            </Link>
+          ) : (
+            <div className="btn opacity-0" style={{ cursor: 'unset' }} />
+          )}
           <MyHeaderText>
             {currentMonth.format('MMM YYYY')}
           </MyHeaderText>
-          <MyButton
-            className="btn"
-            to={`/activities/${currentMonth.add(1, 'month').format('YYYY-MM')}`}
-            disabled={!activitiesGroupedByMonth[currentMonth.add(1, 'month').format('YYYY-MM')]}
-          >
-            <i className="fe fe-chevron-right" />
-          </MyButton>
+          {activitiesGroupedByMonth[currentMonth.add(1, 'month').format('YYYY-MM')] ? (
+            <Link
+              className="btn"
+              to={`/activities/${currentMonth.add(1, 'month').format('YYYY-MM')}`}
+            >
+              <i className="fe fe-chevron-right" />
+            </Link>
+          ) : (
+            <div className="btn opacity-0" style={{ cursor: 'unset' }} />
+          )}
         </MyCardHeader>
         <div style={{ height: '10rem' }}>
           <LineGraph
@@ -118,13 +124,6 @@ const MyHeaderText = styled.h4`
 
 const MyCardHeader = styled.div`
   padding: .5rem;
-`
-
-const MyButton = styled(Link)`
-  &.disabled {
-    cursor: default;
-    opacity: 0;
-  }
 `
 
 const MyColorLedgendBadge = styled.span`
