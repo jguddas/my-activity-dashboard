@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { Table, Card } from 'tabler-react'
 import { Link } from 'react-router-dom'
 
 import splitMatchers from '../utils/splitMatchers.js'
@@ -13,40 +12,42 @@ function ActivitySplits({ activity }) {
     const matchedSplits = splitMatchers[split.type](split, activity)
     if (!matchedSplits.length) return null
     return (
-      <Table.Row
+      <tr
         className="d-block d-md-table-row"
         key={split.id}
       >
-        <Table.Col>
+        <td>
           <Link to={`/split/${split.id}/${activity.id}`}>
             {split.name}
           </Link>
-        </Table.Col>
-      </Table.Row>
+        </td>
+      </tr>
     )
   }).filter(Boolean)
 
   if (!rows.length) return null
 
   return (
-    <Card>
-      <MyCardHeader>
+    <div className="card">
+      <MyCardHeader className="card-header">
         <MyHeaderText>
           Splits
         </MyHeaderText>
       </MyCardHeader>
-      <Table cards striped responsive>
-        <Table.Body>
-          {rows}
-        </Table.Body>
-      </Table>
-    </Card>
+      <div className="table-responsive">
+        <table className="table card-table table-striped">
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }
 
 export default ActivitySplits
 
-const MyCardHeader = styled(Card.Header)`
+const MyCardHeader = styled.div`
   display: flex;
 `
 
