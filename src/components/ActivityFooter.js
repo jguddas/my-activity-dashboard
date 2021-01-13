@@ -1,19 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import dayjs from 'dayjs'
 import { round, isFinite } from 'lodash'
-import { Card, Badge } from 'tabler-react'
+
 import formatDuration from '../utils/formatDuration.js'
 
 function ActivityFooter({ distance, speed, duration, startTime }) {
   return (
-    <MyCardBody>
+    <MyCardBody className="card-body">
       {isFinite(distance) && (
         <MyRow>
           <MyRowText>Distance</MyRowText>
           <div>
-            <MyBadge color="default">
+            <MyBadge className="badge badge-default">
               {round(distance, 2).toFixed(2)}
               km
             </MyBadge>
@@ -24,7 +23,7 @@ function ActivityFooter({ distance, speed, duration, startTime }) {
         <MyRow>
           <MyRowText>Average Speed</MyRowText>
           <div>
-            <MyBadge color="default">
+            <MyBadge className="badge badge-default">
               {round(speed, 1).toFixed(1)}
               km/h
             </MyBadge>
@@ -35,7 +34,7 @@ function ActivityFooter({ distance, speed, duration, startTime }) {
         <MyRow>
           <MyRowText>Elapsed Time</MyRowText>
           <div>
-            <MyBadge color="default">
+            <MyBadge className="badge badge-default">
               {formatDuration(duration)}
             </MyBadge>
           </div>
@@ -45,7 +44,7 @@ function ActivityFooter({ distance, speed, duration, startTime }) {
         <MyRow>
           <MyRowText>Start Time</MyRowText>
           <div>
-            <MyBadge color="default">
+            <MyBadge className="badge badge-default">
               {dayjs(startTime).format('HH:MM:ss')}
             </MyBadge>
           </div>
@@ -61,7 +60,7 @@ const MyRowText = styled.div`
   flex-grow: 1;
 `
 
-const MyBadge = styled(Badge)`
+const MyBadge = styled.span`
   min-width: 60px;
 `
 
@@ -69,7 +68,7 @@ const MyRow = styled.div`
   display: flex;
 `
 
-const MyCardBody = styled(Card.Body)`
+const MyCardBody = styled.div`
   border-top: 1px solid rgba(0, 40, 100, 0.12);
   padding: .75rem 1rem;
 `
