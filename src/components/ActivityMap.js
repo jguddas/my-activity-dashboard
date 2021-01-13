@@ -5,8 +5,9 @@ import screenfull from 'screenfull'
 import findLast from 'lodash/findLast.js'
 import findLastIndex from 'lodash/findLastIndex.js'
 import { withRouter } from 'react-router-dom'
-import { Button, colors } from 'tabler-react'
 import 'leaflet/dist/leaflet.css'
+
+import colors from '../colors.js'
 
 const getLatLon = ([lat, lon]) => [lat, lon]
 
@@ -203,34 +204,34 @@ class ActivityMap extends React.Component {
       <div style={{ width }} ref={this.containerRef}>
         {controls ? (
           <MyControl>
-            <Button
-              className="ml-2 mt-2"
-              color="secondary"
-              prefix="fe"
-              icon={isFullscreen ? 'minimize' : 'maximize'}
+            <button
+              className="btn btn-secondary ml-2 mt-2"
+              type="button"
               onClick={() => screenfull.toggle(this.containerRef.current)}
-            />
-            <Button
-              className="ml-2 mt-2"
-              color="secondary"
-              prefix="fe"
-              icon="zoom-in"
+            >
+              <i className={`fe fe-${isFullscreen ? 'minimize' : 'maximize'}`} />
+            </button>
+            <button
+              className="btn btn-secondary ml-2 mt-2"
+              type="button"
               onClick={() => this.map.zoomIn()}
-            />
-            <Button
-              className="ml-2 mt-2"
-              color="secondary"
-              prefix="fe"
-              icon="zoom-out"
+            >
+              <i className="fe fe-zoom-in" />
+            </button>
+            <button
+              className="btn btn-secondary ml-2 mt-2"
+              type="button"
               onClick={() => this.map.zoomOut()}
-            />
-            <Button
-              className="ml-2 mt-2"
-              color="secondary"
-              prefix="fe"
-              icon="target"
-              onClick={this.fitBounds}
-            />
+            >
+              <i className="fe fe-zoom-out" />
+            </button>
+            <button
+              className="btn btn-secondary ml-2 mt-2"
+              type="button"
+              onClick={() => this.fitBounds()}
+            >
+              <i className="fe fe-target" />
+            </button>
           </MyControl>
         ) : null}
         <div
