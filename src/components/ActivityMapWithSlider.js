@@ -9,7 +9,7 @@ import colors from '../colors.js'
 import formatDuration from '../utils/formatDuration.js'
 
 const ActivityMap = React.lazy(() => import(
-  /* webpackChunkName: "ActivityMap" */
+  /* webpackChunkName: "activity-map" */
   './ActivityMap.js'
 ))
 

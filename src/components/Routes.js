@@ -12,7 +12,7 @@ import { exchangeToken } from '../actions/StravaActions.js'
 const fallback = () => <PageWrapper />
 
 const LandingPage = loadable(() => import(
-  /* webpackChunkName: "error-404-page" */
+  /* webpackChunkName: "landing-page" */
   './LandingPage.js'
 ))
 const Error404Page = loadable(() => import(
