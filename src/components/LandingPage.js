@@ -1,7 +1,8 @@
 import React from 'react'
 
 import getCode from '../utils/getCode.js'
-import example from '../example.json'
+import exampleActivity from '../exampleActivity.json'
+import exampleMatchedActivities from '../exampleMatchedActivities.json'
 
 import PageWrapper from './PageWrapper.js'
 import ActivityMapWithSlider from './ActivityMapWithSlider.js'
@@ -41,8 +42,8 @@ function LandingPage() {
         </div>
         <div className="col col-12 col-sm-12 col-md-8 px-md-5">
           <ActivityMapWithSlider
-            activity={example[0]}
-            matchedActivities={example}
+            activity={exampleActivity}
+            matchedActivities={exampleMatchedActivities}
           />
         </div>
       </div>
