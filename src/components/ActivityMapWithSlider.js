@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import screenfull from 'screenfull'
 import maxBy from 'lodash/maxBy.js'
 import round from 'lodash/round.js'
-import { Card, Button, Form, colors } from 'tabler-react'
+import MaskedInput from 'react-text-mask'
 
+import colors from '../colors.js'
 import formatDuration from '../utils/formatDuration.js'
 
 const ActivityMap = React.lazy(() => import(
@@ -52,18 +53,18 @@ function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) 
   const height = isFullscreen ? 'calc(100vh - 87px)' : 350
 
   const body = (
-    <MyCardBody className="bg-white">
+    <MyCardBody className="card-body bg-white">
       <div className="d-flex">
-        <Button
-          icon={playing ? 'pause' : 'play'}
-          prefix="fe"
-          color="purple"
-          className="mr-4"
+        <button
+          className="btn btn-purple mr-4"
+          type="button"
           onClick={() => setState((matchedState) => ({
             playing: !matchedState.playing,
             time: matchedState.time % (maxActivityDurationInMinutes),
           }))}
-        />
+        >
+          <i className={`fe fe-${playing ? 'pause' : 'play'}`} />
+        </button>
         <MyRangeSlider
           type="range"
           className="form-control custom-range"
@@ -73,8 +74,8 @@ function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) 
           max={maxActivityDurationInMinutes}
           value={round(time, 2)}
         />
-        <Form.MaskedInput
-          className="w-9 ml-4 form-control text-center"
+        <MaskedInput
+          className="form-control w-9 ml-4 form-control text-center"
           onChange={(e) => {
             const [hours, minutes, seconds] = e.target.value.split(':')
             const nexttime = (
@@ -127,7 +128,7 @@ function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) 
 
 export default ActivityMapWithSlider
 
-const MyCardBody = styled(Card.Body)`
+const MyCardBody = styled.div`
   border-top: 1px solid rgba(0, 40, 100, 0.12);
 `
 
