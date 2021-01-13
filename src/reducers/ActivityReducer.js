@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import dayjs from 'dayjs'
-import { unionBy } from 'lodash'
+import unionBy from 'lodash/unionBy.js'
 import { createReducer } from '@reduxjs/toolkit'
 
 import { loadGpx } from '../actions/ActivityActions.js'

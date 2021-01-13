@@ -1,4 +1,4 @@
-import { last } from 'lodash'
+import last from 'lodash/last.js'
 
 export const drawEndCap = ({ series, ctx }) => {
   const serie = series.find(({ id }) => id === 0)

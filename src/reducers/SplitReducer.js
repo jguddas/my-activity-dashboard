@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { unionBy } from 'lodash'
+import unionBy from 'lodash/unionBy.js'
 
 import { addSplit } from '../actions/SplitActions.js'
 

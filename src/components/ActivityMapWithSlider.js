@@ -1,7 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import screenfull from 'screenfull'
-import { round, maxBy } from 'lodash'
+import maxBy from 'lodash/maxBy.js'
+import round from 'lodash/round.js'
 import { Card, Button, Form, colors } from 'tabler-react'
 
 import formatDuration from '../utils/formatDuration.js'

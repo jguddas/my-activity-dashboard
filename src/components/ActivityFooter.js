@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
-import { round, isFinite } from 'lodash'
+import isFinite from 'lodash/isFinite.js'
+import round from 'lodash/round.js'
 
 import formatDuration from '../utils/formatDuration.js'
 

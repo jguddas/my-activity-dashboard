@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import dayjs from 'dayjs'
-import { last, round } from 'lodash'
+import last from 'lodash/last.js'
+import round from 'lodash/round.js'
 
 const mapStrava = ({ id, name, distance, streams, start_date, elapsed_time }) => {
   const trkpts = streams ? streams.time.data.map((time, idx) => ([

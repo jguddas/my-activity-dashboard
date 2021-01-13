@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react'
 import dayjs from 'dayjs'
-import { isFinite } from 'lodash'
+import isFinite from 'lodash/isFinite.js'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { loadGpx } from '../actions/ActivityActions.js'

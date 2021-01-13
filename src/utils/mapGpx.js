@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import dayjs from 'dayjs'
-import { last, round } from 'lodash'
+import round from 'lodash/round.js'
+import last from 'lodash/last.js'
 
 import getDistance from './getDistance.js'
 

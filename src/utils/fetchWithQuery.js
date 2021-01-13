@@ -1,4 +1,5 @@
-import { mapKeys, snakeCase } from 'lodash'
+import snakeCase from 'lodash/snakeCase.js'
+import mapKeys from 'lodash/mapKeys.js'
 import { stringify as stringifyQuery } from 'query-string'
 
 const snakeCaseKeys = (obj) => mapKeys(obj, (val, key) => snakeCase(key))

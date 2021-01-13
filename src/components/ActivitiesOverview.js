@@ -1,7 +1,9 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
-import { groupBy, round, sumBy } from 'lodash'
+import sumBy from 'lodash/sumBy.js'
+import round from 'lodash/round.js'
+import groupBy from 'lodash/groupBy.js'
 import { Link } from 'react-router-dom'
 
 import formatDuration from '../utils/formatDuration.js'

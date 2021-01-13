@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
-import { sumBy, groupBy, range } from 'lodash'
+import sumBy from 'lodash/sumBy.js'
+import groupBy from 'lodash/groupBy.js'
+import range from 'lodash/range.js'
 import { Link } from 'react-router-dom'
 
 import colors from '../colors.js'
