@@ -48,7 +48,7 @@ const DotGraph = ({
           if (position.x === null || position.y === null || !(idx % 2)) {
             return null
           }
-          ctx.strokeStyle = colors.gray
+          ctx.strokeStyle = 'gray'
           if (selected.map((val) => val * 2 + 1).includes(idx)) {
             ctx.strokeStyle = 'black'
             ctx.lineWidth = lineWidth + 2
@@ -71,11 +71,11 @@ const DotGraph = ({
           ctx.strokeStyle = 'black'
           const isSelected = selected.map((val) => val * 2 + 1).includes(idx)
           ctx.fillStyle = isSelected ? colors.purple : colors.gray
-          ctx.lineWidth = isSelected ? 2 : 1
+          ctx.lineWidth = 2
           ctx.beginPath()
-          ctx.arc(position.x, position.y, 3, 0, 2 * Math.PI)
+          ctx.arc(position.x, position.y, isSelected ? 3 : 2, 0, 2 * Math.PI)
           ctx.stroke()
-          ctx.arc(position.x, position.y, 3, 0, 2 * Math.PI)
+          ctx.arc(position.x, position.y, isSelected ? 3 : 2, 0, 2 * Math.PI)
           ctx.fill()
         })
     }]}
