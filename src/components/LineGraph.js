@@ -12,7 +12,7 @@ const LineGraph = ({ data }) => (
       data: val.map((y, x) => ({ x, y })),
     })).reverse()}
     colors={[
-      colors['gray-lighter'],
+      colors.grayLighter,
       colors.gray,
       colors.purple,
     ]}

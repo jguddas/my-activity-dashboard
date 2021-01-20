@@ -109,7 +109,7 @@ function ActivitiesMonthlyCard({ activities, month }) {
       <ActivitiesDetailsCard
         activities={activitiesGroupedByMonth[currentMonth.add(-2, 'month').format('YYYY-MM')] || []}
         month={currentMonth.add(-2, 'month')}
-        color={colors['gray-lighter']}
+        color={colors.grayLighter}
       />
     </>
   )
