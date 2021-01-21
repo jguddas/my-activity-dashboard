@@ -54,19 +54,17 @@ function ActivitiesOverview({ activities, month }) {
           </MyCardBody>
         </ScrollToElementOnHashChange>
       )) }
-      {(
-        <Pagination>
-          {Object.entries(activitiesGroupedByMonth).map(([key, val]) => (
-            <MyButton
-              key={key}
-              className={`btn btn-${key === month ? 'purple' : 'secondary'}`}
-              to={`/activities/${key}`}
-            >
-              {dayjs(val[0].date).format('MMM YYYY')}
-            </MyButton>
-          )).reverse()}
-        </Pagination>
-      )}
+      <Pagination>
+        {Object.entries(activitiesGroupedByMonth).map(([key, val]) => (
+          <MyButton
+            key={key}
+            className={`btn btn-${key === month ? 'purple' : 'secondary'}`}
+            to={`/activities/${key}`}
+          >
+            {dayjs(val[0].date).format('MMM YYYY')}
+          </MyButton>
+        )).reverse()}
+      </Pagination>
     </>
   )
 }

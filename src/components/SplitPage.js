@@ -87,7 +87,7 @@ function SplitPage({ split, activities, activity, history, factor }) {
                     <strong>
                       {dayjs(activities.find(({ id }) => id === matchedSplits[idx].id).date).format('DD.MM.YYYY')}
                     </strong>
-                  &nbsp;
+                    &nbsp;
                     {matchedSplits[idx].label ?? matchedSplits[idx].value}
                   </span>
                 )}

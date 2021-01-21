@@ -16,7 +16,7 @@ function ScrollToElementOnHashChange({ id, className, children }) {
     isMounted.current = true
   }
 
-  useEffect(onChange, [hash])
+  useEffect(onChange, [hash, id])
 
   return (
     <div className={className} id={id} ref={ref}>

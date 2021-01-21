@@ -21,7 +21,7 @@ const ActivitiesMonthlyCard = loadable(() => import(
 
 function ActivitiesPage({ activities, month, history }) {
   const [max, setMax] = React.useState(0)
-  const [loading, _setLoading] = React.useState(false)
+  const [loading, setLoadingState] = React.useState(false)
   React.useEffect(() => {
     setMax((_max) => {
       if (isFinite(loading)) {
@@ -34,7 +34,7 @@ function ActivitiesPage({ activities, month, history }) {
     if (value && !loading) {
       history.replace({ hash: '' })
     }
-    _setLoading(value)
+    setLoadingState(value)
   }
   const isLogedIn = useSelector((state) => !!state.Strava.athlete)
   const showProgress = isFinite(loading) && isFinite(max)
