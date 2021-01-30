@@ -75,10 +75,6 @@
           "consistent": false
         }
       ],
-      "import/extensions": [
-        "error",
-        "always"
-      ],
       "filenames/match-exported": [
         "error",
         null
