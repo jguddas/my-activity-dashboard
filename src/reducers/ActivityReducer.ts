@@ -5,10 +5,17 @@ import { createReducer } from '@reduxjs/toolkit'
 
 import { loadGpx } from '../actions/ActivityActions'
 
-export default createReducer({ activities: [] }, {
-  [loadGpx]: (state, action) => ({
-    ...state,
-    activities: unionBy([action.payload], state.activities, 'id')
-      .sort((a, b) => dayjs(b.startTime).diff(a.startTime)),
-  }),
-})
+import { Activity } from '../types/activity'
+
+type State = { activities: Activity[] }
+
+const initialState = { activities: [] } as State
+
+export default createReducer(initialState, (builder) => (
+  builder
+    .addCase(loadGpx, (state, action):State => ({
+      ...state,
+      activities: unionBy([action.payload], state.activities, 'id')
+        .sort((a, b) => dayjs(b.startTime).diff(a.startTime)),
+    }))
+))
