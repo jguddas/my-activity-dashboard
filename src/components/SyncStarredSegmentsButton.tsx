@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../store'
 
 import { addSplit } from '../actions/SplitActions'
 import { getStarredSegments } from '../actions/StravaActions'

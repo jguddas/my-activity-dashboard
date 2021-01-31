@@ -1,8 +1,8 @@
 import React from 'react'
 import loadable from '@loadable/component'
 import isFinite from 'lodash/isFinite'
-import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { useSelector } from '../store'
 
 import PageWrapper from './PageWrapper'
 import PageHeader from './PageHeader'

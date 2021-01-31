@@ -2,7 +2,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import isFinite from 'lodash/isFinite'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../store'
 
 import { loadGpx } from '../actions/ActivityActions'
 import { getActivities, getActivityStream } from '../actions/StravaActions'

@@ -1,9 +1,9 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import loadable from '@loadable/component'
-import { useSelector, useDispatch } from 'react-redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { parse as parseQuery } from 'query-string'
+import { useSelector, useDispatch } from '../store'
 
 import PageWrapper from './PageWrapper'
 
