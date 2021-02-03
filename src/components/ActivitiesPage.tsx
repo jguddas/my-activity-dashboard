@@ -1,7 +1,6 @@
 import React from 'react'
 import loadable from '@loadable/component'
-import isFinite from 'lodash/isFinite'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useSelector } from '../store'
 
 import PageWrapper from './PageWrapper'
@@ -9,6 +8,8 @@ import PageHeader from './PageHeader'
 import UploadButton from './UploadButton'
 import SyncButton from './SyncButton'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange'
+
+import { Activity } from '../types/activity'
 
 const ActivitiesOverview = loadable(() => import(
   /* webpackChunkName: "activities-overview" */
@@ -19,40 +20,48 @@ const ActivitiesMonthlyCard = loadable(() => import(
   './ActivitiesMonthlyCard'
 ))
 
-function ActivitiesPage({ activities, month, history }) {
+type Props = {
+  activities: Activity[]
+  month: string
+}
+
+function ActivitiesPage({ activities, month }:Props) {
+  const history = useHistory()
   const [max, setMax] = React.useState(0)
-  const [loading, setLoadingState] = React.useState(false)
+  const [{ isLoading, loading }, setLoadingState] = React.useState({
+    isLoading: false,
+    loading: 0,
+  })
   React.useEffect(() => {
     setMax((_max) => {
-      if (isFinite(loading)) {
+      if (isLoading) {
         return loading > _max ? loading : _max
       }
       return 0
     })
-  }, [loading, setMax])
-  const setLoading = (value) => {
-    if (value && !loading) {
+  }, [loading, isLoading, setMax])
+  const setLoading = (_isLoading:boolean, value:number) => {
+    if (value && !isLoading) {
       history.replace({ hash: '' })
     }
-    setLoadingState(value)
+    setLoadingState({ isLoading: _isLoading, loading: value })
   }
   const isLogedIn = useSelector((state) => !!state.Strava.athlete)
-  const showProgress = isFinite(loading) && isFinite(max)
 
   return (
     <PageWrapper>
       <ScrollToTopOnLocationChange />
       <PageHeader title="My Activities">
         <SyncButton
-          disabled={loading}
+          disabled={isLoading}
           setLoading={setLoading}
         />
         <UploadButton
-          disabled={loading}
+          disabled={isLoading}
           setLoading={setLoading}
         />
       </PageHeader>
-      {activities.length && !loading ? (
+      {activities.length && !isLoading ? (
         <div className="row flex-column-reverse flex-md-row">
           <div className="col col-12 col-sm-12 col-md-9">
             <ActivitiesOverview
@@ -71,12 +80,12 @@ function ActivitiesPage({ activities, month, history }) {
         <div className="text-center">
           <h4 className="text-muted">
             {
-              loading
+              isLoading
                 ? 'Loading...'
                 : `Upload or ${isLogedIn ? '' : 'Login and '}Sync activities to get started.`
             }
           </h4>
-          {showProgress && (
+          {isLoading && loading > 0 && max > 0 && (
             <div className="progress progress-sm">
               <div
                 className="progress-bar bg-purple"
@@ -93,4 +102,4 @@ function ActivitiesPage({ activities, month, history }) {
   )
 }
 
-export default withRouter(ActivitiesPage)
+export default ActivitiesPage

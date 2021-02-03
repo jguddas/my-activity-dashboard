@@ -10,8 +10,15 @@ import PageHeaderButton from './PageHeaderButton'
 
 function UploadButton({ disabled, setLoading: setLoadingProps }) {
   const dispatch = useDispatch()
-  const [loading, setLoading] = React.useState(false)
+  const [{ isLoading, loading }, setLoadingState] = React.useState({
+    isLoading: false,
+    loading: 0,
+  })
   const fileSelector = React.useRef()
+  const setLoading = React.useCallback((_isLoading:boolean, value:number) => {
+    setLoadingState({ isLoading: _isLoading, loading: value })
+    setLoadingProps(_isLoading, value)
+  }, [setLoadingProps])
   React.useEffect(() => {
     const loadFile = (file) => new Promise((resolve) => {
       const reader = new FileReader()
@@ -30,27 +37,25 @@ function UploadButton({ disabled, setLoading: setLoadingProps }) {
     fileSelector.current.setAttribute('multiple', 'multiple')
     fileSelector.current.addEventListener('input', () => {
       const files = Array.from(fileSelector.current.files)
-      files.reduce((acc, file, idx, arr) => acc.then(() => {
-        const nextLoading = arr.length - idx - 1
-        if (setLoadingProps && !nextLoading) {
-          setLoadingProps(false)
-        }
-        setLoading(nextLoading)
-        return loadFile(file)
-      }), Promise.resolve())
-      if (setLoadingProps) setLoadingProps(!!files.length)
-      setLoading(files.length)
+      files.reduce((acc, file, idx, arr) => acc
+        .then(() => loadFile(file))
+        .then(() => {
+          const nextLoading = arr.length - idx - 1
+          setLoading(!!nextLoading, nextLoading)
+        }).catch(() => setLoading(false, 0)),
+      Promise.resolve())
+      setLoading(!!files.length, files.length)
     })
   })
 
   return (
     <PageHeaderButton
       color="secondary"
-      disabled={loading || disabled}
+      disabled={isLoading || disabled}
       icon="upload"
       onClick={() => fileSelector.current.click()}
     >
-      {loading ? `Upload (${loading})` : 'Upload'}
+      {isLoading && loading > 0 ? `Upload (${loading})` : 'Upload'}
     </PageHeaderButton>
   )
 }

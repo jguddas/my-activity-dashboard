@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react'
 import dayjs from 'dayjs'
-import isFinite from 'lodash/isFinite'
 import { useSelector, useDispatch } from '../store'
 
 import { loadGpx } from '../actions/ActivityActions'
@@ -12,16 +11,19 @@ import mapStava from '../utils/mapStrava'
 import PageHeaderButton from './PageHeaderButton'
 
 function SyncButton({ disabled, setLoading: setLoadingProps }) {
-  const [loading, setLoadingState] = React.useState()
+  const [{ isLoading, loading }, setLoadingState] = React.useState({
+    isLoading: false,
+    loading: 0,
+  })
   const dispatch = useDispatch()
   const accessToken = useSelector((state) => state.Strava.accessToken)
   const activitiesFromStore = useSelector((state) => state.Activity.activities)
 
   if (!accessToken) return null
 
-  const setLoading = (val) => {
-    setLoadingState(val)
-    setLoadingProps(val)
+  const setLoading = (_isLoading, value) => {
+    setLoadingState({ isLoading: _isLoading, loading: value })
+    setLoadingProps(_isLoading, value)
   }
 
   const myDispatch = (action) => dispatch(action)
@@ -35,9 +37,9 @@ function SyncButton({ disabled, setLoading: setLoadingProps }) {
     <PageHeaderButton
       icon="refresh-cw"
       className={activitiesFromStore.length ? '' : 'btn-purple'}
-      disabled={loading || disabled}
+      disabled={isLoading || disabled}
       onClick={() => (async () => {
-        setLoading(true)
+        setLoading(true, 0)
         const isNew = (activity) => (
           activitiesFromStore.every(({ id }) => id !== `${activity.id}`)
         )
@@ -53,7 +55,7 @@ function SyncButton({ disabled, setLoading: setLoadingProps }) {
         }))).filter(isNew)
         for (let i = activities.length - 1; i >= 0; i -= 1) {
           const activity = activities[i]
-          setLoading(i)
+          setLoading(true, i)
           if (activity.start_latlng) {
             // eslint-disable-next-line no-await-in-loop
             const streams = await myDispatch(getActivityStream({
@@ -66,10 +68,10 @@ function SyncButton({ disabled, setLoading: setLoadingProps }) {
             dispatch(loadGpx(mapStava(activity)))
           }
         }
-        setLoading(false)
+        setLoading(false, 0)
       })().catch((err) => alert(err.message))}
     >
-      {loading && isFinite(loading) ? `Sync (${loading})` : 'Sync'}
+      {isLoading && loading > 0 ? `Sync (${loading})` : 'Sync'}
     </PageHeaderButton>
   )
 }
