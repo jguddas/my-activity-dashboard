@@ -13,7 +13,11 @@ const MatchedActivitiesButton = ({ activity, activities }) => {
     !isRoundTrip
     && activities.some((_activity) => (
       _activity.id !== activity.id
-      && (splitMatchers.matched(activity, _activity)).length
+      && (splitMatchers.matched({
+        activity,
+        type: 'matched',
+        name: activity.name,
+      }, _activity)).length
     ))
   ) {
     return (

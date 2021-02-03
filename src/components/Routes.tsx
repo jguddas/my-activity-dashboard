@@ -79,7 +79,7 @@ function Routes() {
               activity={activity}
               splits={splits}
               split={{
-                ...activity,
+                activity,
                 name: 'Matched Activities',
                 type: 'matched',
               }}

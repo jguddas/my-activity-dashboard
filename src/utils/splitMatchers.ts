@@ -75,9 +75,9 @@ const activityMatcher = (split, activity) => {
   if (
     activity.startpt
       && activity.endpt
-      && Math.abs(split.distance - activity.distance) < 2
-      && getDistance(activity.endpt, split.endpt) < 0.5
-      && getDistance(activity.startpt, split.startpt) < 0.5
+      && Math.abs(split.activity.distance - activity.distance) < 2
+      && getDistance(activity.endpt, split.activity.endpt) < 0.5
+      && getDistance(activity.startpt, split.activity.startpt) < 0.5
   ) {
     return [{
       ...activity,
