@@ -34,7 +34,6 @@ function ActivityCard({ activity }) {
           distance={activity.distance}
           speed={activity.speed}
           duration={activity.duration}
-          startTime={activity.startTime}
         />
       </MyCard>
     </Container>

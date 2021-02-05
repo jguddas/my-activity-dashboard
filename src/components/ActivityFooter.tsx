@@ -1,12 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import dayjs from 'dayjs'
 import isFinite from 'lodash/isFinite'
 import round from 'lodash/round'
 
 import formatDuration from '../utils/formatDuration'
 
-function ActivityFooter({ distance, speed, duration, startTime }) {
+type Props = {
+  distance: number
+  speed: number
+  duration: number
+}
+
+function ActivityFooter({ distance, speed, duration }: Props) {
   return (
     <MyCardBody className="card-body">
       {isFinite(distance) && (
@@ -37,16 +42,6 @@ function ActivityFooter({ distance, speed, duration, startTime }) {
           <div>
             <MyBadge className="badge badge-default">
               {formatDuration(duration)}
-            </MyBadge>
-          </div>
-        </MyRow>
-      )}
-      {isFinite(startTime) && (
-        <MyRow>
-          <MyRowText>Start Time</MyRowText>
-          <div>
-            <MyBadge className="badge badge-default">
-              {dayjs(startTime).format('HH:MM:ss')}
             </MyBadge>
           </div>
         </MyRow>
