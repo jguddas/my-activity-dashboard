@@ -48,9 +48,9 @@ function Routes() {
         path="/exchange-token"
         render={({ location: { search } }) => {
           const { code } = parseQuery(search)
-          if (!code || typeof code !== 'string') return <Error404Page/>
+          if (!code || typeof code !== 'string') return <Error404Page />
           dispatch(exchangeToken(code))
-          return athlete ? <Redirect to="/" /> : <PageWrapper/>
+          return athlete ? <Redirect to="/" /> : <PageWrapper />
         }}
       />
       {!athlete && (
