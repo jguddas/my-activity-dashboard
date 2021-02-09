@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 
 import PageHeaderButton from './PageHeaderButton'
 
-const ActivityButton = ({ to }) => (
+type Props = { to: string }
+
+const ActivityButton = ({ to }: Props):JSX.Element => (
   <PageHeaderButton
     RootComponent={Link}
     to={to}
