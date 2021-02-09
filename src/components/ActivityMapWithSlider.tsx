@@ -1,31 +1,44 @@
 import React, { useState, useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import screenfull from 'screenfull'
-import maxBy from 'lodash/maxBy'
 import round from 'lodash/round'
 import MaskedInput from 'react-text-mask'
 
 import colors from '../colors'
 import formatDuration from '../utils/formatDuration'
 
+import { ActivityWithTrkpts, SkeletonActivity } from '../types/activity'
+
 const ActivityMap = React.lazy(() => import(
   /* webpackChunkName: "activity-map" */
   './ActivityMap'
 ))
 
-function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) {
+type Props = {
+  activity: ActivityWithTrkpts | SkeletonActivity
+  matchedActivities?: ActivityWithTrkpts[] | SkeletonActivity[]
+  factor?: number
+}
+
+function ActivityMapWithSlider({
+  activity,
+  matchedActivities = [],
+  factor = 0.005,
+}:Props):JSX.Element {
   const maxActivityDurationInMinutes = useMemo(() => Math.ceil(
-    maxBy([activity].concat(matchedActivities), 'duration').duration / 60000,
+    [activity].concat(matchedActivities)
+      .reduce((acc, { duration }) => (acc > duration ? acc : duration), 0)
+      / 60000,
   ), [activity, matchedActivities])
-  const requestRef = useRef()
-  const matchedTimeRef = useRef()
+  const requestRef = useRef(0)
+  const matchedTimeRef = useRef(0)
   const [
     { playing, time },
     setState,
-  ] = useState({ time: maxActivityDurationInMinutes })
+  ] = useState({ time: maxActivityDurationInMinutes, playing: false })
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const animate = (newTime) => {
+  const animate = (newTime:number) => {
     if (matchedTimeRef.current !== undefined) {
       setState((matchedState) => {
         const deltaTime = newTime - matchedTimeRef.current
@@ -48,7 +61,9 @@ function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) 
     return () => cancelAnimationFrame(requestRef.current)
   }, [animate])
 
-  const [isFullscreen, setFullscreen] = useState(screenfull.isFullscreen)
+  const [isFullscreen, setFullscreen] = useState(
+    screenfull.isEnabled ? screenfull.isFullscreen : false,
+  )
 
   const height = isFullscreen ? 'calc(100vh - 87px)' : 350
 
@@ -68,7 +83,10 @@ function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) 
         <MyRangeSlider
           type="range"
           className="form-control custom-range"
-          onChange={(e) => setState(({ time: Number(e.target.value) }))}
+          onChange={(e) => setState(({
+            time: Number(e.target.value),
+            playing: false,
+          }))}
           step={0.1}
           min={0}
           max={maxActivityDurationInMinutes}
@@ -84,7 +102,7 @@ function ActivityMapWithSlider({ activity, matchedActivities, factor = 0.005 }) 
               + parseInt(seconds, 10) / 60
             )
             if (nexttime <= maxActivityDurationInMinutes) {
-              setState({ time: nexttime })
+              setState({ time: nexttime, playing: false })
             }
           }}
           onClick={() => setState((matchedState) => ({
