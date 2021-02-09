@@ -8,11 +8,11 @@ import PageHeaderButton from './PageHeaderButton'
 
 import getCode from '../utils/getCode'
 
-function LoginButton() {
+function LoginButton():JSX.Element {
   const dispatch = useDispatch()
   const { athlete, accessToken } = useSelector((state) => state.Strava)
 
-  const unAuth = () => dispatch(deauthorize(accessToken))
+  const unAuth = () => accessToken && dispatch(deauthorize(accessToken))
 
   return (
     <PageHeaderButton
