@@ -7,7 +7,7 @@ import Routes from './Routes'
 
 import store, { persistor } from '../store'
 
-function App() {
+function App():JSX.Element {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
