@@ -8,11 +8,19 @@ import sortBy from 'lodash/sortBy'
 import colors from '../colors'
 import formatDuration from '../utils/formatDuration'
 
-function MatchedActivitiesTable({ activities, activity }) {
-  const [sortMethod, setSortMethod] = useState('startTime')
+import { Activity } from '../types/activity'
+
+type Props = {
+  activity: Activity
+  activities: Activity[]
+}
+type ColumnName = 'startTime' | 'distance' | 'speed' | 'duration'
+
+function MatchedActivitiesTable({ activities, activity }:Props):JSX.Element {
+  const [sortMethod, setSortMethod] = useState<ColumnName>('startTime')
   const [sortOrder, setSortOder] = useState(false)
 
-  const toggleSort = (name) => (
+  const toggleSort = (name:ColumnName) => (
     name === sortMethod
       ? setSortOder((preSortOrder) => !preSortOrder)
       : setSortMethod(name)
