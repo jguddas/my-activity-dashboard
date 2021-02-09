@@ -3,7 +3,7 @@ import { Trkpt } from '../types/activity'
 const getDistance = (
   [lat1, lon1]:[number, number]|Trkpt,
   [lat2, lon2]:[number, number]|Trkpt,
-) => {
+):number => {
   function deg2rad(deg:number) {
     return deg * (Math.PI / 180)
   }
