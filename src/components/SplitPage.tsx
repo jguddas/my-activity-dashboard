@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
-import { withRouter, Redirect } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 
 import PageWrapper from './PageWrapper'
 import PageHeader from './PageHeader'
@@ -15,8 +15,21 @@ import MatchedActivitiesTable from './MatchedActivitiesTable'
 
 import splitMatchers from '../utils/splitMatchers'
 
-function SplitPage({ split, activities, activity, history, factor }) {
-  const [isFullscreen, setFullscreen] = useState(screenfull.isFullscreen)
+import { Split } from '../types/split'
+import { Activity } from '../types/activity'
+
+type Props = {
+  split: Split,
+  activities: Activity[],
+  activity: Activity,
+  factor?: number
+}
+
+function SplitPage({ split, activities, activity, factor }: Props):JSX.Element {
+  const history = useHistory()
+  const [isFullscreen, setFullscreen] = useState(
+    screenfull.isEnabled ? screenfull.isFullscreen : false,
+  )
 
   const matchedSplits = activities
     .filter((_activity) => _activity.trkpts)
@@ -51,7 +64,7 @@ function SplitPage({ split, activities, activity, history, factor }) {
         ) : (
           <div className="card">
             <ActivityMap
-              activity={{
+              activity={split.type === 'matched' ? split.activity : {
                 trkpts: [split.a, split.b],
                 startpt: split.a,
                 endpt: split.b,
@@ -106,7 +119,7 @@ function SplitPage({ split, activities, activity, history, factor }) {
   )
 }
 
-export default withRouter(SplitPage)
+export default SplitPage
 
 const MyCardHeader = styled.div`
   display: flex;
