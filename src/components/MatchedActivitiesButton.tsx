@@ -6,7 +6,14 @@ import PageHeaderButton from './PageHeaderButton'
 import splitMatchers from '../utils/splitMatchers'
 import getDistance from '../utils/getDistance'
 
-const MatchedActivitiesButton = ({ activity, activities }) => {
+import { Activity } from '../types/activity'
+
+type Props = {
+  activity: Activity
+  activities: Activity[]
+}
+
+const MatchedActivitiesButton = ({ activity, activities }: Props):JSX.Element|null => {
   const isRoundTrip = !(activity.startpt || activity.endpt)
     || getDistance(activity.startpt, activity.endpt) <= 0.5
   if (
