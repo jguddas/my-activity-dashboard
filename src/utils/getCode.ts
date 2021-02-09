@@ -6,7 +6,7 @@ import {
   STRAVA_OAUTH_URL,
 } from '../constants'
 
-const getCode = () => {
+const getCode = ():void => {
   window.open(`${STRAVA_OAUTH_URL}?${stringifyQuery({
     client_id: STRAVA_CLIENT_ID,
     response_type: 'code',
