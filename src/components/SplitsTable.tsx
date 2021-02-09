@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const SplitsTable = ({ splits }) => (
+import { Split } from '../types/split'
+
+type Props = { splits: Split[] }
+
+const SplitsTable = ({ splits }:Props):JSX.Element => (
   <div className="table-responsive">
     <table className="table card-table table-striped">
       <tbody>
