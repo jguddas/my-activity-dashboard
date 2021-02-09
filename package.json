@@ -85,6 +85,7 @@
         "error",
         "never"
       ],
+      "react/require-default-props": "off",
       "react/prop-types": "off",
       "react/jsx-filename-extension": "off",
       "react/static-property-placement": "off"
