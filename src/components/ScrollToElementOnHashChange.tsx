@@ -1,10 +1,16 @@
 import React, { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
-function ScrollToElementOnHashChange({ id, className, children }) {
+type Props = {
+  id: string
+  className: string
+  children: React.ReactNode
+}
+
+function ScrollToElementOnHashChange({ id, className, children }:Props):JSX.Element {
   const { hash } = useLocation()
   const isMounted = useRef(false)
-  const ref = useRef()
+  const ref = useRef<HTMLDivElement>(null)
 
   const onChange = () => {
     if (hash === `#${id}` && ref.current) {
