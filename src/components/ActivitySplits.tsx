@@ -5,7 +5,13 @@ import { useSelector } from '../store'
 
 import splitMatchers from '../utils/splitMatchers'
 
-function ActivitySplits({ activity }) {
+import { Activity } from '../types/activity'
+
+type Props = {
+  activity: Activity
+}
+
+function ActivitySplits({ activity }:Props):JSX.Element|null {
   const splits = useSelector((state) => state.Split.splits)
 
   const rows = splits.map((split) => {
