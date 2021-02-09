@@ -6,12 +6,16 @@ import LazyLoad from 'react-lazyload'
 
 import ActivityFooter from './ActivityFooter'
 
+import { Activity } from '../types/activity'
+
 const ActivityMap = loadable(() => import(
   /* webpackChunkName: "activity-map" */
   './ActivityMap'
 ))
 
-function ActivityCard({ activity }) {
+type Props = { activity: Activity }
+
+function ActivityCard({ activity }:Props):JSX.Element {
   return (
     <Container>
       <MyCard className="card">
