@@ -11,7 +11,15 @@ import colors from '../colors'
 import LineGraph from './LineGraph'
 import ActivityFooter from './ActivityFooter'
 
-function ActivitiesDetailsCard({ activities, month, color }) {
+import { Activity } from '../types/activity'
+
+type CardProps = {
+  activities: Activity[]
+  month: dayjs.Dayjs
+  color: string
+}
+
+function ActivitiesDetailsCard({ activities, month, color }:CardProps) {
   return (
     <div className="card">
       <MyCardBody className="card-body">
@@ -34,23 +42,28 @@ function ActivitiesDetailsCard({ activities, month, color }) {
   )
 }
 
-function ActivitiesMonthlyCard({ activities, month }) {
+type Props = {
+  activities: Activity[]
+  month: string
+}
+
+function ActivitiesMonthlyCard({ activities, month }: Props):JSX.Element|null {
   const activitiesGroupedByMonth = React.useMemo(() => groupBy(
     activities,
     ({ date }) => dayjs(date).format('YYYY-MM'),
   ), [activities])
   const currentActivities = activitiesGroupedByMonth[month]
-  const currentMonth = currentActivities && dayjs(currentActivities[0].date)
+  const currentMonth = currentActivities ? dayjs(currentActivities[0].date) : dayjs()
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const getTimeSeriesData = React.useMemo(() => {
-    if (!currentActivities) return null
-    const activitiesGroupedByDate = groupBy(activities, 'date')
-    return (date) => range(0, date.daysInMonth())
+  const activitiesGroupedByDate = React.useMemo(() => groupBy(activities, 'date'), [activities])
+
+  const getTimeSeriesData = React.useCallback(
+    (date: dayjs.Dayjs) => range(0, date.daysInMonth())
       .map((val) => date.date(val).format('YYYY-MM-DD'))
       .map((val) => sumBy(activitiesGroupedByDate[val] || [], 'distance'))
-      .reduce((acc, val, idx) => (acc ? [...acc, (acc[idx - 1] || 0) + val] : [val]), [])
-  }, [activities, currentActivities])
+      .reduce<number[]>((acc, val, idx) => (acc ? [...acc, (acc[idx - 1] || 0) + val] : [val]), []),
+    [activitiesGroupedByDate],
+  )
 
   if (!currentActivities) return null
 
