@@ -2,7 +2,9 @@ import React from 'react'
 
 import PageHeaderButton from './PageHeaderButton'
 
-const ExternalSourceButton = ({ to }) => (
+type Props = { to: string }
+
+const ExternalSourceButton = ({ to }:Props):JSX.Element => (
   <PageHeaderButton
     RootComponent="a"
     href={to}
