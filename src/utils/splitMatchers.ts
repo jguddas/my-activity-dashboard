@@ -6,14 +6,25 @@ import getDistance from './getDistance'
 import resample from './resample'
 import { RESAMPLE_SCALE } from '../constants'
 
-const aTobMatcher = ({ a, b }, { trkpts, id, name, date, startTime }) => {
-  const adjustTrkpt = (startpt) => ([lat, lon, alt, time, distance]) => [
-    lat,
-    lon,
-    alt,
-    time - startpt[3],
-    distance - startpt[4],
-  ]
+import { ActivityWithTrkpts, Trkpt } from '../types/activity'
+import {
+  ActivitySplit,
+  ActivitySplitMatch,
+  DistanceSplit,
+  DistanceSplitMatch,
+  AToBSplit,
+  ATobSplitMatch,
+} from '../types/split'
+
+const aTobMatcher = (
+  { a, b }:AToBSplit,
+  { trkpts, id, name, date, startTime }:ActivityWithTrkpts,
+):ATobSplitMatch[] => {
+  const adjustTrkpt = (startpt:Trkpt) => (
+    ([lat, lon, alt, time, distance]:Trkpt):Trkpt => (
+      [lat, lon, alt, time - startpt[3], distance - startpt[4]]
+    )
+  )
   let i; let j; let start = null; const result = []
   for (i = 0, j = trkpts.length; i < j; i += 1) {
     if (getDistance(a, trkpts[i]) < 0.05) {
@@ -42,7 +53,10 @@ const aTobMatcher = ({ a, b }, { trkpts, id, name, date, startTime }) => {
   return result
 }
 
-const distanceMatcher = ({ distance }, { trkpts, id, name, date, startTime }) => {
+const distanceMatcher = (
+  { distance }:DistanceSplit,
+  { trkpts, id, name, date, startTime }:ActivityWithTrkpts,
+):DistanceSplitMatch[] => {
   const alignedTrpts = resample(
     trkpts.map((trkpt) => [trkpt[4], trkpt[3] / 60000]),
     RESAMPLE_SCALE,
@@ -71,7 +85,10 @@ const distanceMatcher = ({ distance }, { trkpts, id, name, date, startTime }) =>
   return []
 }
 
-const activityMatcher = (split, activity) => {
+const activityMatcher = (
+  split: ActivitySplit,
+  activity:ActivityWithTrkpts,
+):ActivitySplitMatch[] => {
   if (
     activity.startpt
       && activity.endpt
