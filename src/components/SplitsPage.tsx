@@ -6,7 +6,11 @@ import SyncStarredSegmentsButton from './SyncStarredSegmentsButton'
 import ScrollToTopOnLocationChange from './ScrollToTopOnLocationChange'
 import SplitsTable from './SplitsTable'
 
-function SplitsPage({ splits }) {
+import { StoredSplit } from '../types/split'
+
+type Props = { splits: StoredSplit[] }
+
+function SplitsPage({ splits }: Props):JSX.Element {
   const [loading, setLoading] = React.useState(false)
 
   return (
