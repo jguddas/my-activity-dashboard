@@ -6,7 +6,12 @@ import LoginButton from './LoginButton'
 import OverviewButton from './OverviewButton'
 import SplitsButton from './SplitsButton'
 
-const PageWrapper = ({ children, hideHeader }) => (
+type Props = {
+  hideHeader?: boolean,
+  children?: React.ReactNode
+}
+
+const PageWrapper = ({ children, hideHeader = false }: Props):JSX.Element => (
   <div className="page">
     <div className="page-main">
       {!hideHeader && (
