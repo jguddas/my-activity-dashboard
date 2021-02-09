@@ -11,7 +11,7 @@ type Props = {
   duration: number
 }
 
-function ActivityFooter({ distance, speed, duration }: Props) {
+function ActivityFooter({ distance, speed, duration }: Props):JSX.Element {
   return (
     <MyCardBody className="card-body">
       {isFinite(distance) && (
