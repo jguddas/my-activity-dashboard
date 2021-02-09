@@ -3,13 +3,21 @@ import { ResponsiveLineCanvas } from '../nivo-line.esm'
 
 import colors from '../colors'
 
+type Props = {
+  data: number[]
+  selected: number[]
+  onClick: (x:number) => void
+  isInteractive: boolean
+  format: (y:number, x:number) => React.ReactNode
+}
+
 const DotGraph = ({
   data,
   selected,
   onClick = () => {},
   isInteractive = false,
   format = (val) => val,
-}) => (
+}:Props):JSX.Element => (
   <ResponsiveLineCanvas
     xScale={{ type: 'linear' }}
     yScale={{ type: 'linear', min: 0 }}
