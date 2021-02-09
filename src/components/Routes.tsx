@@ -9,7 +9,7 @@ import PageWrapper from './PageWrapper'
 
 import { exchangeToken } from '../actions/StravaActions'
 
-const fallback = () => <PageWrapper />
+const fallback = <PageWrapper />
 
 const LandingPage = loadable(() => import(
   /* webpackChunkName: "landing-page" */
@@ -36,7 +36,7 @@ const SplitPage = loadable(() => import(
   './SplitPage'
 ), { fallback })
 
-function Routes() {
+function Routes():JSX.Element {
   const athlete = useSelector((state) => state.Strava.athlete)
   const activities = useSelector((state) => state.Activity.activities)
   const splits = useSelector((state) => state.Split.splits)
