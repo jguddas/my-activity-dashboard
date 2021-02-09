@@ -1,17 +1,38 @@
 import React from 'react'
-import L from 'leaflet'
+import L, { Map } from 'leaflet'
 import styled from 'styled-components'
 import screenfull from 'screenfull'
 import findLast from 'lodash/findLast'
 import findLastIndex from 'lodash/findLastIndex'
-import { withRouter } from 'react-router-dom'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import 'leaflet/dist/leaflet.css'
 
 import colors from '../colors'
 
-const getLatLon = ([lat, lon]) => [lat, lon]
+import { ActivityWithTrkpts, SkeletonActivity, Trkpt } from '../types/activity'
 
-class ActivityMap extends React.Component {
+const getLatLon = ([lat, lon]:[number, number]|Trkpt):L.LatLngTuple => [lat, lon]
+
+interface Props extends RouteComponentProps {
+  activity: ActivityWithTrkpts | SkeletonActivity
+  children?: React.ReactNode
+  className?: string
+  scrollWheelZoom?: boolean
+  height?: number|string
+  width?: number|string
+  matchedActivities?: ActivityWithTrkpts[] | SkeletonActivity[]
+  trimEnd?: number,
+  smoothFactor?: number
+  fillColor?: string
+  strokeColor?: string
+  controls?: boolean
+  setFullscreen?: (val: boolean) => void
+  dragging?: 'touch' | false | undefined
+}
+
+type State = { isFullscreen: boolean }
+
+class ActivityMap extends React.Component<Props, State> {
   static defaultProps = {
     height: 200,
     width: '100%',
@@ -22,11 +43,27 @@ class ActivityMap extends React.Component {
     controls: false,
   }
 
-  constructor(props) {
+  mapId = `map-${Math.ceil(Math.random() * 10000000)}`
+
+  containerRef = React.createRef<HTMLDivElement>()
+
+  map:Map|null = null
+
+  matchedLines:L.Polyline[] = []
+
+  matchedMarkers:L.CircleMarker[] = []
+
+  marker:L.CircleMarker|null = null
+
+  line:L.Polyline|null = null
+
+  bounds:L.LatLngBounds|null = null
+
+  stroke: L.Polyline|null = null
+
+  constructor(props:Props) {
     super(props)
-    this.mapId = `map-${Math.ceil(Math.random() * 10000000)}`
-    this.state = { isFullscreen: screenfull.isFullscreen }
-    this.containerRef = React.createRef()
+    this.state = { isFullscreen: screenfull.isEnabled ? screenfull.isFullscreen : false }
   }
 
   componentDidMount() {
@@ -49,29 +86,37 @@ class ActivityMap extends React.Component {
     this.addMarkersAndLines()
     this.fitBounds()
 
-    screenfull.on('change', this.updateFullscreen)
+    if (screenfull.isEnabled) {
+      screenfull.on('change', this.updateFullscreen)
+    }
   }
 
-  componentDidUpdate(previousProps) {
+  componentDidUpdate(previousProps:Props) {
     this.componentDidUpdateZoom(previousProps)
     this.componentDidUpdateTrimEnd(previousProps)
     this.componentDidUpdateActvity(previousProps)
   }
 
   componentWillUnmount() {
-    screenfull.off('change', this.updateFullscreen)
+    if (screenfull.isEnabled) {
+      screenfull.off('change', this.updateFullscreen)
+    }
   }
 
   fitBounds = () => {
-    this.map.fitBounds(this.bounds, { padding: [2, 2] })
+    if (this.map && this.bounds) {
+      this.map.fitBounds(this.bounds, { padding: [2, 2] })
+    }
   }
 
   updateFullscreen = () => {
     const { setFullscreen } = this.props
-    this.setState({ isFullscreen: screenfull.isFullscreen })
+    this.setState({ isFullscreen: screenfull.isEnabled ? screenfull.isFullscreen : false })
     // eslint-disable-next-line no-underscore-dangle
-    this.map._onResize()
-    if (setFullscreen) setFullscreen(screenfull.isFullscreen)
+    this.map?._onResize()
+    if (setFullscreen) {
+      setFullscreen(screenfull.isEnabled ? screenfull.isFullscreen : false)
+    }
   }
 
   addMarkersAndLines = () => {
@@ -81,7 +126,7 @@ class ActivityMap extends React.Component {
       smoothFactor,
       fillColor,
       strokeColor,
-      matchedActivities,
+      matchedActivities = [],
     } = this.props
 
     const cords = activity.trkpts.map(getLatLon)
@@ -95,21 +140,20 @@ class ActivityMap extends React.Component {
           lineJoin: 'round',
           smoothFactor,
         })
-          .addTo(this.map)
-          .on('click', () => history.push(matchedActivity.id))
-      ))
+      ).on('click', () => history.push(matchedActivity.id)))
+
     this.stroke = L.polyline(cords, {
       color: strokeColor,
       weight: 5,
       lineJoin: 'round',
       smoothFactor,
-    }).addTo(this.map)
+    })
     this.line = L.polyline(cords, {
       color: fillColor,
       weight: 3,
       lineJoin: 'round',
       smoothFactor,
-    }).addTo(this.map)
+    })
     this.bounds = this.line.getBounds()
     this.matchedMarkers = matchedActivities.map((matchedActivity) => (
       L.circleMarker(getLatLon(matchedActivity.endpt), {
@@ -119,9 +163,7 @@ class ActivityMap extends React.Component {
         fill: true,
         fillOpacity: 1,
         weight: 1,
-      })
-        .addTo(this.map)
-        .on('click', () => history.push(`/activity/${matchedActivity.id}`))
+      }).on('click', () => history.push(`/activity/${matchedActivity.id}`))
     ))
     this.marker = L.circleMarker(getLatLon(activity.endpt), {
       radius: 3,
@@ -130,25 +172,36 @@ class ActivityMap extends React.Component {
       fill: true,
       fillOpacity: 1,
       weight: 1,
-    }).addTo(this.map)
+    })
+    if (this.map) {
+      this.matchedLines.map((matchedLine) => (
+        this.map && matchedLine.addTo(this.map)
+      ))
+      this.stroke.addTo(this.map)
+      this.line.addTo(this.map)
+      this.matchedMarkers.forEach((matchedMarker) => (
+        this.map && matchedMarker.addTo(this.map)
+      ))
+    }
   }
 
   removeMarkersAndLines = () => {
-    this.marker.remove()
-    this.line.remove()
-    this.stroke.remove()
+    this.marker?.remove()
+    this.line?.remove()
+    this.stroke?.remove()
     this.matchedLines.forEach((matchedLine) => matchedLine.remove())
     this.matchedMarkers.forEach((matchedMarker) => matchedMarker.remove())
   }
 
   updateTrimEnd = () => {
     const { trimEnd, activity, matchedActivities } = this.props
-    const isNotTrimEnd = (trkpt) => trkpt[3] <= trimEnd
+    if (!trimEnd) return
+    const isNotTrimEnd = (trkpt:Trkpt) => trkpt[3] <= trimEnd
     const lastPtIdx = findLastIndex(activity.trkpts, isNotTrimEnd)
     const cords = activity.trkpts.slice(0, lastPtIdx + 1).map(getLatLon)
-    this.stroke.setLatLngs(cords)
-    this.line.setLatLngs(cords)
-    this.marker.setLatLng(getLatLon(activity.trkpts[lastPtIdx]))
+    this.stroke?.setLatLngs(cords)
+    this.line?.setLatLngs(cords)
+    this.marker?.setLatLng(getLatLon(activity.trkpts[lastPtIdx]))
     this.matchedMarkers.forEach((matchedMarker, idx) => (
       matchedMarker.setLatLng(getLatLon(
         findLast(matchedActivities[idx].trkpts, isNotTrimEnd),
@@ -156,16 +209,16 @@ class ActivityMap extends React.Component {
     ))
   }
 
-  componentDidUpdateZoom = (previousProps) => {
+  componentDidUpdateZoom = (previousProps:Props) => {
     const { scrollWheelZoom, dragging, controls } = this.props
     if (
       scrollWheelZoom !== previousProps.scrollWheelZoom
         || controls !== previousProps.controls
     ) {
       if (controls && scrollWheelZoom !== false) {
-        this.map.scrollWheelZoom.enable()
+        this.map?.scrollWheelZoom.enable()
       } else {
-        this.map.scrollWheelZoom.disable()
+        this.map?.scrollWheelZoom.disable()
       }
     }
     if (
@@ -173,21 +226,21 @@ class ActivityMap extends React.Component {
         || controls !== previousProps.controls
     ) {
       if (controls && (dragging === 'touch' ? !L.Browser.touch : dragging !== false)) {
-        this.map.dragging.enable()
+        this.map?.dragging.enable()
       } else {
-        this.map.dragging.disable()
+        this.map?.dragging.disable()
       }
     }
   }
 
-  componentDidUpdateTrimEnd = (previousProps) => {
+  componentDidUpdateTrimEnd = (previousProps:Props) => {
     const { trimEnd } = this.props
     if (trimEnd !== previousProps.trimEnd) {
       this.updateTrimEnd()
     }
   }
 
-  componentDidUpdateActvity(previousProps) {
+  componentDidUpdateActvity(previousProps:Props) {
     const { activity } = this.props
     if (activity.id !== previousProps.activity.id) {
       this.removeMarkersAndLines()
@@ -207,21 +260,25 @@ class ActivityMap extends React.Component {
             <button
               className="btn btn-secondary ml-2 mt-2"
               type="button"
-              onClick={() => screenfull.toggle(this.containerRef.current)}
+              onClick={() => (
+                screenfull.isEnabled
+                  && this.containerRef.current
+                  && screenfull.toggle(this.containerRef.current)
+              )}
             >
               <i className={`fe fe-${isFullscreen ? 'minimize' : 'maximize'}`} />
             </button>
             <button
               className="btn btn-secondary ml-2 mt-2"
               type="button"
-              onClick={() => this.map.zoomIn()}
+              onClick={() => this.map?.zoomIn()}
             >
               <i className="fe fe-zoom-in" />
             </button>
             <button
               className="btn btn-secondary ml-2 mt-2"
               type="button"
-              onClick={() => this.map.zoomOut()}
+              onClick={() => this.map?.zoomOut()}
             >
               <i className="fe fe-zoom-out" />
             </button>
