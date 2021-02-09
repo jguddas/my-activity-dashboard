@@ -11,7 +11,14 @@ import formatDuration from '../utils/formatDuration'
 import ActivityCard from './ActivityCard'
 import ScrollToElementOnHashChange from './ScrollToElementOnHashChange'
 
-function ActivitiesOverview({ activities, month }) {
+import { Activity } from '../types/activity'
+
+type Props = {
+  activities: Activity[],
+  month: string
+}
+
+function ActivitiesOverview({ activities, month }: Props):JSX.Element {
   const activitiesGroupedByMonth = groupBy(
     activities,
     ({ date }) => dayjs(date).format('YYYY-MM'),
