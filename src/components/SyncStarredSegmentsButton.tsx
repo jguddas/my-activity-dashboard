@@ -6,14 +6,22 @@ import { getStarredSegments } from '../actions/StravaActions'
 
 import PageHeaderButton from './PageHeaderButton'
 
-function SyncStarredSegmentsButton({ disabled, setLoading: setLoadingProps }) {
-  const [loading, setLoadingState] = React.useState()
+type Props = {
+  disabled?: boolean
+  setLoading: (isLoading:boolean) => void
+}
+
+function SyncStarredSegmentsButton({
+  disabled = false,
+  setLoading: setLoadingProps,
+}: Props):JSX.Element|null {
+  const [loading, setLoadingState] = React.useState(false)
   const dispatch = useDispatch()
   const accessToken = useSelector((state) => state.Strava.accessToken)
 
   if (!accessToken) return null
 
-  const setLoading = (val) => {
+  const setLoading = (val:boolean) => {
     setLoadingState(val)
     setLoadingProps(val)
   }
