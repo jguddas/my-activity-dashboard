@@ -1,5 +1,10 @@
-const getDistance = ([lat1, lon1], [lat2, lon2]) => {
-  function deg2rad(deg) {
+import { Trkpt } from '../types/activity'
+
+const getDistance = (
+  [lat1, lon1]:[number, number]|Trkpt,
+  [lat2, lon2]:[number, number]|Trkpt,
+) => {
+  function deg2rad(deg:number) {
     return deg * (Math.PI / 180)
   }
   const R = 6371 // Radius of the earth in km
