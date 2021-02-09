@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom'
 
 import PageHeaderButton from './PageHeaderButton'
 
-const SplitsButton = ({ to = '/splits' }) => (
+type Props = {
+  to?: string
+}
+
+const SplitsButton = ({ to = '/splits' }:Props):JSX.Element => (
   <PageHeaderButton
     RootComponent={Link}
     to={to}
