@@ -2,10 +2,10 @@ import snakeCase from 'lodash/snakeCase'
 import mapKeys from 'lodash/mapKeys'
 import { stringify as stringifyQuery } from 'query-string'
 
-const snakeCaseKeys = (obj) => mapKeys(obj, (val, key) => snakeCase(key))
+const snakeCaseKeys = (obj:{[key:string]: any}) => mapKeys(obj, (val, key) => snakeCase(key))
 
 export interface RequestInitWithQuery extends RequestInit {
-  query: {}
+  query: { [key: string]: string }
 }
 
 function fetchWithQuery<T>(url: string, { query, ...opts }: RequestInitWithQuery): Promise<T> {
