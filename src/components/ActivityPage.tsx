@@ -10,7 +10,14 @@ import ActivitySplits from './ActivitySplits'
 import ActivityMapWithSlider from './ActivityMapWithSlider'
 import ScrollToTopOnMount from './ScrollToTopOnMount'
 
-function ActivityPage({ activity, activities }) {
+import { Activity } from '../types/activity'
+
+type Props = {
+  activity: Activity
+  activities: Activity[]
+}
+
+function ActivityPage({ activity, activities }: Props): JSX.Element {
   return (
     <PageWrapper>
       <ScrollToTopOnMount />
@@ -19,8 +26,12 @@ function ActivityPage({ activity, activities }) {
         <OverviewButton to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`} />
         {!!activity.externalLink && (<ExternalSourceButton to={activity.externalLink} />)}
       </PageHeader>
-      {activity.trkpts ? <ActivityMapWithSlider activity={activity} /> : null}
-      <ActivitySplits activity={activity} activities={activities} />
+      {activity.trkpts ? (
+        <>
+          <ActivityMapWithSlider activity={activity} />
+          <ActivitySplits activity={activity} />
+        </>
+      ) : null}
     </PageWrapper>
   )
 }
