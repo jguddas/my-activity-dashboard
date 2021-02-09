@@ -1,7 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const PageHeader = ({ title, children }) => (
+type Props = {
+  title: string,
+  children: React.ReactNode
+}
+
+const PageHeader = ({ title, children }: Props) => (
   <div className="page-header">
     <MyPageTitle className="page-title">
       {title}
