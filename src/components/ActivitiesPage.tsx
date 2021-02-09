@@ -25,7 +25,7 @@ type Props = {
   month: string
 }
 
-function ActivitiesPage({ activities, month }:Props) {
+function ActivitiesPage({ activities, month }:Props):JSX.Element {
   const history = useHistory()
   const [max, setMax] = React.useState(0)
   const [{ isLoading, loading }, setLoadingState] = React.useState({
