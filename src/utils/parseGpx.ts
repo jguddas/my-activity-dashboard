@@ -1,3 +1,7 @@
-import { xml2js } from 'xml-js'
+import { xml2js, ElementCompact } from 'xml-js'
 
-export default (src, args = {}) => xml2js(src, { compact: true, ...args })
+const parseGpx = (src:string):ElementCompact => (
+  xml2js(src, { compact: true })
+)
+
+export default parseGpx
