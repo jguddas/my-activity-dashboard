@@ -4,7 +4,7 @@ const lerp = (
   i:number,
 ) => y0 + ((y1 - y0) / (x1 - x0)) * (i - x0)
 
-const resample = (inp:[number, number][], scale:number) => {
+const resample = (inp:[number, number][], scale:number):[number, number][] => {
   let arr = [...inp]
   const out:[number, number][] = []
   const max = arr[arr.length - 1][0]
