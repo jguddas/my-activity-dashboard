@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@loadable/component": "^5.14.1",
-    "@nivo/line": "^0.62.0",
+    "@nivo/core": "^0.67.0",
+    "@nivo/line": "^0.67.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

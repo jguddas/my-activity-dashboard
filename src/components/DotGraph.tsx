@@ -1,5 +1,5 @@
 import React from 'react'
-import { ResponsiveLineCanvas } from '../nivo-line.esm'
+import { ResponsiveLineCanvas } from '@nivo/line'
 
 import colors from '../colors'
 
