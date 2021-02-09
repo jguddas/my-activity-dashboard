@@ -10,7 +10,17 @@ import mapStava from '../utils/mapStrava'
 
 import PageHeaderButton from './PageHeaderButton'
 
-function SyncButton({ disabled, setLoading: setLoadingProps }) {
+import { Activity } from '../types/activity'
+
+type Props = {
+  disabled?: boolean
+  setLoading: (isLoading:boolean, loading:number) => null
+}
+
+function SyncButton({
+  disabled = false,
+  setLoading: setLoadingProps,
+}: Props):JSX.Element|null {
   const [{ isLoading, loading }, setLoadingState] = React.useState({
     isLoading: false,
     loading: 0,
@@ -21,7 +31,7 @@ function SyncButton({ disabled, setLoading: setLoadingProps }) {
 
   if (!accessToken) return null
 
-  const setLoading = (_isLoading, value) => {
+  const setLoading = (_isLoading:boolean, value:number) => {
     setLoadingState({ isLoading: _isLoading, loading: value })
     setLoadingProps(_isLoading, value)
   }
@@ -29,7 +39,7 @@ function SyncButton({ disabled, setLoading: setLoadingProps }) {
   const myDispatch = (action) => dispatch(action)
     .then(({ payload, error }) => {
       if (!error) return payload
-      setLoading(false)
+      setLoading(false, 0)
       return Promise.reject(error)
     })
 
@@ -40,7 +50,7 @@ function SyncButton({ disabled, setLoading: setLoadingProps }) {
       disabled={isLoading || disabled}
       onClick={() => (async () => {
         setLoading(true, 0)
-        const isNew = (activity) => (
+        const isNew = (activity:Activity) => (
           activitiesFromStore.every(({ id }) => id !== `${activity.id}`)
         )
         const activities = (await myDispatch(getActivities({
