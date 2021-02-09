@@ -8,7 +8,9 @@ import PageWrapper from './PageWrapper'
 import ActivityMapWithSlider from './ActivityMapWithSlider'
 import ScrollToTopOnMount from './ScrollToTopOnMount'
 
-function LandingPage() {
+import { SkeletonActivity } from '../types/activity.js'
+
+function LandingPage():JSX.Element {
   return (
     <PageWrapper hideHeader>
       <ScrollToTopOnMount />
@@ -42,8 +44,8 @@ function LandingPage() {
         </div>
         <div className="col col-12 col-sm-12 col-md-8 px-md-5">
           <ActivityMapWithSlider
-            activity={exampleActivity}
-            matchedActivities={exampleMatchedActivities}
+            activity={exampleActivity as SkeletonActivity}
+            matchedActivities={exampleMatchedActivities as SkeletonActivity[]}
           />
         </div>
       </div>
