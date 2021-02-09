@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode
 }
 
-const PageHeader = ({ title, children }: Props) => (
+const PageHeader = ({ title, children }:Props):JSX.Element => (
   <div className="page-header">
     <MyPageTitle className="page-title">
       {title}
