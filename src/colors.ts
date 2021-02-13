@@ -1,4 +1,4 @@
-export default {
+const colors:{[key:string]: string} = {
   blue: '#467fcf',
   blueDarkest: '#0e1929',
   blueDarker: '#1c3353',
@@ -97,3 +97,5 @@ export default {
   grayDarkLighter: '#c2c4c6',
   grayDarkLightest: '#ebebec',
 }
+
+export default colors
