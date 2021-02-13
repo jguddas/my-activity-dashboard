@@ -71,7 +71,7 @@ function SplitPage({ split, activities, activity, factor }: Props):JSX.Element {
               }}
               controls
               scrollWheelZoom={isFullscreen}
-              dragging={isFullscreen || 'touch'}
+              dragging={isFullscreen}
               setFullscreen={setFullscreen}
               smoothFactor={3}
               height={isFullscreen ? '100vh' : 350}

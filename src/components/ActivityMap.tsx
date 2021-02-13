@@ -35,7 +35,7 @@ interface Props extends RouteComponentProps {
   strokeColor?: string
   controls?: boolean
   setFullscreen?: (val: boolean) => void
-  dragging?: 'touch' | false | undefined
+  dragging?: boolean
 }
 
 type State = { isFullscreen: boolean }
@@ -80,7 +80,7 @@ class ActivityMap extends React.Component<Props, State> {
     this.map = L.map(this.mapId, {
       attributionControl: false,
       zoomControl: false,
-      dragging: controls && (dragging === 'touch' ? !L.Browser.touch : dragging !== false),
+      dragging: controls && (dragging || !L.Browser.touch),
       touchZoom: controls,
       doubleClickZoom: controls,
       scrollWheelZoom: controls && scrollWheelZoom !== false,
@@ -242,7 +242,7 @@ class ActivityMap extends React.Component<Props, State> {
       dragging !== previousProps.dragging
         || controls !== previousProps.controls
     ) {
-      if (controls && (dragging === 'touch' ? !L.Browser.touch : dragging !== false)) {
+      if (controls && (dragging || !L.Browser.touch)) {
         this.map?.dragging.enable()
       } else {
         this.map?.dragging.disable()

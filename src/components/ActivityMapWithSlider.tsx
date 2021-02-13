@@ -132,7 +132,7 @@ function ActivityMapWithSlider({
           trimEnd={time * 60000}
           controls
           scrollWheelZoom={isFullscreen}
-          dragging={isFullscreen || 'touch'}
+          dragging={isFullscreen}
           setFullscreen={setFullscreen}
           smoothFactor={3}
           height={height}
