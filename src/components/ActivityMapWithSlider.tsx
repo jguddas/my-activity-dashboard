@@ -116,17 +116,18 @@ function ActivityMapWithSlider({
     </MyCardBody>
   )
 
+  const fallback = (
+    <>
+      <div style={{ height }} />
+      {body}
+    </>
+  )
+
   return (
     <div className="card">
-      <React.Suspense fallback={(
-        <>
-          <div style={{ height }} />
-          {body}
-        </>
-)}
-      >
+      <React.Suspense fallback={fallback}>
         <ActivityMap
-          key={activity.id}
+          key={'id' in activity ? activity.id : 'skeleton'}
           activity={activity}
           matchedActivities={matchedActivities}
           trimEnd={time * 60000}
