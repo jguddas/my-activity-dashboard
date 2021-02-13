@@ -1,5 +1,5 @@
 import React from 'react'
-import L, { Map } from 'leaflet'
+import L, { Map as LMap } from 'leaflet'
 import styled from 'styled-components'
 import screenfull from 'screenfull'
 import findLast from 'lodash/findLast'
@@ -11,7 +11,15 @@ import colors from '../colors'
 
 import { ActivityWithTrkpts, SkeletonActivity, Trkpt } from '../types/activity'
 
-const getLatLon = ([lat, lon]:[number, number]|Trkpt):L.LatLngTuple => [lat, lon]
+interface Map extends LMap {
+  _onResize: () => void
+}
+
+const getLatLon = (
+  [lat, lon]:[number, number]|Trkpt,
+):L.LatLngTuple => (
+  [lat, lon]
+)
 
 interface Props extends RouteComponentProps {
   activity: ActivityWithTrkpts | SkeletonActivity
@@ -79,7 +87,7 @@ class ActivityMap extends React.Component<Props, State> {
       boxZoom: controls,
       keyboard: controls,
       tap: false,
-    })
+    }) as Map
 
     L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', { detectRetina: true }).addTo(this.map)
 
@@ -132,15 +140,18 @@ class ActivityMap extends React.Component<Props, State> {
     const cords = activity.trkpts.map(getLatLon)
 
     this.matchedLines = matchedActivities
-      .concat(activity)
-      .map((matchedActivity) => (
+      .map((matchedActivity:ActivityWithTrkpts|SkeletonActivity) => (
         L.polyline(matchedActivity.trkpts.map(getLatLon), {
           color: 'gray',
           weight: 3,
           lineJoin: 'round',
           smoothFactor,
         })
-      ).on('click', () => history.push(matchedActivity.id)))
+      ).on('click', () => {
+        if ('id' in matchedActivity) {
+          history.push(matchedActivity.id)
+        }
+      }))
 
     this.stroke = L.polyline(cords, {
       color: strokeColor,
@@ -155,16 +166,21 @@ class ActivityMap extends React.Component<Props, State> {
       smoothFactor,
     })
     this.bounds = this.line.getBounds()
-    this.matchedMarkers = matchedActivities.map((matchedActivity) => (
-      L.circleMarker(getLatLon(matchedActivity.endpt), {
-        radius: 2,
-        color: 'black',
-        fillColor: colors.gray,
-        fill: true,
-        fillOpacity: 1,
-        weight: 1,
-      }).on('click', () => history.push(`/activity/${matchedActivity.id}`))
-    ))
+    this.matchedMarkers = matchedActivities
+      .map((matchedActivity:ActivityWithTrkpts|SkeletonActivity) => (
+        L.circleMarker(getLatLon(matchedActivity.endpt), {
+          radius: 2,
+          color: 'black',
+          fillColor: colors.gray,
+          fill: true,
+          fillOpacity: 1,
+          weight: 1,
+        }).on('click', ():void => {
+          if ('id' in matchedActivity) {
+            history.push(`/activity/${matchedActivity.id}`)
+          }
+        })
+      ))
     this.marker = L.circleMarker(getLatLon(activity.endpt), {
       radius: 3,
       color: strokeColor,
@@ -194,7 +210,7 @@ class ActivityMap extends React.Component<Props, State> {
   }
 
   updateTrimEnd = () => {
-    const { trimEnd, activity, matchedActivities } = this.props
+    const { trimEnd, activity, matchedActivities = [] } = this.props
     if (!trimEnd) return
     const isNotTrimEnd = (trkpt:Trkpt) => trkpt[3] <= trimEnd
     const lastPtIdx = findLastIndex(activity.trkpts, isNotTrimEnd)
@@ -202,11 +218,12 @@ class ActivityMap extends React.Component<Props, State> {
     this.stroke?.setLatLngs(cords)
     this.line?.setLatLngs(cords)
     this.marker?.setLatLng(getLatLon(activity.trkpts[lastPtIdx]))
-    this.matchedMarkers.forEach((matchedMarker, idx) => (
-      matchedMarker.setLatLng(getLatLon(
-        findLast(matchedActivities[idx].trkpts, isNotTrimEnd),
-      ))
-    ))
+    this.matchedMarkers.forEach((matchedMarker, idx) => {
+      const lastTrkpt = findLast(matchedActivities[idx].trkpts, isNotTrimEnd)
+      if (lastTrkpt) {
+        matchedMarker.setLatLng(getLatLon(lastTrkpt))
+      }
+    })
   }
 
   componentDidUpdateZoom = (previousProps:Props) => {
@@ -242,7 +259,7 @@ class ActivityMap extends React.Component<Props, State> {
 
   componentDidUpdateActvity(previousProps:Props) {
     const { activity } = this.props
-    if (activity.id !== previousProps.activity.id) {
+    if (('id' in activity && activity.id) !== ('id' in previousProps.activity && previousProps.activity.id)) {
       this.removeMarkersAndLines()
       this.addMarkersAndLines()
       this.updateTrimEnd()
