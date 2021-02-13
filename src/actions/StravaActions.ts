@@ -21,17 +21,30 @@ export const deauthorize = createAsyncThunk(
   }),
 )
 
+type RefreshAuth = {
+  token_type: 'Bearer',
+  access_token: string
+  expires_at: number
+  expires_in: number
+  refresh_token: string
+}
 export const refreshAuth = createAsyncThunk(
   'STRAVA_REFRESH_AUTH',
-  (refreshToken) => fetchWithQuery(STRAVA_REFRESH_TOKEN_URL, {
-    method: 'POST',
-    query: {
-      clientId: STRAVA_CLIENT_ID,
-      clientSecret: STRAVA_CLIENT_SECRET,
-      grantType: 'refresh_token',
-      refreshToken,
-    },
-  }),
+  (refreshToken: string) => {
+    if (!STRAVA_CLIENT_ID) return Promise.reject(new Error('missing STRAVA_CLIENT_ID'))
+    if (!STRAVA_CLIENT_SECRET) return Promise.reject(new Error('missing STRAVA_CLIENT_SECRET'))
+    return fetchWithQuery<RefreshAuth>(
+      STRAVA_REFRESH_TOKEN_URL, {
+        method: 'POST',
+        query: {
+          clientId: STRAVA_CLIENT_ID,
+          clientSecret: STRAVA_CLIENT_SECRET,
+          grantType: 'refresh_token',
+          refreshToken,
+        },
+      },
+    )
+  },
 )
 
 const createAsyncThunkWithAuth = (type, payloadCreator) => createAsyncThunk(
