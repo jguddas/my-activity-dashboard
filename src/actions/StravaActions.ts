@@ -15,7 +15,7 @@ import {
 
 export const deauthorize = createAsyncThunk(
   'STRAVA_DEAUTHORIZE',
-  (accessToken) => fetchWithQuery(STRAVA_DEAUTHORIZATION_URL, {
+  (accessToken: string) => fetchWithQuery<undefined>(STRAVA_DEAUTHORIZATION_URL, {
     method: 'POST',
     query: { accessToken },
   }),
