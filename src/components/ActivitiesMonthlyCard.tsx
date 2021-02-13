@@ -142,7 +142,7 @@ const MyCardHeader = styled.div`
 `
 
 const MyColorLedgendBadge = styled.span`
-  background-color: ${({ color }) => colors[color] || color};
+  background-color: ${({ color }:{color: string}) => colors[color] || color};
   display: inline-block !important;
   vertical-align: middle;
   margin-top: -2px;
