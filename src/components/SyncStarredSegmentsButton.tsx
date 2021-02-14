@@ -1,4 +1,5 @@
 import React from 'react'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from '../store'
 
 import { addSplit } from '../actions/SplitActions'
@@ -26,12 +27,10 @@ function SyncStarredSegmentsButton({
     setLoadingProps(val)
   }
 
-  const myDispatch = (action) => dispatch(action)
-    .then(({ payload, error }) => {
-      if (!error) return payload
-      setLoading(false)
-      return Promise.reject(error)
-    })
+  const handleError = (error: any) => {
+    setLoading(false)
+    return Promise.reject(error)
+  }
 
   return (
     <PageHeaderButton
@@ -39,10 +38,10 @@ function SyncStarredSegmentsButton({
       icon="refresh-cw"
       onClick={() => (async () => {
         setLoading(true)
-        const starredSegments = await myDispatch(getStarredSegments({
+        const starredSegments = await dispatch(getStarredSegments({
           page: 1,
           perPage: 100,
-        }))
+        })).then(unwrapResult).catch(handleError)
         for (let i = starredSegments.length - 1; i >= 0; i -= 1) {
           dispatch(addSplit({
             a: starredSegments[i].start_latlng,

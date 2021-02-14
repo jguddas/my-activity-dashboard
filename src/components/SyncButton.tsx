@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react'
 import dayjs from 'dayjs'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from '../store'
 
 import { loadGpx } from '../actions/ActivityActions'
@@ -36,12 +37,10 @@ function SyncButton({
     setLoadingProps(_isLoading, value)
   }
 
-  const myDispatch = (action) => dispatch(action)
-    .then(({ payload, error }) => {
-      if (!error) return payload
-      setLoading(false, 0)
-      return Promise.reject(error)
-    })
+  const handleError = (error: any) => {
+    setLoading(false, 0)
+    return Promise.reject(error)
+  }
 
   return (
     <PageHeaderButton
@@ -53,26 +52,26 @@ function SyncButton({
         const isNew = (activity:Activity) => (
           activitiesFromStore.every(({ id }) => id !== `${activity.id}`)
         )
-        const activities = (await myDispatch(getActivities({
+        const activities = (await dispatch(getActivities({
           before: dayjs().unix(),
           after: (
             activitiesFromStore[0]?.startTime
-              ? dayjs(activitiesFromStore[0].startTime).add(-7, 'days').unix()
+              ? dayjs(activitiesFromStore[0].startTime).add(-7, 'day').unix()
               : dayjs().add(-2, 'month').startOf('month').unix()
           ),
           page: 1,
-          per_page: 100,
-        }))).filter(isNew)
+          perPage: 100,
+        })).then(unwrapResult).catch(handleError)).filter(isNew)
         for (let i = activities.length - 1; i >= 0; i -= 1) {
           const activity = activities[i]
           setLoading(true, i)
           if (activity.start_latlng) {
             // eslint-disable-next-line no-await-in-loop
-            const streams = await myDispatch(getActivityStream({
+            const streams = await dispatch(getActivityStream({
               id: activity.id,
-              keys: 'time,distance,latlng,altitude',
-              key_by_type: true,
-            }))
+              keys: ['time', 'distance', 'latlng', 'altitude'],
+              keyByType: true,
+            })).then(unwrapResult).catch(handleError)
             dispatch(loadGpx(mapStava({ ...activity, streams })))
           } else {
             dispatch(loadGpx(mapStava(activity)))

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import fetchWithQuery from '../utils/fetchWithQuery'
+import fetchWithQuery, { RequestInitWithQuery, Query } from '../utils/fetchWithQuery'
+import { RootState, AppDispatch } from '../store'
 
 import {
   STRAVA_TOKEN_URL,
@@ -13,61 +14,72 @@ import {
   STRAVA_DEAUTHORIZATION_URL,
 } from '../constants'
 
+import { Auth, Athlete, Activities, Segments } from '../types/strava'
+
 export const deauthorize = createAsyncThunk(
   'STRAVA_DEAUTHORIZE',
-  (accessToken: string) => fetchWithQuery<undefined>(STRAVA_DEAUTHORIZATION_URL, {
-    method: 'POST',
-    query: { accessToken },
-  }),
+  (accessToken: string) => {
+    const query:Auth.Deauthorization.RequestQuery = { accessToken }
+    return fetchWithQuery<Auth.Deauthorization.ResponseBody>(
+      STRAVA_DEAUTHORIZATION_URL,
+      { method: 'POST', query },
+    )
+  },
 )
 
-type RefreshAuth = {
-  token_type: 'Bearer',
-  access_token: string
-  expires_at: number
-  expires_in: number
-  refresh_token: string
-}
 export const refreshAuth = createAsyncThunk(
   'STRAVA_REFRESH_AUTH',
   (refreshToken: string) => {
     if (!STRAVA_CLIENT_ID) return Promise.reject(new Error('missing STRAVA_CLIENT_ID'))
     if (!STRAVA_CLIENT_SECRET) return Promise.reject(new Error('missing STRAVA_CLIENT_SECRET'))
-    return fetchWithQuery<RefreshAuth>(
-      STRAVA_REFRESH_TOKEN_URL, {
-        method: 'POST',
-        query: {
-          clientId: STRAVA_CLIENT_ID,
-          clientSecret: STRAVA_CLIENT_SECRET,
-          grantType: 'refresh_token',
-          refreshToken,
-        },
-      },
+    const query:Auth.RefreshToken.RequestQuery = {
+      clientId: STRAVA_CLIENT_ID,
+      clientSecret: STRAVA_CLIENT_SECRET,
+      grantType: 'refresh_token',
+      refreshToken,
+    }
+    return fetchWithQuery<Auth.RefreshToken.ResponseBody>(
+      STRAVA_REFRESH_TOKEN_URL,
+      { method: 'POST', query },
     )
   },
 )
 
-const createAsyncThunkWithAuth = (type, payloadCreator) => createAsyncThunk(
-  type,
-  async (arg, thunkApi) => {
-    const { Strava: state } = thunkApi.getState()
-    if (!state.refreshToken) {
-      return Promise.reject(new Error('user is not logged-in'))
-    }
-    if (state.accessTokenExpiresAt > Date.now() / 1000) {
-      return payloadCreator(arg, state.accessToken, thunkApi)
-    }
-    const { payload, error } = await thunkApi.dispatch(refreshAuth(state.refreshToken))
-    if (error) throw error
-    return payloadCreator(arg, payload.access_token, thunkApi)
-  },
-)
+const createAsyncThunkWithAuth = <U, T>(
+  type: string,
+  payloadCreator: (arg: T, accessToken: string) => U,
+) => (
+    createAsyncThunk<U, T, { state: RootState, dispatch: AppDispatch }>(
+      type,
+      async (arg, thunkApi) => {
+        const { Strava: state } = thunkApi.getState()
+        if (!state.refreshToken) {
+          return Promise.reject(new Error('user is not logged-in'))
+        }
+        if (
+          state.accessToken
+          && state.accessTokenExpiresAt
+          && state.accessTokenExpiresAt > Date.now() / 1000
+        ) {
+          return payloadCreator(arg, state.accessToken)
+        }
+        const actionResult = await thunkApi.dispatch(refreshAuth(state.refreshToken))
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        if ('error' in actionResult) throw actionResult.error
+        return payloadCreator(arg, actionResult.payload.access_token)
+      },
+    )
+  )
 
-const fetchWithAuth = (url, { headers, accessToken, ...opts }) => (
-  fetchWithQuery(url, {
+interface RequestInitWithAuth extends RequestInitWithQuery {
+  accessToken: string
+}
+
+const fetchWithAuth = <T>(url: string, { accessToken, ...opts }: RequestInitWithAuth) => (
+  fetchWithQuery<T>(url, {
     ...opts,
     headers: {
-      ...headers,
+      ...opts.headers,
       Authorization: `Bearer ${accessToken}`,
     },
   })
@@ -75,39 +87,53 @@ const fetchWithAuth = (url, { headers, accessToken, ...opts }) => (
 
 export const getActivities = createAsyncThunkWithAuth(
   'STRAVA_GET_ACTIVITIES',
-  (query, accessToken, { rejectWithValue }) => fetchWithAuth(
-    STRAVA_ACTIVITIES_URL,
-    { query, accessToken },
-  ).catch(rejectWithValue),
+  (query: Athlete.GetLoggedInAthleteActivities.RequestQuery, accessToken) => (
+    fetchWithAuth<Athlete.GetLoggedInAthleteActivities.ResponseBody>(
+      STRAVA_ACTIVITIES_URL,
+      { query: query as Query, accessToken },
+    )
+  ),
 )
 
 export const getActivityStream = createAsyncThunkWithAuth(
   'STRAVA_GET_ACTIVITY_STREAM',
-  ({ id, ...query }, accessToken) => fetchWithAuth(
-    STRAVA_ACTIVITY_STREAM_URL.replace('%s', id),
-    { query, accessToken },
-  ),
+  (
+    arg: Activities.GetActivityStreams.RequestParams & Activities.GetActivityStreams.RequestQuery,
+    accessToken,
+  ) => {
+    const { id }: Activities.GetActivityStreams.RequestParams = arg
+    const query:Query = { keys: arg.keys, keyByType: arg.keyByType }
+    fetchWithAuth<Activities.GetActivityStreams.ResponseBody>(
+      STRAVA_ACTIVITY_STREAM_URL.replace('%s', id),
+      { query, accessToken },
+    )
+  },
 )
 
 export const getStarredSegments = createAsyncThunkWithAuth(
   'STRAVA_GET_STARRED_SEGMENTS',
-  (query, accessToken, { rejectWithValue }) => fetchWithAuth(
-    STRAVA_STARRED_SEGMENTS_URL,
-    { query, accessToken },
-  ).catch(rejectWithValue),
+  (query: Segments.GetLoggedInAthleteStarredSegments.RequestQuery, accessToken) => (
+    fetchWithAuth<Segments.GetLoggedInAthleteStarredSegments.ResponseBody>(
+      STRAVA_STARRED_SEGMENTS_URL,
+      { query: query as Query, accessToken },
+    )
+  ),
 )
-
-window.getStarredSegments = getStarredSegments
 
 export const exchangeToken = createAsyncThunk(
   'STRAVA_EXCHANGE_TOKEN',
-  (code) => fetchWithQuery(STRAVA_TOKEN_URL, {
-    method: 'POST',
-    query: {
+  (code: string) => {
+    if (!STRAVA_CLIENT_ID) return Promise.reject(new Error('missing STRAVA_CLIENT_ID'))
+    if (!STRAVA_CLIENT_SECRET) return Promise.reject(new Error('missing STRAVA_CLIENT_SECRET'))
+    const query: Auth.ExchangeToken.RequestQuery = {
       code,
-      client_id: STRAVA_CLIENT_ID,
-      client_secret: STRAVA_CLIENT_SECRET,
-      grant_type: 'authorization_code',
-    },
-  }),
+      clientId: STRAVA_CLIENT_ID,
+      clientSecret: STRAVA_CLIENT_SECRET,
+      grantType: 'authorization_code',
+    }
+    return fetchWithQuery<Auth.ExchangeToken.ResponseBody>(
+      STRAVA_TOKEN_URL,
+      { method: 'POST', query },
+    )
+  },
 )
