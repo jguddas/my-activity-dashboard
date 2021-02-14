@@ -22,18 +22,18 @@ const store = configureStore({
     Split,
     Strava,
   })),
-  middleware: [
-    ...getDefaultMiddleware({
-      immutableCheck: false,
-      serializableCheck: false,
-    }),
+  middleware: getDefaultMiddleware({
+    immutableCheck: false,
+    serializableCheck: false,
+  }).concat([
     logger,
-  ],
+  ]),
 })
 
+export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
-export const useDispatch = useReduxDispatch
+export const useDispatch = () => useReduxDispatch<AppDispatch>()
 
 export const persistor = persistStore(store)
 export default store
