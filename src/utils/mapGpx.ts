@@ -5,7 +5,9 @@ import last from 'lodash/last'
 
 import getDistance from './getDistance'
 
-const mapGpx = (gpx) => {
+import { Activity } from '../types/activity'
+
+const mapGpx = (gpx):Activity => {
   const endTime = last(gpx.trk.trkseg.trkpt).time._text
   const startTime = gpx.trk.trkseg.trkpt[0].time._text
   const trkpts = gpx.trk.trkseg.trkpt.reduce((acc, pt, idx) => {
