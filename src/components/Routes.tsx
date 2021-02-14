@@ -50,7 +50,7 @@ function Routes():JSX.Element {
           const { code } = parseQuery(search)
           if (!code || typeof code !== 'string') return <Error404Page />
           dispatch(exchangeToken(code))
-          return athlete ? <Redirect to="/" /> : <PageWrapper />
+          return <Redirect to="/" />
         }}
       />
       {!athlete && (
