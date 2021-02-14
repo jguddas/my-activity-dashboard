@@ -10,7 +10,7 @@ import PageHeaderButton from './PageHeaderButton'
 
 type Props = {
   disabled?: boolean
-  setLoading: (isLoading:boolean, loading:number) => null
+  setLoading: (isLoading:boolean, loading:number) => void
 }
 
 function UploadButton({ disabled = false, setLoading: setLoadingProps }:Props):JSX.Element {

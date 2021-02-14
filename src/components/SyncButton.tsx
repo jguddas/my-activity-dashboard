@@ -15,7 +15,7 @@ import { Activity } from '../types/activity'
 
 type Props = {
   disabled?: boolean
-  setLoading: (isLoading:boolean, loading:number) => null
+  setLoading: (isLoading:boolean, loading:number) => void
 }
 
 function SyncButton({
