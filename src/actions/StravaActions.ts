@@ -103,7 +103,7 @@ export const getActivityStream = createAsyncThunkWithAuth(
   ) => {
     const { id }: Activities.GetActivityStreams.RequestParams = arg
     const query:Query = { keys: arg.keys, keyByType: arg.keyByType }
-    fetchWithAuth<Activities.GetActivityStreams.ResponseBody>(
+    return fetchWithAuth<Activities.GetActivityStreams.ResponseBody>(
       STRAVA_ACTIVITY_STREAM_URL.replace('%s', id),
       { query, accessToken },
     )
