@@ -9,26 +9,26 @@ import 'leaflet/dist/leaflet.css'
 
 import colors from '../colors'
 
-import { ActivityWithTrkpts, SkeletonActivity, Trkpt } from '../types/activity'
+type MapTrkpt = [number, number, number?, number?, number?]
+
+export type MapActivity = {
+  id?: string
+  trkpts: MapTrkpt[]
+  endpt: MapTrkpt
+}
 
 interface Map extends LMap {
   _onResize: () => void
 }
 
-const getLatLon = (
-  [lat, lon]:[number, number]|Trkpt,
-):L.LatLngTuple => (
-  [lat, lon]
-)
-
 interface Props extends RouteComponentProps {
-  activity: ActivityWithTrkpts | SkeletonActivity
+  activity: MapActivity
   children?: React.ReactNode
   className?: string
   scrollWheelZoom?: boolean
   height?: number|string
   width?: number|string
-  matchedActivities?: ActivityWithTrkpts[] | SkeletonActivity[]
+  matchedActivities?: MapActivity[]
   trimEnd?: number,
   smoothFactor?: number
   fillColor?: string
@@ -39,6 +39,10 @@ interface Props extends RouteComponentProps {
 }
 
 type State = { isFullscreen: boolean }
+
+const getLatLon = (
+  [lat, lon]:[number, number]|MapTrkpt,
+) => [lat, lon] as L.LatLngTuple
 
 class ActivityMap extends React.Component<Props, State> {
   static defaultProps = {
@@ -140,7 +144,8 @@ class ActivityMap extends React.Component<Props, State> {
     const cords = activity.trkpts.map(getLatLon)
 
     this.matchedLines = matchedActivities
-      .map((matchedActivity:ActivityWithTrkpts|SkeletonActivity) => (
+      .concat(activity)
+      .map((matchedActivity) => (
         L.polyline(matchedActivity.trkpts.map(getLatLon), {
           color: 'gray',
           weight: 3,
@@ -148,7 +153,7 @@ class ActivityMap extends React.Component<Props, State> {
           smoothFactor,
         })
       ).on('click', () => {
-        if ('id' in matchedActivity) {
+        if (matchedActivity.id) {
           history.push(matchedActivity.id)
         }
       }))
@@ -167,7 +172,7 @@ class ActivityMap extends React.Component<Props, State> {
     })
     this.bounds = this.line.getBounds()
     this.matchedMarkers = matchedActivities
-      .map((matchedActivity:ActivityWithTrkpts|SkeletonActivity) => (
+      .map((matchedActivity) => (
         L.circleMarker(getLatLon(matchedActivity.endpt), {
           radius: 2,
           color: 'black',
@@ -176,7 +181,7 @@ class ActivityMap extends React.Component<Props, State> {
           fillOpacity: 1,
           weight: 1,
         }).on('click', ():void => {
-          if ('id' in matchedActivity) {
+          if (matchedActivity.id) {
             history.push(`/activity/${matchedActivity.id}`)
           }
         })
@@ -213,7 +218,7 @@ class ActivityMap extends React.Component<Props, State> {
   updateTrimEnd = () => {
     const { trimEnd, activity, matchedActivities = [] } = this.props
     if (!trimEnd) return
-    const isNotTrimEnd = (trkpt:Trkpt) => trkpt[3] <= trimEnd
+    const isNotTrimEnd = (trkpt:MapTrkpt) => !!trkpt[3] && trkpt[3] <= trimEnd
     const lastPtIdx = findLastIndex(activity.trkpts, isNotTrimEnd)
     const cords = activity.trkpts.slice(0, lastPtIdx + 1).map(getLatLon)
     this.stroke?.setLatLngs(cords)

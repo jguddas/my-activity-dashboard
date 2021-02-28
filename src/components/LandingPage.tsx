@@ -8,7 +8,13 @@ import PageWrapper from './PageWrapper'
 import ActivityMapWithSlider from './ActivityMapWithSlider'
 import ScrollToTopOnMount from './ScrollToTopOnMount'
 
-import { SkeletonActivity } from '../types/activity.js'
+import { Trkpt } from '../types/activity.js'
+
+type SkeletonActivity = {
+  duration: number
+  trkpts: [number, number, number, number][]
+  endpt: Trkpt
+}
 
 function LandingPage():JSX.Element {
   return (

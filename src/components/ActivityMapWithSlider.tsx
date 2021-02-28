@@ -7,16 +7,20 @@ import MaskedInput from 'react-text-mask'
 import colors from '../colors'
 import formatDuration from '../utils/formatDuration'
 
-import { ActivityWithTrkpts, SkeletonActivity } from '../types/activity'
+import { MapActivity } from './ActivityMap'
 
 const ActivityMap = React.lazy(() => import(
   /* webpackChunkName: "activity-map" */
   './ActivityMap'
 ))
 
+export interface MapWithSliderActivity extends MapActivity {
+  duration: number
+}
+
 type Props = {
-  activity: ActivityWithTrkpts | SkeletonActivity
-  matchedActivities?: ActivityWithTrkpts[] | SkeletonActivity[]
+  activity: MapWithSliderActivity
+  matchedActivities?: MapWithSliderActivity[]
   factor?: number
 }
 

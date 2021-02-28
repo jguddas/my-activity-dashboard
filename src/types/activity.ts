@@ -31,9 +31,3 @@ export type ActivityWithoutTrkpts = {
 }
 
 export type Activity = ActivityWithTrkpts | ActivityWithoutTrkpts
-
-export type SkeletonActivity = {
-  duration: number
-  trkpts: [number, number, number, number][]
-  endpt: Trkpt
-}
