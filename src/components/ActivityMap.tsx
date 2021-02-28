@@ -198,6 +198,7 @@ class ActivityMap extends React.Component<Props, State> {
       this.matchedMarkers.forEach((matchedMarker) => (
         this.map && matchedMarker.addTo(this.map)
       ))
+      this.marker.addTo(this.map)
     }
   }
 
