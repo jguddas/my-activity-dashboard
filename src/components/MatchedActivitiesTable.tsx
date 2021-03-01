@@ -8,11 +8,11 @@ import sortBy from 'lodash/sortBy'
 import colors from '../colors'
 import formatDuration from '../utils/formatDuration'
 
-import { Activity } from '../types/activity'
+import { SplitMatch } from '../types/split'
 
 type Props = {
-  activity: Activity
-  activities: Activity[]
+  activity: SplitMatch
+  activities: SplitMatch[]
 }
 type ColumnName = 'startTime' | 'distance' | 'speed' | 'duration'
 
