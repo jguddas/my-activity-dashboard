@@ -16,7 +16,7 @@ import {
   ATobSplitMatch,
 } from '../types/split'
 
-const aTobMatcher = (
+export const aTobMatcher = (
   { a, b }:AToBSplit,
   { trkpts, id, name, date, startTime }:ActivityWithTrkpts,
 ):ATobSplitMatch[] => {
@@ -53,7 +53,7 @@ const aTobMatcher = (
   return result
 }
 
-const distanceMatcher = (
+export const distanceMatcher = (
   { distance }:DistanceSplit,
   { trkpts, id, name, date, startTime }:ActivityWithTrkpts,
 ):DistanceSplitMatch[] => {
@@ -85,7 +85,7 @@ const distanceMatcher = (
   return []
 }
 
-const activityMatcher = (
+export const activityMatcher = (
   split: ActivitySplit,
   activity:ActivityWithTrkpts,
 ):ActivitySplitMatch[] => {
