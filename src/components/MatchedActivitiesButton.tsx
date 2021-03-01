@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import PageHeaderButton from './PageHeaderButton'
 
-import splitMatchers from '../utils/splitMatchers'
+import matchActivity from '../utils/matchActivity'
 import getDistance from '../utils/getDistance'
 
 import { Activity } from '../types/activity'
@@ -20,7 +20,9 @@ const MatchedActivitiesButton = ({ activity, activities }: Props):JSX.Element|nu
     !isRoundTrip
     && activities.some((_activity) => (
       _activity.id !== activity.id
-      && (splitMatchers.matched({
+      && activity.trkpts
+      && _activity.trkpts
+      && (matchActivity({
         activity,
         type: 'matched',
         name: activity.name,

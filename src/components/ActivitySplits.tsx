@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useSelector } from '../store'
 
-import splitMatchers from '../utils/splitMatchers'
+import matchSplit from '../utils/matchSplit'
 
 import { Activity } from '../types/activity'
 
@@ -15,7 +15,7 @@ function ActivitySplits({ activity }:Props):JSX.Element|null {
   const splits = useSelector((state) => state.Split.splits)
 
   const rows = splits.map((split) => {
-    const matchedSplits = splitMatchers[split.type](split, activity)
+    const matchedSplits = matchSplit(split, activity)
     if (!matchedSplits.length) return null
     return (
       <tr
