@@ -13,9 +13,9 @@ import ActivityMap from './ActivityMap'
 import DotGraph from './DotGraph'
 import MatchedActivitiesTable from './MatchedActivitiesTable'
 
-import splitMatchers from '../utils/splitMatchers'
+import matchSplit from '../utils/matchSplit'
 
-import { Split } from '../types/split'
+import { Split, ATobSplitMatch, ActivitySplitMatch } from '../types/split'
 import { Activity } from '../types/activity'
 
 type Props = {
@@ -25,24 +25,23 @@ type Props = {
   factor?: number
 }
 
-function SplitPage({ split, activities, activity, factor }: Props):JSX.Element {
+function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Element {
   const history = useHistory()
   const [isFullscreen, setFullscreen] = useState(
     screenfull.isEnabled ? screenfull.isFullscreen : false,
   )
 
-  const matchedSplits = activities
-    .filter((_activity) => _activity.trkpts)
-    .reverse()
-    .flatMap((_activity) => splitMatchers[split.type](split, _activity))
+  const matchedSplits = activities.reverse().flatMap((a) => matchSplit(split, a))
 
-  if (matchedSplits.length && !activity) {
+  if (matchedSplits.length && !activity && split.type !== 'matched') {
     return (
       <Redirect
         to={`/split/${split.id}/${matchedSplits[matchedSplits.length - 1].id}`}
       />
     )
   }
+
+  const currentSplitMatch = matchedSplits.find(({ id }) => id === activity.id)
 
   return (
     <PageWrapper>
@@ -55,18 +54,17 @@ function SplitPage({ split, activities, activity, factor }: Props):JSX.Element {
         ) : null}
       </PageHeader>
       {(split.type === 'aTob' || split.type === 'matched') && (
-        matchedSplits.length > 0 ? (
+        currentSplitMatch ? (
           <ActivityMapWithSlider
             factor={factor}
-            activity={matchedSplits.find(({ id }) => id === activity.id)}
-            matchedActivities={matchedSplits}
+            activity={currentSplitMatch as ActivitySplitMatch|ATobSplitMatch}
+            matchedActivities={matchedSplits as ActivitySplitMatch[]|ATobSplitMatch[]}
           />
         ) : (
           <div className="card">
             <ActivityMap
               activity={split.type === 'matched' ? split.activity : {
                 trkpts: [split.a, split.b],
-                startpt: split.a,
                 endpt: split.b,
               }}
               controls
@@ -85,20 +83,21 @@ function SplitPage({ split, activities, activity, factor }: Props):JSX.Element {
             <MyCardHeader className="card-header">
               <MyHeaderText>
                 Matched Splits
+                {' '}
               </MyHeaderText>
             </MyCardHeader>
             <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
               <DotGraph
                 data={matchedSplits.map((matchedSplit) => matchedSplit.value)}
                 isInteractive
-                selected={activity ? matchedSplits.reduce((acc, { id }, idx) => (
+                selected={activity ? matchedSplits.reduce<number[]>((acc, { id }, idx) => (
                   id === activity.id ? [...acc, idx] : acc
                 ), []) : []}
                 onClick={(idx) => history.push(matchedSplits[idx].id)}
                 format={(val, idx) => (
                   <span>
                     <strong>
-                      {dayjs(activities.find(({ id }) => id === matchedSplits[idx].id).date).format('DD.MM.YYYY')}
+                      {dayjs(activities.find(({ id }) => id === matchedSplits[idx].id)?.date).format('DD.MM.YYYY')}
                     </strong>
                     &nbsp;
                     {matchedSplits[idx].label ?? matchedSplits[idx].value}
@@ -107,12 +106,14 @@ function SplitPage({ split, activities, activity, factor }: Props):JSX.Element {
               />
             </div>
           </div>
-          <div className="card">
-            <MatchedActivitiesTable
-              activities={matchedSplits}
-              activity={matchedSplits.find(({ id }) => id === activity.id)}
-            />
-          </div>
+          {currentSplitMatch ? (
+            <div className="card">
+              <MatchedActivitiesTable
+                activities={matchedSplits}
+                activity={currentSplitMatch}
+              />
+            </div>
+          ) : null}
         </>
       )}
     </PageWrapper>
