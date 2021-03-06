@@ -4,6 +4,7 @@ import { Box, PolymorphicComponentProps } from 'react-polymorphic-box'
 
 export type PageHeaderButtonOwnProps = {
   icon: string;
+  className?: string;
 }
 
 export type PageHeaderButtonProps<
