@@ -112,6 +112,45 @@ export namespace Athlete {
   }
 }
 
+export interface StaredSegment {
+    id:                 number;
+    resource_state:     number;
+    name:               string;
+    activity_type:      string;
+    distance:           number;
+    average_grade:      number;
+    maximum_grade:      number;
+    elevation_high:     number;
+    elevation_low:      number;
+    start_latlng:       [number,number];
+    end_latlng:         [number,number];
+    elevation_profile:  null;
+    start_latitude:     number;
+    start_longitude:    number;
+    end_latitude:       number;
+    end_longitude:      number;
+    climb_category:     number;
+    city:               null | string;
+    state:              string | null;
+    country:            string | null;
+    private:            boolean;
+    hazardous:          boolean;
+    starred:            boolean;
+    pr_time?:           number;
+    athlete_pr_effort?: AthletePREffort;
+    starred_date:       Date;
+}
+
+export interface AthletePREffort {
+    id:               number;
+    activity_id:      number;
+    elapsed_time:     number;
+    distance:         number;
+    start_date:       Date;
+    start_date_local: Date;
+    is_kom:           boolean;
+}
+
 export namespace Segments {
   /**
    * @description Returns the specified segment. read_all scope required in order to retrieve athlete-specific segment information, or to retrieve private segments.
@@ -141,7 +180,7 @@ export namespace Segments {
     export type RequestQuery = { page?: number; perPage?: number }
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = any[]
+    export type ResponseBody = StaredSegment[]
   }
   /**
    * @description Stars/Unstars the given segment for the authenticated athlete. Requires profile:write scope.
