@@ -32,6 +32,7 @@
     "react-c3js": "^0.1.20",
     "react-dom": "^17.0.1",
     "react-lazyload": "^2.6.7",
+    "react-polymorphic-box": "^3.0.3",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",

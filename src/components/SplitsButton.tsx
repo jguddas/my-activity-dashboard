@@ -9,7 +9,7 @@ type Props = {
 
 const SplitsButton = ({ to = '/splits' }:Props):JSX.Element => (
   <PageHeaderButton
-    RootComponent={Link}
+    as={Link}
     to={to}
     icon="scissors"
   >

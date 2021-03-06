@@ -7,7 +7,7 @@ type Props = { to: string }
 
 const ActivityButton = ({ to }: Props):JSX.Element => (
   <PageHeaderButton
-    RootComponent={Link}
+    as={Link}
     to={to}
     icon="navigation"
   >

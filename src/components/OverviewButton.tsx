@@ -9,7 +9,7 @@ type Props = {
 
 const OverviewButton = ({ to = '/activities' }:Props):JSX.Element => (
   <PageHeaderButton
-    RootComponent={Link}
+    as={Link}
     to={to}
     icon="calendar"
   >

@@ -31,7 +31,7 @@ const MatchedActivitiesButton = ({ activity, activities }: Props):JSX.Element|nu
   ) {
     return (
       <PageHeaderButton
-        RootComponent={Link}
+        as={Link}
         to={`/matched-activities/${activity.id}`}
         icon="list"
       >

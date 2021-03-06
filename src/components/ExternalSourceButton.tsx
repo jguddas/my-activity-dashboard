@@ -6,7 +6,7 @@ type Props = { to: string }
 
 const ExternalSourceButton = ({ to }:Props):JSX.Element => (
   <PageHeaderButton
-    RootComponent="a"
+    as="a"
     href={to}
     target="_blank"
     icon="external-link"

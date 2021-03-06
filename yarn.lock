@@ -10929,6 +10929,11 @@ react-motion@^0.5.2:
     prop-types "^15.5.8"
     raf "^3.1.0"
 
+react-polymorphic-box@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-polymorphic-box/-/react-polymorphic-box-3.0.3.tgz#4d0fe6e874a288c5c0868dce514962b100815d04"
+  integrity sha512-UUm65IGKXW7/KW4z4hyPFaQ8GMcdRMlMm3jPlU26DZ8CaWUbNP3wLD9dfjjSapgFC63uXCibtn6Th6IYd1Cm8g==
+
 react-redux@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.0.tgz#f970f62192b3981642fec46fd0db18a074fe879d"
