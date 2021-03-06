@@ -52,7 +52,11 @@ function SyncStarredSegmentsButton({
           }))
         }
         setLoading(false)
-      })().catch((err) => alert(err.message))}
+      })().catch((err) => {
+        if (err instanceof Error) {
+          alert(err.message)
+        }
+      })}
     >
       Sync Starred Segments
     </PageHeaderButton>
