@@ -49,7 +49,11 @@ function Routes():JSX.Element {
         render={({ location: { search } }:RouteComponentProps) => {
           const { code } = parseQuery(search)
           if (!code || typeof code !== 'string') return <Error404Page />
-          dispatch(exchangeToken(code))
+          dispatch(exchangeToken(code)).catch((err) => {
+            if (err instanceof Error) {
+              alert(err.message)
+            }
+          })
           return <Redirect to="/" />
         }}
       />
