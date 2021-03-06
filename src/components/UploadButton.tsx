@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
+import isGpx from '../utils/isGpx'
 import parseGpx from '../utils/parseGpx'
 import mapGpx from '../utils/mapGpx'
 
@@ -25,14 +26,19 @@ function UploadButton({ disabled = false, setLoading: setLoadingProps }:Props):J
     setLoadingProps(_isLoading, value)
   }, [setLoadingProps])
   React.useEffect(() => {
-    const loadFile = (file:File) => new Promise<void>((resolve) => {
+    const loadFile = (file:File) => new Promise<void>((resolve, reject) => {
       const reader = new FileReader()
       reader.onload = (e) => {
         if (e.target?.result) {
-          dispatch(loadGpx({
-            ...mapGpx(parseGpx(e.target.result.toString())),
-            id: file.name.replace(/\.\w*$/, ''),
-          }))
+          const gpx = parseGpx(e.target.result.toString())
+          if (isGpx(gpx)) {
+            dispatch(loadGpx({
+              ...mapGpx(gpx.gpx),
+              id: file.name.replace(/\.\w*$/, ''),
+            }))
+          } else {
+            reject(new Error(`could not load ${file.name}`))
+          }
         }
         resolve()
       }

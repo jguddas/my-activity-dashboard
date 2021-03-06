@@ -1,32 +1,34 @@
 /* eslint-disable no-underscore-dangle */
 import dayjs from 'dayjs'
 import round from 'lodash/round'
-import last from 'lodash/last'
-
+import memoize from 'lodash/memoize'
 import getDistance from './getDistance'
 
-import { Activity } from '../types/activity'
+import { ActivityWithTrkpts, Trkpt } from '../types/activity'
+import { Gpx, Gpxpt } from '../types/gpx'
 
-const mapGpx = (gpx):Activity => {
-  const endTime = last(gpx.trk.trkseg.trkpt).time._text
+const toTrkpt = memoize((pt:Gpxpt, arr:Gpxpt[], idx:number, startTime:string):Trkpt => {
+  const time = dayjs(pt.time._text)
+  const previousPt = arr[idx - 1] ? toTrkpt(arr[idx - 1], arr, idx - 1, startTime) : null
+  return [
+    parseFloat(pt._attributes.lat),
+    parseFloat(pt._attributes.lon),
+    parseFloat(pt.ele._text),
+    time.diff(startTime),
+    previousPt
+      ? round(getDistance(previousPt, [
+        parseFloat(pt._attributes.lat),
+        parseFloat(pt._attributes.lon),
+      ]) + previousPt[4], 4)
+      : 0,
+  ]
+})
+
+const mapGpx = (gpx:Gpx['gpx']):Omit<ActivityWithTrkpts, 'id'> => {
+  const endTime = gpx.trk.trkseg.trkpt.slice(-1)[0].time._text
   const startTime = gpx.trk.trkseg.trkpt[0].time._text
-  const trkpts = gpx.trk.trkseg.trkpt.reduce((acc, pt, idx) => {
-    const time = dayjs(pt.time._text)
-    const previousPt = acc[idx - 1]
-    return [...acc, [
-      pt._attributes.lat,
-      pt._attributes.lon,
-      pt.ele._text,
-      time.diff(startTime),
-      previousPt
-        ? round(getDistance(previousPt, [
-          pt._attributes.lat,
-          pt._attributes.lon,
-        ]) + previousPt[4], 4)
-        : 0,
-    ]]
-  }, [])
-  const endpt = last(trkpts)
+  const trkpts = gpx.trk.trkseg.trkpt.map((pt, idx, arr) => toTrkpt(pt, arr, idx, startTime))
+  const endpt = trkpts.slice(-1)[0]
   const distance = endpt[4]
 
   return ({

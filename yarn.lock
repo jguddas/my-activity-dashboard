@@ -12889,6 +12889,11 @@ tryer@^1.0.1:
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
+ts-blaze@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/ts-blaze/-/ts-blaze-1.4.1.tgz#55494a9c29e8ad2cdf4fabd7bef11d6ad58d23d7"
+  integrity sha512-4v5/NC10w+2ye1MbsJpSfSAqnGhaCu85QFDyoFp8xIqihK9bE8aoh8ZWPP5I6MOjfutcS80JM9/9jXICIojOTg==
+
 ts-pnp@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
