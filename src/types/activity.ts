@@ -2,7 +2,7 @@ export type Trkpt = [ number, number, number, number, number ]
 
 export type ActivityWithTrkpts = {
   id: string
-  externalLink: string
+  externalLink?: string
   endTime: string
   startTime: string
   distance: number
@@ -17,7 +17,7 @@ export type ActivityWithTrkpts = {
 
 export type ActivityWithoutTrkpts = {
   id: string
-  externalLink: string
+  externalLink?: string
   endTime: string
   startTime: string
   distance: number
