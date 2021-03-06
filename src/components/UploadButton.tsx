@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import pSeries from 'p-series'
 
 import isGpx from '../utils/isGpx'
 import parseGpx from '../utils/parseGpx'
@@ -51,13 +52,18 @@ function UploadButton({ disabled = false, setLoading: setLoadingProps }:Props):J
     fileSelector.current.addEventListener('input', () => {
       if (!fileSelector.current?.files) return
       const files = Array.from(fileSelector.current.files)
-      files.reduce((acc, file, idx, arr) => acc
-        .then(() => loadFile(file))
-        .then(() => {
-          const nextLoading = arr.length - idx - 1
-          setLoading(!!nextLoading, nextLoading)
-        }).catch(() => setLoading(false, 0)),
-      Promise.resolve())
+      pSeries(
+        files.map((file, idx, arr) => () => (
+          loadFile(file).then(() => {
+            const nextLoading = arr.length - idx - 1
+            setLoading(!!nextLoading, nextLoading)
+          })
+        )),
+      ).catch((err) => {
+        if (err instanceof Error) {
+          alert(err.message)
+        }
+      })
       setLoading(!!files.length, files.length)
     })
   })
