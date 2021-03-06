@@ -50,8 +50,8 @@ export type LoggedInAthleteActivity = {
   id: number;
   external_id: string;
   upload_id: number;
-  start_date: Date;
-  start_date_local: Date;
+  start_date: string;
+  start_date_local: string;
   timezone: string;
   utc_offset: number;
   start_latlng: [number, number] | null;
@@ -206,7 +206,7 @@ export interface StaredSegment {
   starred: boolean;
   pr_time?: number;
   athlete_pr_effort?: AthletePREffort;
-  starred_date: Date;
+  starred_date: string;
 }
 
 export interface AthletePREffort {
@@ -214,8 +214,8 @@ export interface AthletePREffort {
   activity_id: number;
   elapsed_time: number;
   distance: number;
-  start_date: Date;
-  start_date_local: Date;
+  start_date: string;
+  start_date_local: string;
   is_kom: boolean;
 }
 
