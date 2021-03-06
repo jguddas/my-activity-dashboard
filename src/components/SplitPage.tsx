@@ -21,7 +21,7 @@ import { Activity } from '../types/activity'
 type Props = {
   split: Split,
   activities: Activity[],
-  activity: Activity,
+  activity?: Activity,
   factor?: number
 }
 
@@ -41,7 +41,7 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
     )
   }
 
-  const currentSplitMatch = matchedSplits.find(({ id }) => id === activity.id)
+  const currentSplitMatch = matchedSplits.find(({ id }) => id === activity?.id)
 
   return (
     <PageWrapper>

@@ -104,8 +104,7 @@ function Routes():JSX.Element {
           return (
             <SplitPage
               activities={activities}
-              activity={activity}
-              splits={splits}
+              activity={activity || undefined}
               split={split}
               factor={0.0005}
             />
