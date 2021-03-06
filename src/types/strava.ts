@@ -546,7 +546,39 @@ export namespace Activities {
     }
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = any
+    export type ResponseBody = {
+      velocitySmooth: any;
+      heartrate: any;
+      cadence: any;
+      watts: any;
+      temp: any;
+      moving: any;
+      gradeSmooth: any;
+      latlng: {
+        data: [number, number][];
+        series_type: string;
+        original_size: number;
+        resolution: string;
+      };
+      distance: {
+        data: number[];
+        series_type: string;
+        original_size: number;
+        resolution: string;
+      };
+      altitude: {
+        data: number[];
+        series_type: string;
+        original_size: number;
+        resolution: string;
+      };
+      time: {
+        data: number[];
+        series_type: string;
+        original_size: number;
+        resolution: string;
+      };
+    }
   }
 }
 

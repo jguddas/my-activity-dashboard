@@ -11,7 +11,7 @@ import mapStava from '../utils/mapStrava'
 
 import PageHeaderButton from './PageHeaderButton'
 
-import { LoggedInAthleteActivity } from '../types/strava'
+import { LoggedInAthleteActivity, Activities } from '../types/strava'
 
 type Props = {
   disabled?: boolean
@@ -66,12 +66,13 @@ function SyncButton({
           const activity = activities[i]
           setLoading(true, i)
           if (activity.start_latlng) {
-            // eslint-disable-next-line no-await-in-loop
-            const streams = await dispatch(getActivityStream({
-              id: activity.id,
-              keys: ['time', 'distance', 'latlng', 'altitude'],
-              keyByType: true,
-            })).then(unwrapResult).catch(handleError)
+            const streams: Pick<Activities.GetActivityStreams.ResponseBody, 'time'|'distance'|'latlng'|'altitude'> = (
+              // eslint-disable-next-line no-await-in-loop
+              await dispatch(getActivityStream({
+                id: `${activity.id}`,
+                keys: ['time', 'distance', 'latlng', 'altitude'],
+                keyByType: true,
+              })).then(unwrapResult).catch(handleError))
             dispatch(loadGpx(mapStava({ ...activity, streams })))
           } else {
             dispatch(loadGpx(mapStava(activity)))
