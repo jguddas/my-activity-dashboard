@@ -1,3 +1,9 @@
+// disable linting due to broken types in @nivo
+// https://github.com/plouc/nivo/issues/1413
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+
 import React from 'react'
 import { ResponsiveLineCanvas } from '@nivo/line'
 

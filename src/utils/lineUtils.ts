@@ -1,3 +1,9 @@
+// disable linting due to broken types in @nivo
+// https://github.com/plouc/nivo/issues/1413
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+
 import last from 'lodash/last'
 
 export const drawEndCap = ({ series, ctx }) => {
