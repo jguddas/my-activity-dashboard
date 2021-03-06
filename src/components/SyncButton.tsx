@@ -79,7 +79,11 @@ function SyncButton({
           }
         }
         setLoading(false, 0)
-      })().catch((err) => alert(err.message))}
+      })().catch((err) => {
+        if (err instanceof Error) {
+          alert(err.message)
+        }
+      })}
     >
       {isLoading && loading > 0 ? `Sync (${loading})` : 'Sync'}
     </PageHeaderButton>
