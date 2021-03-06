@@ -46,7 +46,7 @@ function SyncStarredSegmentsButton({
           dispatch(addSplit({
             a: starredSegments[i].start_latlng,
             b: starredSegments[i].end_latlng,
-            id: starredSegments[i].id,
+            id: `${starredSegments[i].id}`,
             name: starredSegments[i].name,
             type: 'aTob',
           }))
