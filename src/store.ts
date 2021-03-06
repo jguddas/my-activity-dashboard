@@ -33,6 +33,7 @@ const store = configureStore({
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDispatch = () => useReduxDispatch<AppDispatch>()
 
 export const persistor = persistStore(store)
