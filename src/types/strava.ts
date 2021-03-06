@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types, @typescript-eslint/no-namespace, max-len */
 /* tslint:disable */
-/* eslint-disable */
 
 export namespace Athletes {
   /**
@@ -113,42 +113,42 @@ export namespace Athlete {
 }
 
 export interface StaredSegment {
-    id:                 number;
-    resource_state:     number;
-    name:               string;
-    activity_type:      string;
-    distance:           number;
-    average_grade:      number;
-    maximum_grade:      number;
-    elevation_high:     number;
-    elevation_low:      number;
-    start_latlng:       [number,number];
-    end_latlng:         [number,number];
-    elevation_profile:  null;
-    start_latitude:     number;
-    start_longitude:    number;
-    end_latitude:       number;
-    end_longitude:      number;
-    climb_category:     number;
-    city:               null | string;
-    state:              string | null;
-    country:            string | null;
-    private:            boolean;
-    hazardous:          boolean;
-    starred:            boolean;
-    pr_time?:           number;
-    athlete_pr_effort?: AthletePREffort;
-    starred_date:       Date;
+  id: number;
+  resource_state: number;
+  name: string;
+  activity_type: string;
+  distance: number;
+  average_grade: number;
+  maximum_grade: number;
+  elevation_high: number;
+  elevation_low: number;
+  start_latlng: [number, number];
+  end_latlng: [number, number];
+  elevation_profile: null;
+  start_latitude: number;
+  start_longitude: number;
+  end_latitude: number;
+  end_longitude: number;
+  climb_category: number;
+  city: null | string;
+  state: string | null;
+  country: string | null;
+  private: boolean;
+  hazardous: boolean;
+  starred: boolean;
+  pr_time?: number;
+  athlete_pr_effort?: AthletePREffort;
+  starred_date: Date;
 }
 
 export interface AthletePREffort {
-    id:               number;
-    activity_id:      number;
-    elapsed_time:     number;
-    distance:         number;
-    start_date:       Date;
-    start_date_local: Date;
-    is_kom:           boolean;
+  id: number;
+  activity_id: number;
+  elapsed_time: number;
+  distance: number;
+  start_date: Date;
+  start_date_local: Date;
+  is_kom: boolean;
 }
 
 export namespace Segments {
@@ -598,7 +598,7 @@ export namespace Auth {
       grantType: 'authorization_code'
     }
     export type RequestBody = never
-    export type RequestHeaders = never 
+    export type RequestHeaders = never
     export type ResponseBody = {
       token_type: string
       expires_at: number
