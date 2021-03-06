@@ -5,10 +5,10 @@ import round from 'lodash/round'
 import { Activity, Trkpt } from '../types/activity'
 
 type Arg = {
-  id: string
+  id: number
   name: string
   distance: number
-  streams: {
+  streams?: {
     time:{data:number[]}
     latlng:{data:[number, number][]}
     altitude:{data:number[]}
