@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import loadable from '@loadable/component'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom'
 import { parse as parseQuery } from 'query-string'
 import { useSelector, useDispatch } from '../store'
 
@@ -46,7 +46,7 @@ function Routes():JSX.Element {
     <Switch>
       <Route
         path="/exchange-token"
-        render={({ location: { search } }) => {
+        render={({ location: { search } }:RouteComponentProps) => {
           const { code } = parseQuery(search)
           if (!code || typeof code !== 'string') return <Error404Page />
           dispatch(exchangeToken(code))
@@ -64,11 +64,11 @@ function Routes():JSX.Element {
       <Route
         exact
         path="/matched-activities/:activityId"
-        render={({ match }) => {
+        render={({ match }:RouteComponentProps<{activityId: string}>) => {
           const activity = activities.find(({ id }) => (
             id === decodeURI(match.params.activityId)
           ))
-          if (!activity) {
+          if (!activity?.trkpts) {
             return (
               <Error404Page />
             )
@@ -77,7 +77,6 @@ function Routes():JSX.Element {
             <SplitPage
               activities={activities}
               activity={activity}
-              splits={splits}
               split={{
                 activity,
                 name: 'Matched Activities',
@@ -89,7 +88,7 @@ function Routes():JSX.Element {
       />
       <Route
         path="/split/:splitId/:activityId?"
-        render={({ match }) => {
+        render={({ match }:RouteComponentProps<{splitId:string, activityId?:string}>) => {
           const { splitId, activityId } = match.params
           const split = splitId ? splits.find(({ id }) => (
             `${id}` === decodeURI(splitId)
@@ -116,7 +115,7 @@ function Routes():JSX.Element {
       <Route
         exact
         path="/activities/:month"
-        render={({ match }) => (
+        render={({ match }:RouteComponentProps<{month: string}>) => (
           <ActivitiesPage
             activities={activities}
             month={match.params.month}
@@ -126,7 +125,7 @@ function Routes():JSX.Element {
       <Route
         exact
         path="/activity/:activityId"
-        render={({ match }) => {
+        render={({ match }:RouteComponentProps<{activityId: string}>) => {
           const activity = activities.find(({ id }) => (
             id === decodeURI(match.params.activityId)
           ))
