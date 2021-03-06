@@ -34,6 +34,74 @@ export namespace Athletes {
   }
 }
 
+export type LoggedInAthleteActivity = {
+  resource_state: number;
+  athlete: {
+    id: number;
+    resource_state: number;
+  };
+  name: string;
+  distance: number;
+  moving_time: number;
+  elapsed_time: number;
+  total_elevation_gain: number;
+  type: string;
+  workout_type: null;
+  id: number;
+  external_id: string;
+  upload_id: number;
+  start_date: Date;
+  start_date_local: Date;
+  timezone: string;
+  utc_offset: number;
+  start_latlng: [number, number] | null;
+  end_latlng: [number, number] | null;
+  location_city: null;
+  location_state: null;
+  location_country: string;
+  achievement_count: number;
+  kudos_count: number;
+  comment_count: number;
+  athlete_count: number;
+  photo_count: number;
+  map: {
+    id: string;
+    summary_polyline: null | string;
+    resource_state: number;
+  };
+  trainer: boolean;
+  commute: boolean;
+  manual: boolean;
+  private: boolean;
+  flagged: boolean;
+  gear_id: null | string;
+  from_accepted_tag: boolean;
+  average_speed: number;
+  max_speed: number;
+  average_cadence: number;
+  average_watts: number;
+  weighted_average_watts?: number;
+  kilojoules: number;
+  device_watts: boolean;
+  has_heartrate: boolean;
+  average_heartrate?: number;
+  max_heartrate?: number;
+  max_watts?: number;
+  pr_count: number;
+  total_photo_count: number;
+  has_kudoed: boolean;
+  suffer_score?: number;
+  start_latitude?: number;
+  start_longitude?: number;
+  visibility?: string;
+  upload_id_str?: string;
+  average_temp?: number;
+  heartrate_opt_out?: boolean;
+  display_hide_heartrate_option?: boolean;
+  elev_high?: number;
+  elev_low?: number;
+}
+
 export namespace Athlete {
   /**
    * @description Returns the currently authenticated athlete. Tokens with profile:read_all scope will receive a detailed athlete representation; all others will receive a summary representation.
@@ -93,7 +161,7 @@ export namespace Athlete {
     export type RequestQuery = { before?: number; after?: number; page?: number; perPage?: number }
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = any[]
+    export type ResponseBody = LoggedInAthleteActivity[]
   }
   /**
    * @description Returns a list of the clubs whose membership includes the authenticated athlete.

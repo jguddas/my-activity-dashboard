@@ -11,7 +11,7 @@ import mapStava from '../utils/mapStrava'
 
 import PageHeaderButton from './PageHeaderButton'
 
-import { Activity } from '../types/activity'
+import { LoggedInAthleteActivity } from '../types/strava'
 
 type Props = {
   disabled?: boolean
@@ -49,7 +49,7 @@ function SyncButton({
       disabled={isLoading || disabled}
       onClick={() => (async () => {
         setLoading(true, 0)
-        const isNew = (activity:Activity) => (
+        const isNew = (activity:LoggedInAthleteActivity):boolean => (
           activitiesFromStore.every(({ id }) => id !== `${activity.id}`)
         )
         const activities = (await dispatch(getActivities({
