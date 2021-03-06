@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Split } from '../types/split'
+import { StoredSplit } from '../types/split'
 
-type Props = { splits: Split[] }
+type Props = { splits: StoredSplit[] }
 
 const SplitsTable = ({ splits }:Props):JSX.Element => (
   <div className="table-responsive">
