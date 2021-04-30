@@ -8,7 +8,7 @@ const resample = (inp:[number, number][], scale:number):[number, number][] => {
   let arr = [...inp]
   const out:[number, number][] = []
   const max = arr[arr.length - 1][0]
-  for (let i = 0; i < max; i += scale) {
+  for (let i = 0; i <= max; i += scale) {
     const idx = arr.findIndex(([x]) => x >= i)
     if (arr[idx][0] === i) {
       out.push(arr[idx])
