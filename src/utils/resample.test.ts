@@ -1,11 +1,10 @@
-import round from "lodash/round";
-import resample from "./resample";
+import round from 'lodash/round'
+import resample from './resample'
 
-const roundArrArr = (arrArr: number[][]) =>
-  arrArr.map((arr) => arr.map((val) => round(val, 8)));
+const roundArrArr = (arrArr: number[][]) => arrArr.map((arr) => arr.map((val) => round(val, 8)))
 
-describe("resample basic", () => {
-  it("x-scale", () => {
+describe('resample basic', () => {
+  it('x-scale', () => {
     expect(
       roundArrArr(
         resample(
@@ -13,9 +12,9 @@ describe("resample basic", () => {
             [1, 1],
             [2, 1],
           ],
-          0.5
-        )
-      )
+          0.5,
+        ),
+      ),
     ).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -31,7 +30,7 @@ describe("resample basic", () => {
           1,
         ],
       ]
-    `);
+    `)
     expect(
       roundArrArr(
         resample(
@@ -39,9 +38,9 @@ describe("resample basic", () => {
             [1, 1],
             [2, 1],
           ],
-          0.2
-        )
-      )
+          0.2,
+        ),
+      ),
     ).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -69,9 +68,9 @@ describe("resample basic", () => {
           1,
         ],
       ]
-    `);
-  });
-  it("y-scale", () => {
+    `)
+  })
+  it('y-scale', () => {
     expect(
       roundArrArr(
         resample(
@@ -79,9 +78,9 @@ describe("resample basic", () => {
             [1, 1],
             [2, 2],
           ],
-          0.2
-        )
-      )
+          0.2,
+        ),
+      ),
     ).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -109,12 +108,12 @@ describe("resample basic", () => {
           2,
         ],
       ]
-    `);
-  });
-});
+    `)
+  })
+})
 
-describe("resample multipoint", () => {
-  it("x-scale", () => {
+describe('resample multipoint', () => {
+  it('x-scale', () => {
     expect(
       roundArrArr(
         resample(
@@ -123,9 +122,9 @@ describe("resample multipoint", () => {
             [2, 1],
             [4, 1],
           ],
-          0.5
-        )
-      )
+          0.5,
+        ),
+      ),
     ).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -157,9 +156,9 @@ describe("resample multipoint", () => {
           1,
         ],
       ]
-    `);
-  });
-  it("y-scale", () => {
+    `)
+  })
+  it('y-scale', () => {
     expect(
       roundArrArr(
         resample(
@@ -168,9 +167,9 @@ describe("resample multipoint", () => {
             [2, 2],
             [3, 4],
           ],
-          0.5
-        )
-      )
+          0.5,
+        ),
+      ),
     ).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -194,12 +193,12 @@ describe("resample multipoint", () => {
           4,
         ],
       ]
-    `);
-  });
-});
+    `)
+  })
+})
 
-describe("resample floats", () => {
-  it("x-scale", () => {
+describe('resample floats', () => {
+  it('x-scale', () => {
     expect(
       roundArrArr(
         resample(
@@ -207,9 +206,9 @@ describe("resample floats", () => {
             [1.1, 1],
             [2.1, 1],
           ],
-          0.5
-        )
-      )
+          0.5,
+        ),
+      ),
     ).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -221,9 +220,9 @@ describe("resample floats", () => {
           1,
         ],
       ]
-    `);
-  });
-  it("y-scale", () => {
+    `)
+  })
+  it('y-scale', () => {
     expect(
       roundArrArr(
         resample(
@@ -231,9 +230,9 @@ describe("resample floats", () => {
             [1, 1.1],
             [2, 2.1],
           ],
-          0.2
-        )
-      )
+          0.2,
+        ),
+      ),
     ).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -261,6 +260,6 @@ describe("resample floats", () => {
           2.1,
         ],
       ]
-    `);
-  });
-});
+    `)
+  })
+})
