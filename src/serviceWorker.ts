@@ -80,6 +80,8 @@ function registerValidSW(swUrl: string, config?: Config) {
 
               if (waitingServiceWorker) {
                 waitingServiceWorker.addEventListener('statechange', (event) => {
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore https://github.com/microsoft/TypeScript/issues/37842
                   if (event.target.state === 'activated') {
                     window.location.reload()
                   }
