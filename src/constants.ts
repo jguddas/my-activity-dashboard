@@ -1,4 +1,5 @@
 /* eslint-disable prefer-destructuring */
+export const REDIRECT_HOSTNAME = process.env.REACT_APP_REDIRECT_HOSTNAME
 export const STRAVA_OAUTH_URL = 'https://www.strava.com/oauth/authorize'
 export const STRAVA_TOKEN_URL = 'https://www.strava.com/oauth/token'
 export const STRAVA_REFRESH_TOKEN_URL = 'https://www.strava.com/api/v3/oauth/token'
