@@ -17,6 +17,7 @@ function SyncStarredSegmentsButton({
   setLoading: setLoadingProps,
 }: Props):JSX.Element|null {
   const [loading, setLoadingState] = React.useState(false)
+  const syncedSplits = useSelector((state) => state.Split.splits.filter((split) => split.type === 'aTob'))
   const dispatch = useDispatch()
   const accessToken = useSelector((state) => state.Strava.accessToken)
 
@@ -35,6 +36,7 @@ function SyncStarredSegmentsButton({
   return (
     <PageHeaderButton
       disabled={loading || disabled}
+      className={syncedSplits.length ? '' : 'btn-purple'}
       icon="refresh-cw"
       onClick={() => (async () => {
         setLoading(true)
