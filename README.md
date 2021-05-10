@@ -1,5 +1,5 @@
 # My Activity Dashboard
-<a align=center href="https://my-activity-dashboard.now.sh">
+<a align=center href="https://my-activity-dashboard.jguddas.de">
   <img src="https://user-images.githubusercontent.com/25524993/95764646-0b1b1100-0cb1-11eb-854a-788ba284abe1.png"/>
 </a>
 
