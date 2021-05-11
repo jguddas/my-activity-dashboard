@@ -13,11 +13,22 @@ import { SplitMatch } from '../types/split'
 type Props = {
   activity?: SplitMatch
   activities: SplitMatch[]
+  diffBase?: {
+    id?: string
+    distance: number
+    speed: number
+    duration: number
+  }
   linkBase?: string
 }
 type ColumnName = 'startTime' | 'distance' | 'speed' | 'duration'
 
-function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):JSX.Element {
+function MatchedActivitiesTable({
+  activities,
+  activity,
+  diffBase: diffBaseProp,
+  linkBase = '',
+}:Props):JSX.Element {
   const [sortMethod, setSortMethod] = useState<ColumnName>('startTime')
   const [sortOrder, setSortOder] = useState(false)
 
@@ -30,9 +41,10 @@ function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):J
   const matchedActivities = sortBy(activities, 'duration')
     .map((val, idx) => ({ ...val, rank: idx + 1 }))
 
-  const diffBase = matchedActivities[0]
+  const diffBase = diffBaseProp ?? matchedActivities[0]
   const hideDiff = (id:string) => (
-    diffBase.id !== id && matchedActivities.length > 1
+    diffBase.id !== id
+    && (diffBaseProp || matchedActivities.length > 1)
   )
 
   return (
