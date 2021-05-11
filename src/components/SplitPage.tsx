@@ -77,45 +77,43 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
           </div>
         )
       )}
-      {matchedSplits.length > 0 && (
-        < >
-          <div className="card">
-            <MyCardHeader className="card-header">
-              <MyHeaderText>
-                Matched Splits
-                {' '}
-              </MyHeaderText>
-            </MyCardHeader>
-            <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
-              <DotGraph
-                data={matchedSplits.map((matchedSplit) => matchedSplit.value)}
-                isInteractive
-                selected={activity ? matchedSplits.reduce<number[]>((acc, { id }, idx) => (
-                  id === activity.id ? [...acc, idx] : acc
-                ), []) : []}
-                onClick={(idx) => history.push(matchedSplits[idx].id)}
-                format={(val, idx) => (
-                  <span>
-                    <strong>
-                      {dayjs(activities.find(({ id }) => id === matchedSplits[idx].id)?.date).format('DD.MM.YYYY')}
-                    </strong>
-                    &nbsp;
-                    {matchedSplits[idx].label ?? matchedSplits[idx].value}
-                  </span>
-                )}
-              />
-            </div>
+      {matchedSplits.length > 1 ? (
+        <div className="card">
+          <MyCardHeader className="card-header">
+            <MyHeaderText>
+              Matched Splits
+              {' '}
+            </MyHeaderText>
+          </MyCardHeader>
+          <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
+            <DotGraph
+              data={matchedSplits.map((matchedSplit) => matchedSplit.value)}
+              isInteractive
+              selected={activity ? matchedSplits.reduce<number[]>((acc, { id }, idx) => (
+                id === activity.id ? [...acc, idx] : acc
+              ), []) : []}
+              onClick={(idx) => history.push(matchedSplits[idx].id)}
+              format={(val, idx) => (
+                <span>
+                  <strong>
+                    {dayjs(activities.find(({ id }) => id === matchedSplits[idx].id)?.date).format('DD.MM.YYYY')}
+                  </strong>
+                  &nbsp;
+                  {matchedSplits[idx].label ?? matchedSplits[idx].value}
+                </span>
+              )}
+            />
           </div>
-          {currentSplitMatch ? (
-            <div className="card">
-              <MatchedActivitiesTable
-                activities={matchedSplits}
-                activity={currentSplitMatch}
-              />
-            </div>
-          ) : null}
-        </>
-      )}
+        </div>
+      ) : null}
+      {matchedSplits.length > 0 && currentSplitMatch ? (
+        <div className="card">
+          <MatchedActivitiesTable
+            activities={matchedSplits}
+            activity={currentSplitMatch}
+          />
+        </div>
+      ) : null}
     </PageWrapper>
   )
 }
