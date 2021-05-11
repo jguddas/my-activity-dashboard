@@ -9,6 +9,8 @@ import ExternalSourceButton from './ExternalSourceButton'
 import ActivitySplits from './ActivitySplits'
 import ActivityMapWithSlider from './ActivityMapWithSlider'
 import ScrollToTopOnMount from './ScrollToTopOnMount'
+import SpeedGraphCard from './SpeedGraphCard'
+import InfoCard from './InfoCard'
 
 import { Activity } from '../types/activity'
 
@@ -28,7 +30,22 @@ function ActivityPage({ activity, activities }: Props): JSX.Element {
       </PageHeader>
       {activity.trkpts ? (
         <>
-          <ActivityMapWithSlider activity={activity} />
+          <div className="row row-cards">
+            <div className="col col-12 col-sm-12 col-md-9">
+              <ActivityMapWithSlider activity={activity} />
+            </div>
+            <div className="col col-12 col-sm-12 col-md-3">
+              <InfoCard
+                speed={activity.speed}
+                duration={activity.duration}
+                distance={activity.distance}
+              />
+              <SpeedGraphCard
+                activity={activity}
+                matchedActivities={[]}
+              />
+            </div>
+          </div>
           <ActivitySplits activity={activity} />
         </>
       ) : null}
