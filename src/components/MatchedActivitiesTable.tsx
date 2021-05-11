@@ -11,7 +11,7 @@ import formatDuration from '../utils/formatDuration'
 import { SplitMatch } from '../types/split'
 
 type Props = {
-  activity: SplitMatch
+  activity?: SplitMatch
   activities: SplitMatch[]
   linkBase?: string
 }
@@ -79,7 +79,7 @@ function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):J
               <td className="d-block d-md-table-cell">
                 <MyRankBadge
                   className="badge badge-default mr-1"
-                  style={id === activity.id ? { background: colors.purple, color: 'white' } : {}}
+                  style={id === activity?.id ? { background: colors.purple, color: 'white' } : {}}
                 >
                   {rank}
                 </MyRankBadge>
