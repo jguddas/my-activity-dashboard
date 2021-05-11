@@ -16,11 +16,11 @@ const LineGraph = ({ data }) => (
     data={data.map((val, id) => ({
       id,
       data: val.map((y, x) => ({ x, y })),
-    })).reverse()}
+    }))}
     colors={[
-      colors.grayLighter,
-      colors.gray,
       colors.purple,
+      colors.gray,
+      ...data.slice(2).map(() => colors.grayLighter)
     ]}
     layers={[drawLine, drawEndCap]}
     lineWidth={3}
