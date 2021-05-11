@@ -1,8 +1,4 @@
-const lerp = (
-  [x0, y0]:[number, number],
-  [x1, y1]:[number, number],
-  i:number,
-) => y0 + ((y1 - y0) / (x1 - x0)) * (i - x0)
+import lerp from './lerp'
 
 const resample = (inp:[number, number][], scale:number):[number, number][] => {
   let arr = [...inp]
