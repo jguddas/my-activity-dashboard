@@ -9,6 +9,10 @@ import PageWrapper from './PageWrapper'
 
 import { exchangeToken } from '../actions/StravaActions'
 
+import { decode } from '../utils/trkptString'
+import isShareQuery, { ShareQuery } from '../utils/isShareQuery'
+import interpolateTrkpts from '../utils/interpolateTrkpts'
+
 const fallback = <PageWrapper />
 
 const LandingPage = loadable(() => import(
@@ -35,6 +39,10 @@ const SplitPage = loadable(() => import(
   /* webpackChunkName: "split-page" */
   './SplitPage'
 ), { fallback })
+const SharedPage = loadable(() => import(
+  /* webpackChunkName: "shared-page" */
+  './SharedPage'
+))
 
 function Routes():JSX.Element {
   const athlete = useSelector((state) => state.Strava.athlete)
@@ -55,6 +63,22 @@ function Routes():JSX.Element {
             }
           })
           return <Redirect to="/" />
+        }}
+      />
+      <Route
+        path="/share"
+        render={({ location: { search } }:RouteComponentProps) => {
+          const parsedQuery = parseQuery(search)
+          if (!isShareQuery(parsedQuery)) return <Error404Page />
+          const { track, sender, name } = parsedQuery as ShareQuery
+          const [a, b, ...trkpts] = decode(track)
+          return (
+            <SharedPage
+              factor={0.0005}
+              activities={activities}
+              shared={{ sender, name, a, b, trkpts: interpolateTrkpts(trkpts) }}
+            />
+          )
         }}
       />
       {!athlete && (
