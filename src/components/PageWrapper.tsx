@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from '../store'
 
 import BackButton from './BackButton'
 import LoginButton from './LoginButton'
@@ -11,31 +12,38 @@ type Props = {
   children?: React.ReactNode
 }
 
-const PageWrapper = ({ children, hideHeader = false }: Props):JSX.Element => (
-  <div className="page">
-    <div className="page-main">
-      {!hideHeader && (
-      <div className="header py-4">
-        <MyContainer className="container">
-          <div className="d-inline-block">
-            <BackButton />
-            <OverviewButton />
-            <SplitsButton />
+const PageWrapper = ({ children, hideHeader = false }: Props):JSX.Element => {
+  const isLoggedIn = useSelector((state) => !!state.Strava.accessToken)
+  return (
+    <div className="page">
+      <div className="page-main">
+        {!hideHeader && (
+        <div className="header py-4">
+          <MyContainer className="container">
+            <div className="d-inline-block">
+              <BackButton />
+              {isLoggedIn ? (
+                <>
+                  <OverviewButton />
+                  <SplitsButton />
+                </>
+              ) : null}
+            </div>
+            <div className="d-inline-block">
+              <LoginButton />
+            </div>
+          </MyContainer>
+        </div>
+        )}
+        <div className="page-content">
+          <div className="container">
+            {children}
           </div>
-          <div className="d-inline-block">
-            <LoginButton />
-          </div>
-        </MyContainer>
-      </div>
-      )}
-      <div className="page-content">
-        <div className="container">
-          {children}
         </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default PageWrapper
 
