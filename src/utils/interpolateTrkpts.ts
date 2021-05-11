@@ -1,3 +1,5 @@
+import lerp from './lerp'
+
 import { Trkpt } from '../types/activity'
 
 const interpolatePosition = ([lat1, lon1]:Trkpt, [lat2, lon2]:Trkpt, duration:number, t:number) => {
@@ -14,7 +16,13 @@ const interpolatePositions = (pt1: Trkpt, pt2: Trkpt):Trkpt[] => {
   const points:Trkpt[] = []
   for (let i = 1000; i <= duration; i += 1000) {
     const [lat, lon] = interpolatePosition(pt1, pt2, duration, i)
-    points.push([lat, lon, 0, pt1[3] + i, 0] as Trkpt)
+    points.push([
+      lat,
+      lon,
+      lerp([pt1[3], pt1[2]], [pt2[3], pt2[2]], pt1[3] + i),
+      pt1[3] + i,
+      lerp([pt1[3], pt1[4]], [pt2[3], pt2[4]], pt1[3] + i),
+    ] as Trkpt)
   }
   return points
 }

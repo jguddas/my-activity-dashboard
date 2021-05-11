@@ -27,8 +27,10 @@ function SharedPage({ shared, activities, factor }: Props):JSX.Element {
   const matchedSplits = activities.filter((a) => a.trkpts?.length)
     .reverse()
     .flatMap((a) => matchAtobSplit(shared, a as ActivityWithTrkpts))
-  const duration = shared.trkpts[shared.trkpts.length - 1][3] - shared.trkpts[0][3]
   const endpt = shared.trkpts[shared.trkpts.length - 1]
+  const duration = endpt[3] - shared.trkpts[0][3]
+  const distance = endpt[4]
+  const speed = distance / (duration / 3600000)
   return (
     <PageWrapper>
       <ScrollToTopOnMount />
@@ -42,9 +44,9 @@ function SharedPage({ shared, activities, factor }: Props):JSX.Element {
         <div className="card">
           <MatchedActivitiesTable
             diffBase={{
-              speed: 0,
+              speed,
               duration,
-              distance: 0,
+              distance,
             }}
             linkBase="/activity/"
             activities={matchedSplits}
