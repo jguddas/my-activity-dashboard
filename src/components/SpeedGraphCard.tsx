@@ -15,14 +15,15 @@ type Props = {
   }[]
 }
 
-const map = (trkpts: Trkpt[]) => resample(
+const map = (trkpts: Trkpt[], factor:number) => resample(
   trkpts.map((trkpt) => [trkpt[4], trkpt[3]]),
-  0.0001 * trkpts.length,
-).map((val, idx, arr) => (
-  (0.0001 * trkpts.length) / (idx ? val[1] - arr[idx - 1][1] : 0))).slice(1)
+  factor,
+).map((val, idx, arr) => (factor / (idx ? val[1] - arr[idx - 1][1] : 0)))
+  .slice(1)
 
 const SpeedGraphCard = ({ activity, matchedActivities }:Props):JSX.Element => {
   const [first, second] = matchedActivities.slice(0).sort((a, b) => a.duration - b.duration)
+  const factor = 0.0001 * activity.trkpts.length
   return (
     <div className="card" style={{ flexGrow: 1 }}>
       <MyCardHeader className="card-body" style={{ flexGrow: 0 }}>
@@ -35,9 +36,9 @@ const SpeedGraphCard = ({ activity, matchedActivities }:Props):JSX.Element => {
       <MyCardBody className="card-body" style={{ height: '10rem', padding: 0 }}>
         <LineGraph
           data={[
-            map(activity.trkpts),
-            first ? map(first.trkpts) : [],
-            second ? map(second.trkpts) : [],
+            map(activity.trkpts, factor),
+            first ? map(first.trkpts, factor) : [],
+            second ? map(second.trkpts, factor) : [],
           ]}
         />
       </MyCardBody>
