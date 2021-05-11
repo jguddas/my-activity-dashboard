@@ -219,8 +219,8 @@ class ActivityMap extends React.Component<Props, State> {
     const { trimEnd, activity, matchedActivities = [] } = this.props
     if (!trimEnd) return
     const isNotTrimEnd = (trkpt:MapTrkpt) => !!trkpt[3] && trkpt[3] <= trimEnd
-    const lastPtIdx = findLastIndex(activity.trkpts, isNotTrimEnd)
-    if (lastPtIdx === -1) return
+    let lastPtIdx = findLastIndex(activity.trkpts, isNotTrimEnd)
+    if (lastPtIdx === -1) lastPtIdx = 0
     const cords = activity.trkpts.slice(0, lastPtIdx + 1).map(getLatLon)
     this.stroke?.setLatLngs(cords)
     this.line?.setLatLngs(cords)
