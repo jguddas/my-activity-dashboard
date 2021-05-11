@@ -92,29 +92,35 @@ function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):J
                   {round(distance, 2).toFixed(2)}
                   km
                 </span>
-                <span className="badge badge-default">
-                  {(matchedActivities[0].distance - distance) > 0 ? '-' : '+'}
-                  {round(Math.abs(matchedActivities[0].distance - distance), 2).toFixed(2)}
-                  km
-                </span>
+                {matchedActivities.length > 1 ? (
+                  <span className="badge badge-default">
+                    {(matchedActivities[0].distance - distance) > 0 ? '-' : '+'}
+                    {round(Math.abs(matchedActivities[0].distance - distance), 2).toFixed(2)}
+                    km
+                  </span>
+                ) : null}
               </MyTableCol>
               <MyTableCol className="text-center text-md-left">
                 <span className="pr-lg-1 d-block d-lg-inline">
                   {round(speed, 1).toFixed(2)}
                   km/h
                 </span>
-                <span className="badge badge-default">
-                  {(matchedActivities[0].speed - speed) > 0 ? '-' : '+'}
-                  {round(Math.abs(matchedActivities[0].speed - speed), 1).toFixed(2)}
-                  km/h
-                </span>
+                {matchedActivities.length > 1 ? (
+                  <span className="badge badge-default">
+                    {(matchedActivities[0].speed - speed) > 0 ? '-' : '+'}
+                    {round(Math.abs(matchedActivities[0].speed - speed), 1).toFixed(2)}
+                    km/h
+                  </span>
+                ) : null}
               </MyTableCol>
               <MyTableCol className="text-right text-md-left">
                 <span className="pr-lg-1 d-block d-lg-inline">{formatDuration(duration)}</span>
-                <span className="badge badge-default">
-                  {(matchedActivities[0].duration - duration) > 0 ? '-' : '+'}
-                  {formatDuration(Math.abs(matchedActivities[0].duration - duration))}
-                </span>
+                {matchedActivities.length > 1 ? (
+                  <span className="badge badge-default">
+                    {(matchedActivities[0].duration - duration) > 0 ? '-' : '+'}
+                    {formatDuration(Math.abs(matchedActivities[0].duration - duration))}
+                  </span>
+                ) : null}
               </MyTableCol>
             </tr>
           ))}
