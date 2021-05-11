@@ -6,6 +6,7 @@ import { useHistory, Redirect } from 'react-router-dom'
 
 import PageWrapper from './PageWrapper'
 import PageHeader from './PageHeader'
+import ShareButton from './ShareButton'
 import ActivityButton from './ActivityButton'
 import ScrollToTopOnMount from './ScrollToTopOnMount'
 import ActivityMapWithSlider from './ActivityMapWithSlider'
@@ -47,6 +48,12 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
     <PageWrapper>
       <ScrollToTopOnMount />
       <PageHeader title={split.name}>
+        {split.type === 'aTob' && currentSplitMatch ? (
+          <ShareButton
+            split={split}
+            splitMatch={currentSplitMatch as ATobSplitMatch}
+          />
+        ) : null}
         {activity ? (
           <ActivityButton
             to={`/activity/${activity.id}`}
