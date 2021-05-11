@@ -30,6 +30,11 @@ function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):J
   const matchedActivities = sortBy(activities, 'duration')
     .map((val, idx) => ({ ...val, rank: idx + 1 }))
 
+  const diffBase = matchedActivities[0]
+  const hideDiff = (id:string) => (
+    diffBase.id !== id && matchedActivities.length > 1
+  )
+
   return (
     <div className="table-responsive">
       <table className="table card-table table-striped">
@@ -92,9 +97,9 @@ function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):J
                   {round(distance, 2).toFixed(2)}
                   km
                 </span>
-                {matchedActivities.length > 1 ? (
+                {hideDiff(id) ? (
                   <span className="badge badge-default">
-                    {(matchedActivities[0].distance - distance) > 0 ? '-' : '+'}
+                    {(diffBase.distance - distance) > 0 ? '-' : '+'}
                     {round(Math.abs(matchedActivities[0].distance - distance), 2).toFixed(2)}
                     km
                   </span>
@@ -105,9 +110,9 @@ function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):J
                   {round(speed, 1).toFixed(2)}
                   km/h
                 </span>
-                {matchedActivities.length > 1 ? (
+                {hideDiff(id) ? (
                   <span className="badge badge-default">
-                    {(matchedActivities[0].speed - speed) > 0 ? '-' : '+'}
+                    {(diffBase.speed - speed) > 0 ? '-' : '+'}
                     {round(Math.abs(matchedActivities[0].speed - speed), 1).toFixed(2)}
                     km/h
                   </span>
@@ -115,9 +120,9 @@ function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):J
               </MyTableCol>
               <MyTableCol className="text-right text-md-left">
                 <span className="pr-lg-1 d-block d-lg-inline">{formatDuration(duration)}</span>
-                {matchedActivities.length > 1 ? (
+                {hideDiff(id) ? (
                   <span className="badge badge-default">
-                    {(matchedActivities[0].duration - duration) > 0 ? '-' : '+'}
+                    {(diffBase.duration - duration) > 0 ? '-' : '+'}
                     {formatDuration(Math.abs(matchedActivities[0].duration - duration))}
                   </span>
                 ) : null}
