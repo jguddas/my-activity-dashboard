@@ -18,7 +18,7 @@ export default (
     if (getDistance(a, trkpts[i]) < 0.05) {
       start = i
     }
-    if (start && getDistance(b, trkpts[i]) < 0.05) {
+    if (start !== null && getDistance(b, trkpts[i]) < 0.05) {
       const duration = trkpts[i][3] - trkpts[start][3]
       const distance = trkpts[i][4] - trkpts[start][4]
       result.push({
