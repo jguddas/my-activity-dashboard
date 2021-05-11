@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 type Props = {
   title: string,
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const PageHeader = ({ title, children }:Props):JSX.Element => (
@@ -11,9 +11,7 @@ const PageHeader = ({ title, children }:Props):JSX.Element => (
     <MyPageTitle className="page-title">
       {title}
     </MyPageTitle>
-    <div>
-      {children}
-    </div>
+    {children ? <div>{children}</div> : null}
   </div>
 )
 
