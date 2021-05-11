@@ -13,10 +13,11 @@ import { SplitMatch } from '../types/split'
 type Props = {
   activity: SplitMatch
   activities: SplitMatch[]
+  linkBase?: string
 }
 type ColumnName = 'startTime' | 'distance' | 'speed' | 'duration'
 
-function MatchedActivitiesTable({ activities, activity }:Props):JSX.Element {
+function MatchedActivitiesTable({ activities, activity, linkBase = '' }:Props):JSX.Element {
   const [sortMethod, setSortMethod] = useState<ColumnName>('startTime')
   const [sortOrder, setSortOder] = useState(false)
 
@@ -82,7 +83,7 @@ function MatchedActivitiesTable({ activities, activity }:Props):JSX.Element {
                 >
                   {rank}
                 </MyRankBadge>
-                <Link to={id}>
+                <Link to={`${linkBase}${id}`}>
                   {`${name} - ${dayjs(date).format('DD.MM.YYYY')}`}
                 </Link>
               </td>
