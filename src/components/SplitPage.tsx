@@ -31,7 +31,7 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
     screenfull.isEnabled ? screenfull.isFullscreen : false,
   )
 
-  const matchedSplits = activities.reverse().flatMap((a) => matchSplit(split, a))
+  const matchedSplits = activities.slice(0).reverse().flatMap((a) => matchSplit(split, a))
 
   if (matchedSplits.length && !activity && split.type !== 'matched') {
     return (
