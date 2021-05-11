@@ -1,11 +1,12 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import PageWrapper from './PageWrapper'
 import PageHeader from './PageHeader'
 import ScrollToTopOnMount from './ScrollToTopOnMount'
 import ActivityMapWithSlider from './ActivityMapWithSlider'
 import MatchedActivitiesTable from './MatchedActivitiesTable'
+import SpeedGraphCard from './SpeedGraphCard'
+import InfoCard from './InfoCard'
 
 import matchAtobSplit from '../utils/matchAtobSplit'
 
@@ -35,11 +36,26 @@ function SharedPage({ shared, activities, factor }: Props):JSX.Element {
     <PageWrapper>
       <ScrollToTopOnMount />
       <PageHeader title={`${shared.name} shared by ${shared.sender}`} />
-      <ActivityMapWithSlider
-        factor={factor}
-        matchedActivities={matchedSplits}
-        activity={{ trkpts: shared.trkpts, duration, endpt }}
-      />
+      <div className="row row-cards">
+        <div className="col col-12 col-sm-12 col-md-9">
+          <ActivityMapWithSlider
+            factor={factor}
+            matchedActivities={matchedSplits}
+            activity={{ trkpts: shared.trkpts, duration, endpt }}
+          />
+        </div>
+        <div className="col col-12 col-sm-12 col-md-3">
+          <InfoCard
+            speed={speed}
+            duration={duration}
+            distance={distance}
+          />
+          <SpeedGraphCard
+            activity={shared}
+            matchedActivities={matchedSplits}
+          />
+        </div>
+      </div>
       {matchedSplits.length ? (
         <div className="card">
           <MatchedActivitiesTable
@@ -58,12 +74,3 @@ function SharedPage({ shared, activities, factor }: Props):JSX.Element {
 }
 
 export default SharedPage
-
-const MyCardHeader = styled.div`
-  display: flex;
-`
-
-const MyHeaderText = styled.h4`
-  margin-bottom: 0;
-  flex-grow: 1;
-`
