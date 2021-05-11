@@ -151,7 +151,6 @@ const MyColorLedgendBadge = styled.span`
 `
 
 const MyCardBody = styled.div`
-  border-top: 1px solid rgba(0, 40, 100, 0.12);
   padding: .75rem 1rem;
 `
 
