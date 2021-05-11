@@ -20,7 +20,7 @@ export const decode = (str: string):Trkpt[] => {
   const t = decompress(ct)
   const d = decompress(cd)
   const line = polylineUtil.decode(cp)
-  return t.map((val, idx) => [
+  return t.map((_, idx) => [
     line[idx][0],
     line[idx][1],
     0,
