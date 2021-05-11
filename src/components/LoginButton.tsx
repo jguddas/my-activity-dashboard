@@ -16,6 +16,7 @@ function LoginButton():JSX.Element {
 
   return (
     <PageHeaderButton
+      className={athlete ? '' : 'btn-purple'}
       icon={athlete ? 'log-out' : 'log-in'}
       onClick={athlete ? unAuth : getCode}
     >
