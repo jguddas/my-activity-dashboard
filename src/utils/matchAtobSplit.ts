@@ -2,10 +2,10 @@ import formatDuration from './formatDuration'
 import getDistance from './getDistance'
 
 import { ActivityWithTrkpts, Trkpt } from '../types/activity'
-import { AToBSplit, ATobSplitMatch } from '../types/split'
+import { ATobSplitMatch } from '../types/split'
 
 export default (
-  { a, b }:AToBSplit,
+  { a, b }: { a: [number, number] | Trkpt, b: [number, number] | Trkpt },
   { trkpts, id, name, date, startTime }:ActivityWithTrkpts,
 ):ATobSplitMatch[] => {
   const adjustTrkpt = (startpt:Trkpt) => (
