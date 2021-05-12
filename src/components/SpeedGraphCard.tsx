@@ -8,7 +8,10 @@ import resample from '../utils/resample'
 import { Trkpt } from '../types/activity'
 
 type Props = {
-  activity: { trkpts: Trkpt[], id: string }
+  activity: {
+    trkpts: Trkpt[],
+    id?: string
+  }
   matchedActivities: {
     trkpts: Trkpt[]
     duration: number
