@@ -41,7 +41,7 @@ const ShareButton = ({ splitMatch, split }: Props):JSX.Element|null => {
           : split.b
         share(
           'My Activity Dasboard',
-          `I completed ${name} in ${formatDuration(splitMatch.duration)}!`,
+          `I completed ${name} in ${formatDuration(splitMatch.duration)}`,
           `${window.location.origin}/share?${stringify({
             name,
             sender: `${athlete.firstname} ${athlete.lastname}`,
