@@ -50,7 +50,7 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
     <PageWrapper>
       <ScrollToTopOnMount />
       <PageHeader title={split.name}>
-        {split.type === 'aTob' && currentSplitMatch ? (
+        {(split.type === 'aTob' || split.type === 'matched') && currentSplitMatch ? (
           <ShareButton
             split={split}
             splitMatch={currentSplitMatch as ATobSplitMatch}

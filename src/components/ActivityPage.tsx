@@ -11,8 +11,9 @@ import ActivityMapWithSlider from './ActivityMapWithSlider'
 import ScrollToTopOnMount from './ScrollToTopOnMount'
 import SpeedGraphCard from './SpeedGraphCard'
 import InfoCard from './InfoCard'
+import ShareButton from './ShareButton'
 
-import { Activity } from '../types/activity'
+import { Activity, ActivityWithTrkpts } from '../types/activity'
 
 type Props = {
   activity: Activity
@@ -24,6 +25,12 @@ function ActivityPage({ activity, activities }: Props): JSX.Element {
     <PageWrapper>
       <ScrollToTopOnMount />
       <PageHeader title={`${activity.name} - ${dayjs(activity.date).format('DD.MM.YYYY')}`}>
+        {activity.trkpts ? (
+          <ShareButton
+            split={{ activity, name: activity.name, type: 'matched' }}
+            splitMatch={activity as ActivityWithTrkpts}
+          />
+        ) : null}
         <MatchedActivitiesButton activity={activity} activities={activities} />
         <OverviewButton to={`/activities/${dayjs(activity.date).format('YYYY-MM#DD')}`} />
         {!!activity.externalLink && (<ExternalSourceButton to={activity.externalLink} />)}

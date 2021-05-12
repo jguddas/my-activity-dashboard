@@ -9,11 +9,11 @@ import { encode } from '../utils/trkptString'
 import simplifyTrkpts from '../utils/simplifyTrkpts'
 import formatDuration from '../utils/formatDuration'
 
-import { AToBSplit, ATobSplitMatch } from '../types/split'
+import { AToBSplit, ActivitySplit, ATobSplitMatch } from '../types/split'
 
 type Props = {
-  splitMatch: ATobSplitMatch
-  split: AToBSplit
+  splitMatch: Pick<ATobSplitMatch, 'duration' | 'trkpts'>
+  split: Pick<AToBSplit, 'name' | 'a' | 'b' | 'type'>|ActivitySplit
 }
 
 const share = (title:string, text:string, url:string) => {
@@ -27,23 +27,32 @@ const share = (title:string, text:string, url:string) => {
 
 const ShareButton = ({ splitMatch, split }: Props):JSX.Element|null => {
   const athlete = useSelector((state) => state.Strava.athlete)
+  const name = split.type === 'matched' ? split.activity.name : split.name
   if (!athlete) return null
   return (
     <PageHeaderButton
       className=""
-      onClick={() => share(
-        'My Activity Dasboard',
-        `I completed ${split.name} in ${formatDuration(splitMatch.duration)}!`,
-        `${window.location.origin}/share?${stringify({
-          name: split.name,
-          sender: `${athlete.firstname} ${athlete.lastname}`,
-          track: encode([
-            [split.a[0], split.a[1], 0, 0, 0],
-            [split.b[0], split.b[1], 0, 0, 0],
-            ...simplifyTrkpts(splitMatch.trkpts, 0.0001),
-          ]),
-        })}`,
-      )}
+      onClick={() => {
+        const a = split.type === 'matched'
+          ? split.activity.trkpts[0]
+          : split.a
+        const b = split.type === 'matched'
+          ? split.activity.trkpts[split.activity.trkpts.length - 1]
+          : split.b
+        share(
+          'My Activity Dasboard',
+          `I completed ${name} in ${formatDuration(splitMatch.duration)}!`,
+          `${window.location.origin}/share?${stringify({
+            name,
+            sender: `${athlete.firstname} ${athlete.lastname}`,
+            track: encode([
+              [a[0], a[1], 0, 0, 0],
+              [b[0], b[1], 0, 0, 0],
+              ...simplifyTrkpts(splitMatch.trkpts, 0.0001),
+            ]),
+          })}`,
+        )
+      }}
       icon="share-2"
     >
       Share
