@@ -6,6 +6,7 @@ import { parse as parseQuery } from 'query-string'
 import { useSelector, useDispatch } from '../store'
 
 import PageWrapper from './PageWrapper'
+import alert from '../utils/alert'
 
 import { exchangeToken } from '../actions/StravaActions'
 

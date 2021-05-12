@@ -5,6 +5,7 @@ import pSeries from 'p-series'
 import isGpx from '../utils/isGpx'
 import parseGpx from '../utils/parseGpx'
 import mapGpx from '../utils/mapGpx'
+import alert from '../utils/alert'
 
 import { loadGpx } from '../actions/ActivityActions'
 
