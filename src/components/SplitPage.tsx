@@ -106,7 +106,6 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
           <MyCardHeader className="card-header">
             <MyHeaderText>
               Matched Splits
-              {' '}
             </MyHeaderText>
           </MyCardHeader>
           <div className="mx-5 mt-5" style={{ height: '10rem', cursor: 'pointer' }}>
@@ -148,7 +147,8 @@ const MyCardHeader = styled.div`
   display: flex;
 `
 
-const MyHeaderText = styled.h4`
-  margin-bottom: 0;
+const MyHeaderText = styled.span`
+  font-weight: 600;
+  margin-left: .5rem;
   flex-grow: 1;
 `
