@@ -23,9 +23,10 @@ const isLocalhost = Boolean(
 type Config = {
   onSuccess?: (registration: ServiceWorkerRegistration) => void;
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  alert: (message:string, confirmText?:string) => Promise<boolean>
 }
 
-export function register(config?: Config):void {
+export function register(config: Config):void {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(
@@ -62,7 +63,7 @@ export function register(config?: Config):void {
   }
 }
 
-function registerValidSW(swUrl: string, config?: Config) {
+function registerValidSW(swUrl: string, config: Config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
@@ -75,23 +76,25 @@ function registerValidSW(swUrl: string, config?: Config) {
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              if (!window.confirm('A new version is available!')) return
-              const waitingServiceWorker = registration.waiting
+              config.alert('A new version is available!', 'Update').then((confirmed) => {
+                if (!confirmed) return
+                const waitingServiceWorker = registration.waiting
 
-              if (waitingServiceWorker) {
-                waitingServiceWorker.addEventListener('statechange', (event) => {
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore https://github.com/microsoft/TypeScript/issues/37842
-                  if (event.target.state === 'activated') {
-                    window.location.reload()
-                  }
-                })
-                waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' })
-              }
-              // Execute callback
-              if (config && config.onUpdate) {
-                config.onUpdate(registration)
-              }
+                if (waitingServiceWorker) {
+                  waitingServiceWorker.addEventListener('statechange', (event) => {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore https://github.com/microsoft/TypeScript/issues/37842
+                    if (event.target.state === 'activated') {
+                      window.location.reload()
+                    }
+                  })
+                  waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' })
+                }
+                // Execute callback
+                if (config && config.onUpdate) {
+                  config.onUpdate(registration)
+                }
+              })
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
@@ -112,7 +115,7 @@ function registerValidSW(swUrl: string, config?: Config) {
     })
 }
 
-function checkValidServiceWorker(swUrl: string, config?: Config) {
+function checkValidServiceWorker(swUrl: string, config: Config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl, { headers: { 'Service-Worker': 'script' } })
     .then((response) => {
