@@ -6,6 +6,7 @@ import BackButton from './BackButton'
 import LoginButton from './LoginButton'
 import OverviewButton from './OverviewButton'
 import SplitsButton from './SplitsButton'
+import InstallButton from './InstallButton'
 
 type Props = {
   hideHeader?: boolean,
@@ -30,6 +31,7 @@ const PageWrapper = ({ children, hideHeader = false }: Props):JSX.Element => {
               ) : null}
             </div>
             <div className="d-inline-block">
+              <InstallButton />
               <LoginButton />
             </div>
           </MyContainer>
