@@ -50,6 +50,11 @@
     "tabler-ui": "git+https://github.com/tabler/tabler#4b21db779b75fb45f9e9b16607617c55a03074a8",
     "ts-blaze": "^1.8.0",
     "typescript": "^4.1.3",
+    "workbox-core": "^6.1.5",
+    "workbox-expiration": "^6.1.5",
+    "workbox-precaching": "^6.1.5",
+    "workbox-routing": "^6.1.5",
+    "workbox-strategies": "^6.1.5",
     "xml-js": "^1.6.11"
   },
   "scripts": {
