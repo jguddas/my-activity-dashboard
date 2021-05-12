@@ -2,6 +2,8 @@ import React from 'react'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from '../store'
 
+import alert from '../utils/alert'
+
 import { addSplit } from '../actions/SplitActions'
 import { getStarredSegments } from '../actions/StravaActions'
 

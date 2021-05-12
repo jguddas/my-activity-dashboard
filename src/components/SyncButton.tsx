@@ -8,6 +8,7 @@ import { loadGpx } from '../actions/ActivityActions'
 import { getActivities, getActivityStream } from '../actions/StravaActions'
 
 import mapStava from '../utils/mapStrava'
+import alert from '../utils/alert'
 
 import PageHeaderButton from './PageHeaderButton'
 

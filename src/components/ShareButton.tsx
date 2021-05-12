@@ -8,6 +8,7 @@ import PageHeaderButton from './PageHeaderButton'
 import { encode } from '../utils/trkptString'
 import simplifyTrkpts from '../utils/simplifyTrkpts'
 import formatDuration from '../utils/formatDuration'
+import alert from '../utils/alert'
 
 import { AToBSplit, ActivitySplit, ATobSplitMatch } from '../types/split'
 
@@ -20,8 +21,11 @@ const share = (title:string, text:string, url:string) => {
   if (navigator?.share) {
     navigator.share({ title, text, url })
   } else {
-    writeClipboard(url)
-    alert('link coppied to clipboard')
+    alert('Copy link to clipboard', 'Copy').then((confirmed) => {
+      if (confirmed) {
+        writeClipboard(url)
+      }
+    })
   }
 }
 
