@@ -13,6 +13,8 @@ import ActivityMapWithSlider from './ActivityMapWithSlider'
 import ActivityMap from './ActivityMap'
 import DotGraph from './DotGraph'
 import MatchedActivitiesTable from './MatchedActivitiesTable'
+import SpeedGraphCard from './SpeedGraphCard'
+import InfoCard from './InfoCard'
 
 import matchSplit from '../utils/matchSplit'
 
@@ -62,11 +64,26 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
       </PageHeader>
       {(split.type === 'aTob' || split.type === 'matched') && (
         currentSplitMatch ? (
-          <ActivityMapWithSlider
-            factor={factor}
-            activity={currentSplitMatch as ActivitySplitMatch|ATobSplitMatch}
-            matchedActivities={matchedSplits as ActivitySplitMatch[]|ATobSplitMatch[]}
-          />
+          <div className="row row-cards">
+            <div className="col col-12 col-sm-12 col-md-9">
+              <ActivityMapWithSlider
+                factor={factor}
+                activity={currentSplitMatch as ActivitySplitMatch|ATobSplitMatch}
+                matchedActivities={matchedSplits as ActivitySplitMatch[]|ATobSplitMatch[]}
+              />
+            </div>
+            <div className="col col-12 col-sm-12 col-md-3">
+              <InfoCard
+                speed={currentSplitMatch.speed}
+                duration={currentSplitMatch.duration}
+                distance={currentSplitMatch.distance}
+              />
+              <SpeedGraphCard
+                activity={currentSplitMatch as ActivitySplitMatch|ATobSplitMatch}
+                matchedActivities={matchedSplits as ActivitySplitMatch[]|ATobSplitMatch[]}
+              />
+            </div>
+          </div>
         ) : (
           <div className="card">
             <ActivityMap

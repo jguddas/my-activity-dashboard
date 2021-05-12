@@ -8,10 +8,11 @@ import resample from '../utils/resample'
 import { Trkpt } from '../types/activity'
 
 type Props = {
-  activity: { trkpts: Trkpt[] }
+  activity: { trkpts: Trkpt[], id: string }
   matchedActivities: {
     trkpts: Trkpt[]
     duration: number
+    id: string
   }[]
 }
 
@@ -22,7 +23,10 @@ const map = (trkpts: Trkpt[], factor:number) => resample(
   .slice(1)
 
 const SpeedGraphCard = ({ activity, matchedActivities }:Props):JSX.Element => {
-  const [first, second] = matchedActivities.slice(0).sort((a, b) => a.duration - b.duration)
+  const [first, second] = matchedActivities
+    .slice(0)
+    .sort((a, b) => a.duration - b.duration)
+    .filter(({ id }) => id !== activity.id)
   const factor = 0.0001 * activity.trkpts.length
   return (
     <div className="card" style={{ flexGrow: 1 }}>
