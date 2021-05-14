@@ -112,7 +112,7 @@ function MatchedActivitiesTable({
                 {hideDiff(id) ? (
                   <span className="badge badge-default">
                     {(diffBase.distance - distance) > 0 ? '-' : '+'}
-                    {round(Math.abs(matchedActivities[0].distance - distance), 2).toFixed(2)}
+                    {round(Math.abs(diffBase.distance - distance), 2).toFixed(2)}
                     km
                   </span>
                 ) : null}
@@ -125,7 +125,7 @@ function MatchedActivitiesTable({
                 {hideDiff(id) ? (
                   <span className="badge badge-default">
                     {(diffBase.speed - speed) > 0 ? '-' : '+'}
-                    {round(Math.abs(matchedActivities[0].speed - speed), 1).toFixed(2)}
+                    {round(Math.abs(diffBase.speed - speed), 1).toFixed(2)}
                     km/h
                   </span>
                 ) : null}
@@ -135,7 +135,7 @@ function MatchedActivitiesTable({
                 {hideDiff(id) ? (
                   <span className="badge badge-default">
                     {(diffBase.duration - duration) > 0 ? '-' : '+'}
-                    {formatDuration(Math.abs(matchedActivities[0].duration - duration))}
+                    {formatDuration(Math.abs(diffBase.duration - duration))}
                   </span>
                 ) : null}
               </MyTableCol>
