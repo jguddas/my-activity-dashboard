@@ -81,9 +81,11 @@ function SyncButton({
         }
         setLoading(false, 0)
       })().catch((err) => {
-        if (err instanceof Error) {
-          alert(err.message)
-        }
+        alert(
+          typeof err?.message === 'string'
+            ? err.message
+            : 'Oops, an error occurred!',
+        )
       })}
     >
       {isLoading && loading > 0 ? `Sync (${loading})` : 'Sync'}
