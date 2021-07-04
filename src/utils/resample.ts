@@ -1,6 +1,7 @@
 import lerp from './lerp'
 
 const resample = (inp:[number, number][], scale:number):[number, number][] => {
+  if (!inp.length) return []
   let arr = [...inp]
   const out:[number, number][] = []
   const max = arr[arr.length - 1][0]

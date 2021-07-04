@@ -3,6 +3,15 @@ import resample from './resample'
 
 const roundArrArr = (arrArr: number[][]) => arrArr.map((arr) => arr.map((val) => round(val, 8)))
 
+describe('remample empty array', () => {
+  it('does not crash', () => {
+    expect(() => resample([], 0.5)).not.toThrow()
+  })
+  it('returns empty array', () => {
+    expect(resample([], 0.5)).toStrictEqual([])
+  })
+})
+
 describe('resample basic', () => {
   it('x-scale', () => {
     expect(
