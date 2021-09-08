@@ -49,5 +49,6 @@ export default createReducer(initialState, (builder) => (
       accessTokenExpiresAt: action.payload.expires_at,
       refreshToken: action.payload.refresh_token,
     }))
+    .addCase(refreshAuth.rejected, ():State => ({}))
     .addCase(deauthorize.pending, ():State => ({}))
 ))
