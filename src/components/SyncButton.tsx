@@ -66,7 +66,7 @@ function SyncButton({
         for (let i = activities.length - 1; i >= 0; i -= 1) {
           const activity = activities[i]
           setLoading(true, i)
-          if (activity.start_latlng) {
+          if (activity.start_latlng?.length === 2) {
             const streams: Pick<Activities.GetActivityStreams.ResponseBody, 'time'|'distance'|'latlng'|'altitude'> = (
               // eslint-disable-next-line no-await-in-loop
               await dispatch(getActivityStream({
