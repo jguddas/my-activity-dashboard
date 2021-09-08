@@ -44,7 +44,9 @@ function SplitPage({ split, activities = [], activity, factor }: Props):JSX.Elem
     )
   }
 
-  const currentSplitMatch = matchedSplits.find(({ id }) => id === activity?.id)
+  const currentSplitMatch = matchedSplits
+    .filter(({ id }) => id === activity?.id)
+    .slice(0).sort((a, b) => a.duration - b.duration)[0]
 
   return (
     <PageWrapper>
