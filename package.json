@@ -47,7 +47,7 @@
     "screenfull": "^5.0.2",
     "simplify-js": "^1.2.4",
     "styled-components": "^5.1.0",
-    "tabler-ui": "git+https://github.com/tabler/tabler#4b21db779b75fb45f9e9b16607617c55a03074a8",
+    "tabler-ui": "git+https://github.com/jguddas/tabler#4b21db779b75fb45f9e9b16607617c55a03074a8",
     "ts-blaze": "^1.8.0",
     "typescript": "^4.1.3",
     "workbox-core": "^6.1.5",
