@@ -93,7 +93,10 @@ class ActivityMap extends React.Component<Props, State> {
       tap: false,
     }) as Map
 
-    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', { detectRetina: true }).addTo(this.map)
+    L.tileLayer(
+      "https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}.png",
+      { detectRetina: true }
+    ).addTo(this.map);
 
     this.addMarkersAndLines()
     this.fitBounds()
